@@ -4,13 +4,11 @@
  */
 package cs355;
 
-import java.awt.Graphics2D;
+import java.awt.*;
 
 /**
- *
  * @author Talonos
  */
-public interface ViewRefresher 
-{
-    void refreshView(Graphics2D g2d);
+public interface ViewRefresher {
+	void refreshView(Graphics2D g2d);
 }

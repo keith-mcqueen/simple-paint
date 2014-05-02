@@ -4,53 +4,56 @@
  */
 package cs355;
 
-import java.awt.Color;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Iterator;
 
 /**
- *
  * @author Talonos
  */
-public interface CS355Controller 
-{
+public interface CS355Controller {
 
-    void colorButtonHit(Color c);
-    void triangleButtonHit();
-    void squareButtonHit();
-    void rectangleButtonHit();
-    void circleButtonHit();
-    void ellipseButtonHit();
+	void colorButtonHit(Color c);
 
-    public void lineButtonHit();
+	void triangleButtonHit();
 
-    public void selectButtonHit();
+	void squareButtonHit();
 
-    public void zoomInButtonHit();
+	void rectangleButtonHit();
 
-    public void zoomOutButtonHit();
+	void circleButtonHit();
 
-    public void hScrollbarChanged(int value);
+	void ellipseButtonHit();
 
-    public void vScrollbarChanged(int value);
+	public void lineButtonHit();
 
-    public void toggle3DModelDisplay();
+	public void selectButtonHit();
 
-    public void keyPressed(Iterator<Integer> iterator);
+	public void zoomInButtonHit();
 
-    public void doEdgeDetection();
+	public void zoomOutButtonHit();
 
-    public void doSharpen();
+	public void hScrollbarChanged(int value);
 
-    public void doMedianBlur();
+	public void vScrollbarChanged(int value);
 
-    public void doUniformBlur();
+	public void toggle3DModelDisplay();
 
-    public void doChangeContrast(int contrastAmountNum);
+	public void keyPressed(Iterator<Integer> iterator);
 
-    public void doChangeBrightness(int brightnessAmountNum);
+	public void doEdgeDetection();
 
-    public void doLoadImage(BufferedImage openImage);
+	public void doSharpen();
 
-    public void toggleBackgroundDisplay();
+	public void doMedianBlur();
+
+	public void doUniformBlur();
+
+	public void doChangeContrast(int contrastAmountNum);
+
+	public void doChangeBrightness(int brightnessAmountNum);
+
+	public void doLoadImage(BufferedImage openImage);
+
+	public void toggleBackgroundDisplay();
 }

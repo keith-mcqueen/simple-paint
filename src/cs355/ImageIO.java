@@ -4,53 +4,43 @@
  */
 package cs355;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
 import javax.imageio.ImageWriter;
 import javax.imageio.stream.ImageOutputStream;
-import javax.swing.JFileChooser;
+import javax.swing.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 
 /**
- *
  * @author talonos
  */
-public class ImageIO 
-{
-    static JFileChooser fileChooser = new JFileChooser(".");
-    
-    public static BufferedImage openImage()
-    {
-        try
-	{
-            int val = fileChooser.showOpenDialog(CS355Frame.inst());
-		
-            if (val == JFileChooser.APPROVE_OPTION)
-            {
-		File file = fileChooser.getSelectedFile();
-			
-		BufferedImage img = javax.imageio.ImageIO.read(file);
-				
-		if (img == null) throw new Exception("unable to read image");
-				
-		return img;
-            }
+public class ImageIO {
+	static JFileChooser fileChooser = new JFileChooser(".");
+
+	public static BufferedImage openImage() {
+		try {
+			int val = fileChooser.showOpenDialog(CS355Frame.inst());
+
+			if (val == JFileChooser.APPROVE_OPTION) {
+				File file = fileChooser.getSelectedFile();
+
+				BufferedImage img = javax.imageio.ImageIO.read(file);
+
+				if (img == null) throw new Exception("unable to read image");
+
+				return img;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
 	}
-	catch (Exception e)
-	{
-            e.printStackTrace();
-	}
-		
-	return null;
-    }
-	
-	public static void saveImage(BufferedImage img)
-	{
-		try
-		{
+
+	public static void saveImage(BufferedImage img) {
+		try {
 			int val = fileChooser.showSaveDialog(CS355Frame.inst());
-			
-			if (val == JFileChooser.APPROVE_OPTION)
-			{
+
+			if (val == JFileChooser.APPROVE_OPTION) {
 				File file = fileChooser.getSelectedFile();
 				int dot = file.getName().lastIndexOf('.');
 				String suffix = file.getName().substring(dot + 1);
@@ -60,9 +50,7 @@ public class ImageIO
 				writer.write(img);
 				out.close();
 			}
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
