@@ -9,9 +9,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * The <code>ShapePainter</code> interface defines the contract for an object that can paint
+ * a {@link Shape} instance in a 2-dimensional context.
+ *
  * Created by keith on 5/3/14.
  */
 public interface ShapePainter<S extends Shape> {
+	/**
+	 * Paint the given shape in the given graphics context
+	 * @param shape the shape to be painted
+	 * @param g2d the graphics context in which to paint the shape
+	 */
 	public void paint(S shape, Graphics2D g2d);
 
 	public static final class Factory {

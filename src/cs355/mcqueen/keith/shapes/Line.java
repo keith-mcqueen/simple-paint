@@ -7,32 +7,20 @@ package cs355.mcqueen.keith.shapes;
  * Created by keith on 5/2/14.
  */
 public class Line extends Shape {
-	private Point startPoint;
-	private Point endPoint;
+	private double length;
 
-	public Line(Point start, Point end) {
-		this.startPoint = start;
-		this.endPoint = end;
+	public Line(Point start, double length, double angle) {
+		super(start);
+
+		super.setRotation(angle);
+		this.length = length;
 	}
 
-	public Point getStartPoint() {
-		return startPoint;
+	public double getLength() {
+		return length;
 	}
 
-	public void setStartPoint(Point startPoint) {
-		this.startPoint = startPoint;
-	}
-
-	public Point getEndPoint() {
-		return endPoint;
-	}
-
-	public void setEndPoint(Point endPoint) {
-		this.endPoint = endPoint;
-	}
-
-	@Override
-	public String toString() {
-		return String.format("Line: start: %s; end: %s", this.getStartPoint(), this.getEndPoint());
+	public void setLength(double length) {
+		this.length = length;
 	}
 }

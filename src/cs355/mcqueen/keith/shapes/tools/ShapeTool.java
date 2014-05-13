@@ -12,6 +12,9 @@ import java.awt.event.MouseMotionListener;
 import static cs355.GUIFunctions.refresh;
 
 /**
+ * The <code>ShapeTool</code> class provides the base functionality for creating and
+ * interacting with {@link Shape} instances.
+ *
  * Created by keith on 5/3/14.
  */
 public class ShapeTool<S extends Shape> implements ShapeListener, MouseListener, MouseMotionListener {

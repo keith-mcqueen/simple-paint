@@ -8,13 +8,14 @@ import java.awt.*;
 import static cs355.mcqueen.keith.shapes.Point.*;
 
 /**
+ * The <code>TrianglePainter</code> class is used to paint {@link Triangle} instances in a
+ * 2-dimensional context.
+ *
  * Created by keith on 5/3/14.
  */
-public class TrianglePainter implements ShapePainter<Triangle> {
+public class TrianglePainter extends AbstractBaseShapePainter<Triangle> {
 	@Override
-	public void paint(Triangle shape, Graphics2D g2d) {
-		g2d.setColor(shape.getColor());
-
+	public void doPaint(Triangle shape, Graphics2D g2d) {
 		int[] xCoords = new int[3];
 		int[] yCoords = new int[3];
 

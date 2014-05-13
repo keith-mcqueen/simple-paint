@@ -12,6 +12,9 @@ import static cs355.mcqueen.keith.shapes.Point.*;
 import static java.lang.Math.*;
 
 /**
+ * The <code>RectangleTool</code> is used to create {@link Rectangle} instances drawn on a
+ * 2-dimensional canvas.
+ *
  * Created by keith on 5/3/14.
  */
 public class RectangleTool extends ShapeTool<Rectangle> {
@@ -42,8 +45,14 @@ public class RectangleTool extends ShapeTool<Rectangle> {
 	public void mouseDragged(MouseEvent e) {
 		Rectangle rectangle = this.getShape();
 		if (null != rectangle) {
-			rectangle.setLocation(this.calculateRectangleLocation(e));
-			rectangle.setSize(this.calculateRectangleSize(e));
+			Point cornerLoc = this.calculateRectangleLocation(e);
+			Size rectSize = this.calculateRectangleSize(e);
+
+			Point centerLoc = new Point(cornerLoc.getCoordinate(X) + rectSize.getLength(Size.WIDTH) / 2.0d,
+					cornerLoc.getCoordinate(Y) + rectSize.getLength(Size.HEIGHT) / 2.0d);
+
+			rectangle.setCenter(centerLoc);
+			rectangle.setSize(rectSize);
 
 			// notify that the shape has changed
 			super.shapeChanged(rectangle);
