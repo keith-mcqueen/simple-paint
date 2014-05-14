@@ -19,17 +19,17 @@ public abstract class AbstractBaseShapePainter<S extends Shape> implements Shape
 	@Override
 	final public void paint(S shape, Graphics2D g2d) {
 		// create a new transformation
-		AffineTransform objToWorld = new AffineTransform();
+		AffineTransform shapeToWorld = new AffineTransform();
 
 		// translate to its position in the world (last transformation)
 		Point center = shape.getCenter();
-		objToWorld.translate(center.getCoordinate(X),	center.getCoordinate(Y));
+		shapeToWorld.translate(center.getCoordinate(X), center.getCoordinate(Y));
 
 		// rotate to its orientation (first transformation)
-		objToWorld.rotate(shape.getRotation());
+		shapeToWorld.rotate(shape.getRotation());
 
 		// set the drawing transformation
-		g2d.setTransform(objToWorld);
+		g2d.setTransform(shapeToWorld);
 
 		// set the painting color from the shape's color
 		g2d.setColor(shape.getColor());
@@ -43,8 +43,8 @@ public abstract class AbstractBaseShapePainter<S extends Shape> implements Shape
 	 * is called, all transformations have been executed, and the current color has been set.
 	 * It is left to the subclass to implement the final drawing of the shape.
 	 *
-	 * @param shape
-	 * @param g2d
+	 * @param shape the shape to be painted
+	 * @param g2d the graphics context in which to paint the shape
 	 */
 	protected abstract void doPaint(S shape, Graphics2D g2d);
 }

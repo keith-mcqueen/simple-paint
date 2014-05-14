@@ -56,32 +56,22 @@ public class ShapeTool<S extends Shape> implements ShapeListener, MouseListener,
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		System.out.println("AbstractShapeTool.mouseClicked");
-		System.out.println("e = " + e);
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		System.out.println("AbstractShapeTool.mousePressed");
-		System.out.println("e = " + e);
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		System.out.println("AbstractShapeTool.mouseReleased");
-		System.out.println("e = " + e);
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		System.out.println("AbstractShapeTool.mouseEntered");
-		System.out.println("e = " + e);
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		System.out.println("AbstractShapeTool.mouseExited");
-		System.out.println("e = " + e);
 	}
 
 	////////////////////////////////////////////////////////////
@@ -90,14 +80,10 @@ public class ShapeTool<S extends Shape> implements ShapeListener, MouseListener,
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		System.out.println("AbstractShapeTool.mouseDragged");
-		System.out.println("e = " + e);
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		System.out.println("AbstractShapeTool.mouseMoved");
-		System.out.println("e = " + e);
 	}
 
 	////////////////////////////////////////////////////////////

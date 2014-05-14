@@ -6,6 +6,10 @@ import cs355.mcqueen.keith.shapes.Point;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
+import static java.lang.Math.atan2;
+import static java.lang.Math.pow;
+import static java.lang.Math.sqrt;
+
 /**
  * The <code>LineTool</code> is used to create a {@link Line} instance from a 2-dimensional
  * context.
@@ -33,8 +37,8 @@ public class LineTool extends ShapeTool<Line> {
 			double deltaX = e.getX() - lineStart.getCoordinate(Point.X);
 			double deltaY = e.getY() - lineStart.getCoordinate(Point.Y);
 
-			double length = Math.sqrt(deltaX*deltaX + deltaY*deltaY);
-			double rotation = Math.atan2(deltaY, deltaX);
+			double length = sqrt(pow(deltaX, 2) + pow(deltaY, 2));
+			double rotation = atan2(deltaY, deltaX);
 
 			line.setLength(length);
 			line.setRotation(rotation);

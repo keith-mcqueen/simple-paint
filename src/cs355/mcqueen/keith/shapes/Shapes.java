@@ -1,10 +1,10 @@
 package cs355.mcqueen.keith.shapes;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
+ * The <code>Shapes</code> class is the model containing all the shapes.
+ *
  * Created by keith on 5/3/14.
  */
 public class Shapes implements Iterable<Shape> {
@@ -14,7 +14,7 @@ public class Shapes implements Iterable<Shape> {
 		return ourInstance;
 	}
 
-	private final List<Shape> shapeList = new ArrayList<>();
+	private final Deque<Shape> shapeList = new ArrayDeque<>();
 
 	private Shapes() {
 	}
@@ -26,5 +26,19 @@ public class Shapes implements Iterable<Shape> {
 	@Override
 	public Iterator<Shape> iterator() {
 		return this.shapeList.iterator();
+	}
+
+	public Shape getShapeAt(int x, int y, double scaleFactor) {
+		// check the selected shape first?
+
+		// check the current shapes, in reverse order (front to back)
+		for(Iterator<Shape> it = this.shapeList.descendingIterator(); it.hasNext();) {
+			Shape shape = it.next();
+			if (shape.contains(x, y, scaleFactor)) {
+				return shape;
+			}
+		}
+
+		return null;
 	}
 }

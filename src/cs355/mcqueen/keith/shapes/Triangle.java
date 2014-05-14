@@ -1,5 +1,8 @@
 package cs355.mcqueen.keith.shapes;
 
+import static cs355.mcqueen.keith.shapes.Point.X;
+import static cs355.mcqueen.keith.shapes.Point.Y;
+
 /**
  * The <code>Triangle</code> class represents a 3-sided figure in 2-dimensional space.
  *
@@ -13,8 +16,15 @@ public class Triangle extends Shape {
 	public Triangle(Point center, Point a, Point b, Point c) {
 		super(center);
 
-		this.pointA = a;
-		this.pointB = b;
+		// determine if points are clockwise or counterclockwise
+		if (dotProduct(a, b, c) < 0) {
+			this.pointA = b;
+			this.pointB = a;
+		} else {
+			this.pointA = a;
+			this.pointB = b;
+		}
+
 		this.pointC = c;
 	}
 
@@ -40,5 +50,25 @@ public class Triangle extends Shape {
 
 	public void setPointC(Point pointC) {
 		this.pointC = pointC;
+	}
+
+	@Override
+	protected boolean doesContain(double x, double y, double scaleFactor) {
+		Point loc = new Point(x, y);
+
+		Point a = this.getPointA();
+		Point b = this.getPointB();
+		Point c = this.getPointC();
+
+		return dotProduct(loc, a, b) > 0
+				&& dotProduct(loc, b, c) > 0
+				&& dotProduct(loc, c, a) > 0;
+	}
+
+	private static double dotProduct(Point a, Point b, Point c) {
+		double result = (b.getCoordinate(X) - a.getCoordinate(X)) * (c.getCoordinate(Y) - a.getCoordinate(Y)) -
+				(b.getCoordinate(Y) - a.getCoordinate(Y)) * (c.getCoordinate(X) - a.getCoordinate(X));
+
+		return result;
 	}
 }

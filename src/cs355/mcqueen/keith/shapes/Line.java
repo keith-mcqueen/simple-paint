@@ -7,6 +7,7 @@ package cs355.mcqueen.keith.shapes;
  * Created by keith on 5/2/14.
  */
 public class Line extends Shape {
+	public static final int SELECTION_MARGIN = 4;
 	private double length;
 
 	public Line(Point start, double length, double angle) {
@@ -22,5 +23,10 @@ public class Line extends Shape {
 
 	public void setLength(double length) {
 		this.length = length;
+	}
+
+	@Override
+	protected boolean doesContain(double x, double y, double scaleFactor) {
+		return 0 <= x && x <= this.length && Math.abs(y) <= SELECTION_MARGIN;
 	}
 }

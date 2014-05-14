@@ -1,7 +1,11 @@
 package cs355.mcqueen.keith.shapes;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 import java.util.concurrent.CopyOnWriteArrayList;
+
+import static cs355.mcqueen.keith.shapes.Point.*;
 
 /**
  * The <code>Shape</code> class is an abstract base class that defines the contract and
@@ -24,7 +28,7 @@ public abstract class Shape {
 	 * Get the location of the center of of this shape with respect to the "world"  The shape
 	 * considers itself to centered at the origin.
 	 *
-	 * @return
+	 * @return the point representing the center of this shape
 	 */
 	public Point getCenter() {
 		return center;
@@ -33,7 +37,7 @@ public abstract class Shape {
 	/**
 	 * Set the center of this shape with respect to the world.
 	 *
-	 * @param center
+	 * @param center the location of the center of this shape
 	 */
 	public void setCenter(Point center) {
 		this.center = center;
@@ -43,7 +47,7 @@ public abstract class Shape {
 	 * Get this shape's orientation (in radians) with respect to the world.  The shape considers
 	 * itself to be axis-aligned at the origin.
 	 *
-	 * @return
+	 * @return the angle (in radians) of rotation of this shape with respect to the world
 	 */
 	public double getRotation() {
 		return rotation;
@@ -51,7 +55,7 @@ public abstract class Shape {
 
 	/**
 	 * Set the orientation (in radians) with respect to the world.  The shape considers itself
-	 * @param rotation
+	 * @param rotation the angle (in radians) of rotation of this shape with respect to the world
 	 */
 	public void setRotation(double rotation) {
 		this.rotation = rotation;
@@ -78,4 +82,27 @@ public abstract class Shape {
 			listener.shapeChanged(this);
 		}
 	}
+
+	public final boolean contains(double x, double y, double scaleFactor) {
+		// create a point from the given x and y
+		Point2D worldPoint = new Point2D.Double(x, y);
+		Point2D shapePoint = new Point2D.Double();
+
+		// create a new transformation (defaults to identity)
+		AffineTransform worldToShape = new AffineTransform();
+
+		// rotate back from its orientation (last transformation)
+		worldToShape.rotate(-this.getRotation());
+
+		// translate back from its position in the world (first transformation)
+		Point center = this.getCenter();
+		worldToShape.translate(-center.getCoordinate(X), -center.getCoordinate(Y));
+
+		// transform the point from the world-space to the shape-space
+		worldToShape.transform(worldPoint, shapePoint);
+
+		return this.doesContain(shapePoint.getX(), shapePoint.getY(), scaleFactor);
+	}
+
+	protected abstract boolean doesContain(double x, double y, double scaleFactor);
 }

@@ -72,7 +72,7 @@ public class PaintController implements CS355Controller, MouseListener, MouseMot
 
 	@Override
 	public void selectButtonHit() {
-
+		this.activeTool = new SelectionTool(this.activeColor);
 	}
 
 	@Override

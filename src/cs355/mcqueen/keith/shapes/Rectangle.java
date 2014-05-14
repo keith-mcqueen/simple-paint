@@ -1,5 +1,9 @@
 package cs355.mcqueen.keith.shapes;
 
+import static cs355.mcqueen.keith.shapes.Size.*;
+import static cs355.mcqueen.keith.shapes.Size.WIDTH;
+import static java.lang.Math.abs;
+
 /**
  * The <code>Rectangle</code> class represents a right parallelogram.
  *
@@ -22,5 +26,14 @@ public class Rectangle extends Shape {
 		this.size = size;
 
 		this.changed();
+	}
+
+	@Override
+	protected boolean doesContain(double x, double y, double scaleFactor) {
+		Size mySize = this.getSize();
+		double halfWidth = mySize.getLength(WIDTH) / 2.0d;
+		double halfHeight = mySize.getLength(HEIGHT) / 2.0d;
+
+		return abs(x) <= halfWidth &&	abs(y) <= halfHeight;
 	}
 }
