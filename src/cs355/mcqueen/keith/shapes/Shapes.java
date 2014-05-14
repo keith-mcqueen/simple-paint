@@ -10,6 +10,8 @@ import java.util.*;
 public class Shapes implements Iterable<Shape> {
 	private static Shapes ourInstance = new Shapes();
 
+	private Shape selectedShape;
+
 	public static Shapes getInstance() {
 		return ourInstance;
 	}
@@ -25,7 +27,20 @@ public class Shapes implements Iterable<Shape> {
 
 	@Override
 	public Iterator<Shape> iterator() {
-		return this.shapeList.iterator();
+		List<Shape> allShapes = new ArrayList<>(this.shapeList);
+		if (null != this.selectedShape) {
+			allShapes.add(this.selectedShape);
+		}
+
+		return allShapes.iterator();
+	}
+
+	public Shape getSelectedShape() {
+		return selectedShape;
+	}
+
+	public void setSelectedShape(Shape selectedShape) {
+		this.selectedShape = selectedShape;
 	}
 
 	public Shape getShapeAt(int x, int y, double scaleFactor) {

@@ -30,6 +30,7 @@ public interface ShapePainter<S extends Shape> {
 			PAINTERS_BY_SHAPE_CLASS.put(Rectangle.class, new RectanglePainter());
 			PAINTERS_BY_SHAPE_CLASS.put(Ellipse.class, new EllipsePainter());
 			PAINTERS_BY_SHAPE_CLASS.put(Triangle.class, new TrianglePainter());
+			PAINTERS_BY_SHAPE_CLASS.put(SelectedRectangle.class, new SelectedRectanglePainter());
 		}
 
 		public static ShapePainter<? extends Shape> getPainterForShape(Class<? extends Shape> shapeClass) {

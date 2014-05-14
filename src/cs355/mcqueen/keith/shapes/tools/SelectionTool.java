@@ -1,5 +1,7 @@
 package cs355.mcqueen.keith.shapes.tools;
 
+import cs355.GUIFunctions;
+import cs355.mcqueen.keith.shapes.SelectedShape;
 import cs355.mcqueen.keith.shapes.Shape;
 import cs355.mcqueen.keith.shapes.Shapes;
 
@@ -13,7 +15,6 @@ import java.awt.event.MouseEvent;
  * Created by keith on 5/13/14.
  */
 public class SelectionTool extends ShapeTool<Shape> {
-	private double scaleFactor = 1.0;
 
 	public SelectionTool(Color color) {
 		super(color);
@@ -25,8 +26,10 @@ public class SelectionTool extends ShapeTool<Shape> {
 		// check if the click happened in the selected shape (do this here or do this in the model?)
 
 		// have the model return the shape (if any) where the mouse clicked
-		Shape selectedShape = Shapes.getInstance().getShapeAt(e.getX(), e.getY(), this.scaleFactor);
-		System.out.println("selectedShape = " + selectedShape);
+		double scaleFactor = 1.0;
+		Shape shapeAtLocation = Shapes.getInstance().getShapeAt(e.getX(), e.getY(), scaleFactor);
+		SelectedShape selectedShape = SelectedShape.Factory.getSelectedShape(shapeAtLocation);
+		Shapes.getInstance().setSelectedShape(selectedShape);
 
 		// if a shape was selected, then update my selected shape
 		//  - if a previous shape was selected, deselect
@@ -35,6 +38,9 @@ public class SelectionTool extends ShapeTool<Shape> {
 		// otherwise
 		//  - reset the current color
 		//  - clear the selected shape
+
+		// force a repaint of the shapes to update the display of the selected (or not) shape
+		GUIFunctions.refresh();
 	}
 
 	@Override

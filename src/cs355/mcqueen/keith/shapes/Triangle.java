@@ -32,24 +32,12 @@ public class Triangle extends Shape {
 		return pointA;
 	}
 
-	public void setPointA(Point pointA) {
-		this.pointA = pointA;
-	}
-
 	public Point getPointB() {
 		return pointB;
 	}
 
-	public void setPointB(Point pointB) {
-		this.pointB = pointB;
-	}
-
 	public Point getPointC() {
 		return pointC;
-	}
-
-	public void setPointC(Point pointC) {
-		this.pointC = pointC;
 	}
 
 	@Override
@@ -66,9 +54,8 @@ public class Triangle extends Shape {
 	}
 
 	private static double dotProduct(Point a, Point b, Point c) {
-		double result = (b.getCoordinate(X) - a.getCoordinate(X)) * (c.getCoordinate(Y) - a.getCoordinate(Y)) -
-				(b.getCoordinate(Y) - a.getCoordinate(Y)) * (c.getCoordinate(X) - a.getCoordinate(X));
 
-		return result;
+		return (b.getCoordinate(X) - a.getCoordinate(X)) * (c.getCoordinate(Y) - a.getCoordinate(Y)) -
+				(b.getCoordinate(Y) - a.getCoordinate(Y)) * (c.getCoordinate(X) - a.getCoordinate(X));
 	}
 }
