@@ -5,7 +5,8 @@ import cs355.mcqueen.keith.shapes.ResizeHandle;
 import java.awt.*;
 
 /**
- * The <code>ResizeHandlePainter</code> class paints the specialized {@link ResizeHandle} shape.
+ * The <code>ResizeHandlePainter</code> class paints the specialized {@link ResizeHandle}
+ * shape.
  * <p>
  * Created by keith on 5/14/14.
  */

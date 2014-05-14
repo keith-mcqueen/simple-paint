@@ -12,9 +12,10 @@ import java.util.List;
  */
 public abstract class SelectedShape<S extends Shape> extends Shape {
 	private static final int BOUNDS_OFFSET = 2;
+	private static final int ROTATE_OFFSET = 20;
 
 	public static final class Factory {
-		public static final SelectedShape getSelectedShape(Shape shape) {
+		public static SelectedShape getSelectedShape(Shape shape) {
 			if (null == shape) {
 				return null;
 			}
@@ -41,6 +42,8 @@ public abstract class SelectedShape<S extends Shape> extends Shape {
 
 	private final S selected;
 	private final List<ResizeHandle> resizeHandles = new ArrayList<>();
+	private final RotateHandle rotateHandle;
+
 
 	protected SelectedShape(S shape) {
 		super(shape.getLocation());
@@ -49,6 +52,7 @@ public abstract class SelectedShape<S extends Shape> extends Shape {
 		this.selected = shape;
 
 		this.resizeHandles.addAll(this.initResizeHandles(this.selected));
+		this.rotateHandle = this.initRotateHandle(this.selected);
 	}
 
 	public S getShape() {
@@ -83,7 +87,19 @@ public abstract class SelectedShape<S extends Shape> extends Shape {
 	}
 
 	@Override
-	protected boolean doesContain(double x, double y, double scaleFactor) {
+	public boolean contains(double x, double y, double scaleFactor) {
+		// check the handles
+		if (null != this.rotateHandle && this.rotateHandle.contains(x, y, scaleFactor)) {
+			return true;
+		}
+
+		List<ResizeHandle> resizeHandles = this.getResizeHandles();
+		for (ResizeHandle handle : resizeHandles) {
+			if (handle.contains(x, y, scaleFactor)) {
+				return true;
+			}
+		}
+
 		// for now, just forward this to the internal shape; later we may want to also check
 		//  the resize/rotate handles
 		return this.selected.contains(x, y, scaleFactor);
@@ -93,9 +109,25 @@ public abstract class SelectedShape<S extends Shape> extends Shape {
 		return BOUNDS_OFFSET;
 	}
 
+	public int getRotateOffset() {
+		return ROTATE_OFFSET;
+	}
+
+	@Override
+	protected boolean doesContain(double x, double y, double scaleFactor) {
+		return false;
+	}
+
 	public List<ResizeHandle> getResizeHandles() {
 		return resizeHandles;
 	}
 
-	public abstract Collection<? extends ResizeHandle> initResizeHandles(S shape);
+	public RotateHandle getRotateHandle() {
+		return this.rotateHandle;
+	}
+
+	protected abstract Collection<? extends ResizeHandle> initResizeHandles(S shape);
+
+	protected abstract RotateHandle initRotateHandle(S shape);
+
 }

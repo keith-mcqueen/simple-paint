@@ -2,6 +2,7 @@ package cs355.mcqueen.keith.shapes.painting;
 
 import cs355.mcqueen.keith.shapes.Point;
 import cs355.mcqueen.keith.shapes.ResizeHandle;
+import cs355.mcqueen.keith.shapes.RotateHandle;
 import cs355.mcqueen.keith.shapes.SelectedShape;
 
 import java.awt.*;
@@ -32,7 +33,13 @@ public class SelectedShapePainter<S extends SelectedShape> extends AbstractBaseS
 	}
 
 	private void paintRotateHandle(S shape, Graphics2D g2d) {
-		// TODO implement this
+		RotateHandle handle = shape.getRotateHandle();
+		if (null != handle) {
+			ShapePainter painter = getPainterForShape(handle.getClass());
+			if (null != painter) {
+				painter.paint(handle, g2d);
+			}
+		}
 	}
 
 	private void paintResizeHandles(S shape, Graphics2D g2d) {

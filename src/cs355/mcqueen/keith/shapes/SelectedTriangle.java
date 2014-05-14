@@ -61,4 +61,21 @@ public class SelectedTriangle extends SelectedShape<Triangle> {
 
 		return handles;
 	}
+
+	@Override
+	protected RotateHandle initRotateHandle(Triangle shape) {
+		int offset = this.getRotateOffset();
+		int boundsOffset = this.getBoundsOffset();
+		Size handleSize = new Size(boundsOffset * 6, boundsOffset * 6);
+
+		Point c = this.transformPointToShape(shape.getPointC());
+		double x = c.getCoordinate(X);
+		double y = c.getCoordinate(Y);
+		double theta = atan2(y, x);
+		Point handleLoc = new Point(x + (offset * cos(theta)), y + (offset * sin(theta)));
+		RotateHandle handle = new RotateHandle(shape.transformPointToWorld(handleLoc), handleSize);
+		handle.setRotation(shape.getRotation());
+
+		return handle;
+	}
 }

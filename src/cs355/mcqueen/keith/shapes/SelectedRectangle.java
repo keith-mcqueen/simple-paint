@@ -34,31 +34,57 @@ public class SelectedRectangle extends SelectedShape<Rectangle> {
 		// the handles will be offset and sized by the bounds offset
 		int offset = this.getBoundsOffset();
 		Size handleSize = new Size(offset * 4, offset * 4);
+		Point handleLoc;
+		ResizeHandle handle;
 
 		// northwest corner
-		Point handleLoc = new Point(_NW_x - offset, _NW_y - offset);
-		ResizeHandle northwest = new ResizeHandle(this.transformPointToWorld(handleLoc), handleSize);
-		northwest.setRotation(shape.getRotation());
-		handles.add(northwest);
+		handleLoc = new Point(_NW_x - offset, _NW_y - offset);
+		handle = new ResizeHandle(this.transformPointToWorld(handleLoc), handleSize);
+		handle.setRotation(shape.getRotation());
+		handles.add(handle);
 
 		// northeast corner
 		handleLoc = new Point(_NW_x + width + offset, _NW_y - offset);
-		ResizeHandle northeast = new ResizeHandle(this.transformPointToWorld(handleLoc), handleSize);
-		northeast.setRotation(shape.getRotation());
-		handles.add(northeast);
+		handle = new ResizeHandle(this.transformPointToWorld(handleLoc), handleSize);
+		handle.setRotation(shape.getRotation());
+		handles.add(handle);
 
 		// southeast corner
 		handleLoc = new Point(_NW_x + width + offset, _NW_y + height + offset);
-		ResizeHandle southeast = new ResizeHandle(this.transformPointToWorld(handleLoc), handleSize);
-		southeast.setRotation(shape.getRotation());
-		handles.add(southeast);
+		handle = new ResizeHandle(this.transformPointToWorld(handleLoc), handleSize);
+		handle.setRotation(shape.getRotation());
+		handles.add(handle);
 
 		// southwest corner
 		handleLoc = new Point(_NW_x - offset, _NW_y + height + offset);
-		ResizeHandle southwest = new ResizeHandle(this.transformPointToWorld(handleLoc), handleSize);
-		southwest.setRotation(shape.getRotation());
-		handles.add(southwest);
+		handle = new ResizeHandle(this.transformPointToWorld(handleLoc), handleSize);
+		handle.setRotation(shape.getRotation());
+		handles.add(handle);
 
 		return handles;
+	}
+
+	@Override
+	protected RotateHandle initRotateHandle(Rectangle shape) {
+		// using the selected shape's size, calculate the location of the shape's NW corner
+		Size size = shape.getSize();
+		int width = (int) size.getLength(WIDTH);
+		int height = (int) size.getLength(HEIGHT);
+
+		int _NW_x = (int) Math.floor(-(width / 2.0d));
+		int _NW_y = (int) Math.floor(-(height / 2.0d));
+
+		// the handles will be offset and sized by the bounds offset
+		int offset = this.getRotateOffset();
+		int boundsOffset = this.getBoundsOffset();
+		Size handleSize = new Size(boundsOffset * 6, boundsOffset * 6);
+
+		// northeast corner
+		double theta = Math.PI / 4.0d;
+		Point handleLoc = new Point(_NW_x + width + (offset * Math.cos(theta)), _NW_y - (offset * Math.sin(theta)));
+		RotateHandle handle = new RotateHandle(this.transformPointToWorld(handleLoc), handleSize);
+		handle.setRotation(shape.getRotation());
+
+		return handle;
 	}
 }

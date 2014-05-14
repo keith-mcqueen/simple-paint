@@ -44,4 +44,9 @@ public class SelectedLine extends SelectedShape<Line> {
 
 		return handles;
 	}
+
+	@Override
+	protected RotateHandle initRotateHandle(Line shape) {
+		return null;
+	}
 }

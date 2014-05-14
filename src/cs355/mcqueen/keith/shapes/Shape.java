@@ -85,7 +85,7 @@ public abstract class Shape {
 		}
 	}
 
-	public final boolean contains(double x, double y, double scaleFactor) {
+	public boolean contains(double x, double y, double scaleFactor) {
 		// create a point from the given x and y
 		Point2D worldPoint = new Point2D.Double(x, y);
 		Point2D shapePoint = new Point2D.Double();
