@@ -6,14 +6,11 @@ import cs355.mcqueen.keith.shapes.Point;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
-import static java.lang.Math.atan2;
-import static java.lang.Math.pow;
-import static java.lang.Math.sqrt;
+import static java.lang.Math.*;
 
 /**
- * The <code>LineTool</code> is used to create a {@link Line} instance from a 2-dimensional
- * context.
- *
+ * The <code>LineTool</code> is used to create a {@link Line} instance from a 2-dimensional context.
+ * <p>
  * Created by keith on 5/3/14.
  */
 public class LineTool extends ShapeTool<Line> {
@@ -32,7 +29,7 @@ public class LineTool extends ShapeTool<Line> {
 		Line line = this.getShape();
 		if (null != line) {
 
-			Point lineStart = line.getCenter();
+			Point lineStart = line.getLocation();
 
 			double deltaX = e.getX() - lineStart.getCoordinate(Point.X);
 			double deltaY = e.getY() - lineStart.getCoordinate(Point.Y);

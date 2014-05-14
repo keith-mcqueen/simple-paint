@@ -1,13 +1,18 @@
 package cs355.mcqueen.keith.shapes;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * The <code>SelectedShape</code> class decorates a given instance of another {@link Shape}.
  *
  * Created by keith on 5/14/14.
  */
-public class SelectedShape<S extends Shape> extends Shape {
+public abstract class SelectedShape<S extends Shape> extends Shape {
+	private static final int BOUNDS_OFFSET = 2;
+
 	public static final class Factory {
 		public static final SelectedShape getSelectedShape(Shape shape) {
 			if (null == shape) {
@@ -35,11 +40,15 @@ public class SelectedShape<S extends Shape> extends Shape {
 	}
 
 	private final S selected;
+	private final List<ResizeHandle> resizeHandles = new ArrayList<>();
 
 	protected SelectedShape(S shape) {
-		super(shape.getCenter());
+		super(shape.getLocation());
 
+		super.setRotation(shape.getRotation());
 		this.selected = shape;
+
+		this.resizeHandles.addAll(this.initResizeHandles(this.selected));
 	}
 
 	public S getShape() {
@@ -47,8 +56,9 @@ public class SelectedShape<S extends Shape> extends Shape {
 	}
 
 	@Override
-	public void setCenter(Point center) {
-		this.selected.setCenter(center);
+	public void setLocation(Point center) {
+		super.setLocation(center);
+		this.selected.setLocation(center);
 	}
 
 	@Override
@@ -58,6 +68,7 @@ public class SelectedShape<S extends Shape> extends Shape {
 
 	@Override
 	public void setRotation(double rotation) {
+		super.setRotation(rotation);
 		this.selected.setRotation(rotation);
 	}
 
@@ -74,7 +85,17 @@ public class SelectedShape<S extends Shape> extends Shape {
 	@Override
 	protected boolean doesContain(double x, double y, double scaleFactor) {
 		// for now, just forward this to the internal shape; later we may want to also check
-		//  the drag/rotate handles
+		//  the resize/rotate handles
 		return this.selected.contains(x, y, scaleFactor);
 	}
+
+	public int getBoundsOffset() {
+		return BOUNDS_OFFSET;
+	}
+
+	public List<ResizeHandle> getResizeHandles() {
+		return resizeHandles;
+	}
+
+	public abstract Collection<? extends ResizeHandle> initResizeHandles(S shape);
 }

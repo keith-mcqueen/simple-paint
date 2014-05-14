@@ -1,12 +1,8 @@
 package cs355.mcqueen.keith.shapes.painting;
 
 import cs355.mcqueen.keith.shapes.Shape;
-import cs355.mcqueen.keith.shapes.Point;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-
-import static cs355.mcqueen.keith.shapes.Point.*;
 
 /**
  * The <code>AbstractBaseShapePainter</code> class is an abstract base class for any
@@ -18,18 +14,8 @@ import static cs355.mcqueen.keith.shapes.Point.*;
 public abstract class AbstractBaseShapePainter<S extends Shape> implements ShapePainter<S> {
 	@Override
 	final public void paint(S shape, Graphics2D g2d) {
-		// create a new transformation
-		AffineTransform shapeToWorld = new AffineTransform();
-
-		// translate to its position in the world (last transformation)
-		Point center = shape.getCenter();
-		shapeToWorld.translate(center.getCoordinate(X), center.getCoordinate(Y));
-
-		// rotate to its orientation (first transformation)
-		shapeToWorld.rotate(shape.getRotation());
-
 		// set the drawing transformation
-		g2d.setTransform(shapeToWorld);
+		g2d.setTransform(shape.getShapeToWorldTransform());
 
 		// set the painting color from the shape's color
 		g2d.setColor(shape.getColor());

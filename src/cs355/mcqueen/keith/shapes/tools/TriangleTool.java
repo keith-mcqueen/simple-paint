@@ -8,7 +8,8 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import static cs355.mcqueen.keith.shapes.Point.*;
+import static cs355.mcqueen.keith.shapes.Point.X;
+import static cs355.mcqueen.keith.shapes.Point.Y;
 
 /**
  * The <code>TriangleTool</code> class is used to draw a triangle in a 2-dimensional space.
@@ -34,15 +35,7 @@ public class TriangleTool extends ShapeTool<Triangle> {
 			Point centerPoint = new Point((pointA.getCoordinate(X) + pointB.getCoordinate(X) + pointC.getCoordinate(X))/3.0d,
 					(pointA.getCoordinate(Y) + pointB.getCoordinate(Y) + pointC.getCoordinate(Y))/3.0d);
 
-			Point adjustedPointA = new Point(pointA.getCoordinate(X) - centerPoint.getCoordinate(X),
-					pointA.getCoordinate(Y) - centerPoint.getCoordinate(Y));
-			Point adjustedPointB = new Point(pointB.getCoordinate(X) - centerPoint.getCoordinate(X),
-					pointB.getCoordinate(Y) - centerPoint.getCoordinate(Y));
-			Point adjustedPointC = new Point(pointC.getCoordinate(X) - centerPoint.getCoordinate(X),
-					pointC.getCoordinate(Y) - centerPoint.getCoordinate(Y));
-
-
-			Triangle triangle = new Triangle(centerPoint, adjustedPointA, adjustedPointB, adjustedPointC);
+			Triangle triangle = new Triangle(centerPoint, pointA, pointB, pointC);
 
 			this.setShape(triangle);
 			this.points.clear();

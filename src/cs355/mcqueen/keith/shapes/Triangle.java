@@ -44,9 +44,9 @@ public class Triangle extends Shape {
 	protected boolean doesContain(double x, double y, double scaleFactor) {
 		Point loc = new Point(x, y);
 
-		Point a = this.getPointA();
-		Point b = this.getPointB();
-		Point c = this.getPointC();
+		Point a = this.transformPointToShape(this.getPointA());
+		Point b = this.transformPointToShape(this.getPointB());
+		Point c = this.transformPointToShape(this.getPointC());
 
 		return dotProduct(loc, a, b) > 0
 				&& dotProduct(loc, b, c) > 0

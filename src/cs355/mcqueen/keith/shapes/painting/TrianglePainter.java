@@ -1,11 +1,12 @@
 package cs355.mcqueen.keith.shapes.painting;
 
-import cs355.mcqueen.keith.shapes.Triangle;
 import cs355.mcqueen.keith.shapes.Point;
+import cs355.mcqueen.keith.shapes.Triangle;
 
 import java.awt.*;
 
-import static cs355.mcqueen.keith.shapes.Point.*;
+import static cs355.mcqueen.keith.shapes.Point.X;
+import static cs355.mcqueen.keith.shapes.Point.Y;
 
 /**
  * The <code>TrianglePainter</code> class is used to paint {@link Triangle} instances in a
@@ -19,15 +20,15 @@ public class TrianglePainter extends AbstractBaseShapePainter<Triangle> {
 		int[] xCoords = new int[3];
 		int[] yCoords = new int[3];
 
-		Point a = shape.getPointA();
+		Point a = shape.transformPointToShape(shape.getPointA());
 		xCoords[0] = (int) a.getCoordinate(X);
 		yCoords[0] = (int) a.getCoordinate(Y);
 
-		Point b = shape.getPointB();
+		Point b = shape.transformPointToShape(shape.getPointB());
 		xCoords[1] = (int) b.getCoordinate(X);
 		yCoords[1] = (int) b.getCoordinate(Y);
 
-		Point c = shape.getPointC();
+		Point c = shape.transformPointToShape(shape.getPointC());
 		xCoords[2] = (int) c.getCoordinate(X);
 		yCoords[2] = (int) c.getCoordinate(Y);
 

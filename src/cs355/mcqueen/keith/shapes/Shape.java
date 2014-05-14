@@ -2,10 +2,12 @@ package cs355.mcqueen.keith.shapes;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static cs355.mcqueen.keith.shapes.Point.*;
+import static cs355.mcqueen.keith.shapes.Point.X;
+import static cs355.mcqueen.keith.shapes.Point.Y;
 
 /**
  * The <code>Shape</code> class is an abstract base class that defines the contract and
@@ -17,30 +19,30 @@ public abstract class Shape {
 	private final CopyOnWriteArrayList<ShapeListener> listeners = new CopyOnWriteArrayList<>();
 
 	private Color color;
-	private Point center;
+	private Point location;
 	private double rotation;
 
-	protected Shape(Point center) {
-		this.center = center;
+	protected Shape(Point location) {
+		this.location = location;
 	}
 
 	/**
-	 * Get the location of the center of of this shape with respect to the "world"  The shape
+	 * Get the location of this shape with respect to the "world"  The shape
 	 * considers itself to centered at the origin.
 	 *
-	 * @return the point representing the center of this shape
+	 * @return the point representing the location of this shape
 	 */
-	public Point getCenter() {
-		return center;
+	public Point getLocation() {
+		return location;
 	}
 
 	/**
-	 * Set the center of this shape with respect to the world.
+	 * Set the location of this shape with respect to the world.
 	 *
-	 * @param center the location of the center of this shape
+	 * @param location the location of the location of this shape
 	 */
-	public void setCenter(Point center) {
-		this.center = center;
+	public void setLocation(Point location) {
+		this.location = location;
 	}
 
 	/**
@@ -88,6 +90,15 @@ public abstract class Shape {
 		Point2D worldPoint = new Point2D.Double(x, y);
 		Point2D shapePoint = new Point2D.Double();
 
+		AffineTransform worldToShape = this.getWorldToShapeTransform();
+
+		// transform the point from the world-space to the shape-space
+		worldToShape.transform(worldPoint, shapePoint);
+
+		return this.doesContain(shapePoint.getX(), shapePoint.getY(), scaleFactor);
+	}
+
+	public AffineTransform getWorldToShapeTransform() {
 		// create a new transformation (defaults to identity)
 		AffineTransform worldToShape = new AffineTransform();
 
@@ -95,13 +106,41 @@ public abstract class Shape {
 		worldToShape.rotate(-this.getRotation());
 
 		// translate back from its position in the world (first transformation)
-		Point center = this.getCenter();
+		Point center = this.getLocation();
 		worldToShape.translate(-center.getCoordinate(X), -center.getCoordinate(Y));
 
-		// transform the point from the world-space to the shape-space
-		worldToShape.transform(worldPoint, shapePoint);
+		return worldToShape;
+	}
 
-		return this.doesContain(shapePoint.getX(), shapePoint.getY(), scaleFactor);
+	public AffineTransform getShapeToWorldTransform() {
+		try {
+			return this.getWorldToShapeTransform().createInverse();
+		} catch (NoninvertibleTransformException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public Point transformPointToShape(Point p) {
+		AffineTransform w2s = this.getWorldToShapeTransform();
+
+		Point2D world = new Point2D.Double(p.getCoordinate(X), p.getCoordinate(Y));
+		Point2D shape = new Point2D.Double();
+
+		w2s.transform(world, shape);
+
+		return new Point(shape.getX(), shape.getY());
+	}
+
+	public Point transformPointToWorld(Point p) {
+		AffineTransform s2w = this.getShapeToWorldTransform();
+
+		Point2D shape = new Point2D.Double(p.getCoordinate(X), p.getCoordinate(Y));
+		Point2D world = new Point2D.Double();
+
+		s2w.transform(shape, world);
+
+		return new Point(world.getX(), world.getY());
 	}
 
 	protected abstract boolean doesContain(double x, double y, double scaleFactor);
