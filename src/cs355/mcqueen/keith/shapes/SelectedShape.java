@@ -56,7 +56,7 @@ public abstract class SelectedShape<S extends Shape> extends Shape implements Ha
 	protected SelectedShape(S shape) {
 		super(shape.getLocation());
 
-		super.setRotation(shape.getRotation());
+		//super.setRotation(shape.getRotation());
 		this.selected = shape;
 
 		this.initHandles();
@@ -91,6 +91,11 @@ public abstract class SelectedShape<S extends Shape> extends Shape implements Ha
 	public void setRotation(double rotation) {
 		super.setRotation(rotation);
 		this.selected.setRotation(rotation);
+
+		// clear the handles and re-init them
+		// TODO - If I could update the handles, that might be better
+		this.clearHandles();
+		this.initHandles();
 	}
 
 	@Override

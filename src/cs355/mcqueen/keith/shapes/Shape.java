@@ -8,6 +8,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import static cs355.mcqueen.keith.shapes.Point.X;
 import static cs355.mcqueen.keith.shapes.Point.Y;
+import static java.lang.Math.PI;
 
 /**
  * The <code>Shape</code> class is an abstract base class that defines the contract and
@@ -16,6 +17,7 @@ import static cs355.mcqueen.keith.shapes.Point.Y;
  * Created by keith on 5/2/14.
  */
 public abstract class Shape {
+	private static final double _2_PI = 2 * PI;
 	private final CopyOnWriteArrayList<ShapeListener> listeners = new CopyOnWriteArrayList<>();
 
 	private Color color;
@@ -60,6 +62,14 @@ public abstract class Shape {
 	 * @param rotation the angle (in radians) of rotation of this shape with respect to the world
 	 */
 	public void setRotation(double rotation) {
+		while (rotation > (_2_PI)) {
+			rotation -= _2_PI;
+		}
+
+		while (rotation < -_2_PI) {
+			rotation += _2_PI;
+		}
+
 		this.rotation = rotation;
 	}
 
@@ -109,7 +119,7 @@ public abstract class Shape {
 		try {
 			return this.getWorldToShapeTransform().createInverse();
 		} catch (NoninvertibleTransformException e) {
-			e.printStackTrace();
+			//return new AffineTransform();
 			return null;
 		}
 	}

@@ -73,7 +73,7 @@ public class SelectedTriangle extends SelectedShape<Triangle> {
 		double y = c.getCoordinate(Y);
 		double theta = atan2(y, x);
 		Point handleLoc = new Point(x + (offset * cos(theta)), y + (offset * sin(theta)));
-		RotateHandle handle = new RotateHandle(shape.transformPointToWorld(handleLoc), handleSize);
+		RotateHandle handle = new RotateHandle(this, shape.transformPointToWorld(handleLoc), handleSize);
 		handle.setRotation(shape.getRotation());
 
 		return handle;

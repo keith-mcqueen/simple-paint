@@ -47,7 +47,6 @@ public class ShapeTool<S extends Shape> implements ShapeListener, MouseListener,
 
 		if (null != this.shape) {
 			this.shape.addShapeListener(this);
-			this.shape.setColor(this.color);
 		}
 
 		this.shapeWasSet(shape);
@@ -55,6 +54,7 @@ public class ShapeTool<S extends Shape> implements ShapeListener, MouseListener,
 
 	protected void shapeWasSet(S shape) {
 		Shapes.getInstance().addShape(shape);
+		shape.setColor(this.getColor());
 		refresh();
 	}
 

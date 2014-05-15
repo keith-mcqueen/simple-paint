@@ -13,22 +13,6 @@ public class Triangle extends Shape {
 	private Point pointB;
 	private Point pointC;
 
-	@Override
-	public void setLocation(Point location) {
-		// transform the vertex points to the shape space
-		Point a = this.transformPointToShape(this.getPointA());
-		Point b = this.transformPointToShape(this.getPointB());
-		Point c = this.transformPointToShape(this.getPointC());
-
-		// set the location
-		super.setLocation(location);
-
-		// transform the vertex points back to world space
-		this.setPointA(this.transformPointToWorld(a));
-		this.setPointB(this.transformPointToWorld(b));
-		this.setPointC(this.transformPointToWorld(c));
-	}
-
 	public Triangle(Point center, Point a, Point b, Point c) {
 		super(center);
 
@@ -66,6 +50,38 @@ public class Triangle extends Shape {
 
 	public void setPointC(Point pointC) {
 		this.pointC = pointC;
+	}
+
+	@Override
+	public void setLocation(Point location) {
+		// transform the vertex points to the shape space
+		Point a = this.transformPointToShape(this.getPointA());
+		Point b = this.transformPointToShape(this.getPointB());
+		Point c = this.transformPointToShape(this.getPointC());
+
+		// set the location
+		super.setLocation(location);
+
+		// transform the vertex points back to world space
+		this.setPointA(this.transformPointToWorld(a));
+		this.setPointB(this.transformPointToWorld(b));
+		this.setPointC(this.transformPointToWorld(c));
+	}
+
+	@Override
+	public void setRotation(double rotation) {
+		// transform the vertex points to the shape space
+		Point a = this.transformPointToShape(this.getPointA());
+		Point b = this.transformPointToShape(this.getPointB());
+		Point c = this.transformPointToShape(this.getPointC());
+
+		// set the rotation
+		super.setRotation(rotation);
+
+		// transform the vertex points back to world space
+		this.setPointA(this.transformPointToWorld(a));
+		this.setPointB(this.transformPointToWorld(b));
+		this.setPointC(this.transformPointToWorld(c));
 	}
 
 	@Override

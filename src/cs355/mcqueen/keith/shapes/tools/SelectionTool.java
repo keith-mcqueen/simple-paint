@@ -45,9 +45,10 @@ public class SelectionTool extends ShapeTool<SelectedShape> {
 		// clear the active handle
 		this.activeHandle = null;
 
-		// have the model return the shape (if any) where the mouse clicked
+		// have the model return the shape (if any) where the mouse was clicked
 		double scaleFactor = 1.0;
-		Shape shapeAtLocation = Shapes.getInstance().getShapeAt(new Point(e.getX(), e.getY()), scaleFactor);
+		Shape shapeAtLocation =
+				Shapes.getInstance().getShapeAt(new Point(e.getX(), e.getY()), scaleFactor);
 		SelectedShape selectedShape = getSelectedShape(shapeAtLocation);
 
 		this.setShape(selectedShape);

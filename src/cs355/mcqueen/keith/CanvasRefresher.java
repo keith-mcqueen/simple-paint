@@ -5,18 +5,19 @@ import cs355.mcqueen.keith.shapes.Shape;
 import cs355.mcqueen.keith.shapes.Shapes;
 import cs355.mcqueen.keith.shapes.painting.ShapePainter;
 
-import java.awt.Graphics2D;
+import java.awt.*;
 
 import static cs355.mcqueen.keith.shapes.painting.ShapePainter.Factory.getPainterForShape;
 
 
 /**
+ * The <code>CanvasRefresher</code> class causes all shapes to be repainted.
+ *
  * Created by keith on 5/2/14.
  */
 public class CanvasRefresher implements ViewRefresher {
 	@Override
 	public void refreshView(Graphics2D g2d) {
-		// paint the shapes
 		for (Shape shape : Shapes.getInstance()) {
 			ShapePainter painter = getPainterForShape(shape.getClass());
 			if (null != painter) {
