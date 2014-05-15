@@ -1,6 +1,8 @@
 package cs355.mcqueen.keith.shapes;
 
-import static cs355.mcqueen.keith.shapes.Size.*;
+import static cs355.mcqueen.keith.shapes.Point.X;
+import static cs355.mcqueen.keith.shapes.Point.Y;
+import static cs355.mcqueen.keith.shapes.Size.HEIGHT;
 import static cs355.mcqueen.keith.shapes.Size.WIDTH;
 import static java.lang.Math.pow;
 
@@ -15,10 +17,10 @@ public class Ellipse extends Rectangle {
 	}
 
 	@Override
-	protected boolean doesContain(double x, double y, double scaleFactor) {
+	protected boolean doesContain(Point p, double scaleFactor) {
 		// let the super check the bounding box, if that fails, then there is no need to
-		// ckeck any further
-		if (false == super.doesContain(x, y, scaleFactor)) {
+		// check any further
+		if (!super.doesContain(p, scaleFactor)) {
 			return false;
 		}
 
@@ -28,6 +30,6 @@ public class Ellipse extends Rectangle {
 		double halfWidth = mySize.getLength(WIDTH) / 2.0d;
 		double halfHeight = mySize.getLength(HEIGHT) / 2.0d;
 
-		return  pow(x / halfWidth, 2) + pow(y / halfHeight, 2) <= 1;
+		return pow(p.getCoordinate(X) / halfWidth, 2) + pow(p.getCoordinate(Y) / halfHeight, 2) <= 1;
 	}
 }

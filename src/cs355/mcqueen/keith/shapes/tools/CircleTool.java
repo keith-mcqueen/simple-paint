@@ -7,6 +7,8 @@ import cs355.mcqueen.keith.shapes.Size;
 import java.awt.*;
 
 /**
+ * The <code>CircleTool</code> creates circles in a 2-dimensional context.
+ *
  * Created by keith on 5/3/14.
  */
 public class CircleTool extends SquareTool {

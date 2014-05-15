@@ -14,6 +14,7 @@ import java.awt.*;
 public class LinePainter extends AbstractBaseShapePainter<Line> {
 	@Override
 	public void doPaint(Line shape, Graphics2D g2d) {
-		g2d.drawLine(0, 0, (int) shape.getLength(), 0);
+		g2d.setStroke(new BasicStroke(2.0f));
+		g2d.drawLine(0, -3, (int) shape.getLength(), -3);
 	}
 }

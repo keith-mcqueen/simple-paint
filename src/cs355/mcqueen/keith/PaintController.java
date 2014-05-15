@@ -3,6 +3,8 @@ package cs355.mcqueen.keith;
 import cs355.CS355Controller;
 import cs355.GUIFunctions;
 import cs355.ViewRefresher;
+import cs355.mcqueen.keith.shapes.Shape;
+import cs355.mcqueen.keith.shapes.Shapes;
 import cs355.mcqueen.keith.shapes.tools.*;
 
 import java.awt.*;
@@ -13,13 +15,14 @@ import java.awt.image.BufferedImage;
 import java.util.Iterator;
 
 import static cs355.GUIFunctions.changeSelectedColor;
+import static cs355.GUIFunctions.refresh;
 
 /**
- * The {@code PaintController} class implements the {@link CS355Controller} interface.
- * It also implements the {@link MouseListener} and {@link MouseMotionListener} interfaces.
- * One instance of this class should be created and passed to the
- * {@link GUIFunctions#createCS355Frame(CS355Controller, ViewRefresher, MouseListener, MouseMotionListener)} method.
- *
+ * The {@code PaintController} class implements the {@link CS355Controller} interface. It also implements the {@link
+ * MouseListener} and {@link MouseMotionListener} interfaces. One instance of this class should be created and passed to
+ * the {@link GUIFunctions#createCS355Frame(CS355Controller, ViewRefresher, MouseListener, MouseMotionListener)}
+ * method.
+ * <p>
  * Created by mcqueen on 5/2/14.
  */
 public class PaintController implements CS355Controller, MouseListener, MouseMotionListener {
@@ -37,6 +40,12 @@ public class PaintController implements CS355Controller, MouseListener, MouseMot
 		// if there is an already active tool, update its color
 		if (null != this.activeTool) {
 			this.activeTool.setColor(c);
+		}
+
+		Shape selectedShape = Shapes.getInstance().getSelectedShape();
+		if (null != selectedShape) {
+			selectedShape.setColor(this.activeColor);
+			refresh();
 		}
 	}
 

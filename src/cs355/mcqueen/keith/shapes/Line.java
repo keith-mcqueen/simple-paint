@@ -1,5 +1,8 @@
 package cs355.mcqueen.keith.shapes;
 
+import static cs355.mcqueen.keith.shapes.Point.X;
+import static cs355.mcqueen.keith.shapes.Point.Y;
+
 /**
  * The {@code Line} class represents a line segment in some dimensional space.  The line is
  * defined by a start point and an end point.
@@ -26,7 +29,13 @@ public class Line extends Shape {
 	}
 
 	@Override
-	protected boolean doesContain(double x, double y, double scaleFactor) {
-		return 0 <= x && x <= this.length && Math.abs(y) <= SELECTION_MARGIN;
+	public boolean contains(Point p, double scaleFactor) {
+		return super.contains(p, scaleFactor);
+	}
+
+	@Override
+	protected boolean doesContain(Point p, double scaleFactor) {
+		double x = p.getCoordinate(X);
+		return 0 <= x && x <= this.length && Math.abs(p.getCoordinate(Y)) <= SELECTION_MARGIN;
 	}
 }

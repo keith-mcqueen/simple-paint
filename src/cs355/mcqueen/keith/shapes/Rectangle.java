@@ -1,6 +1,8 @@
 package cs355.mcqueen.keith.shapes;
 
-import static cs355.mcqueen.keith.shapes.Size.*;
+import static cs355.mcqueen.keith.shapes.Point.X;
+import static cs355.mcqueen.keith.shapes.Point.Y;
+import static cs355.mcqueen.keith.shapes.Size.HEIGHT;
 import static cs355.mcqueen.keith.shapes.Size.WIDTH;
 import static java.lang.Math.abs;
 
@@ -29,11 +31,11 @@ public class Rectangle extends Shape {
 	}
 
 	@Override
-	protected boolean doesContain(double x, double y, double scaleFactor) {
+	protected boolean doesContain(Point p, double scaleFactor) {
 		Size mySize = this.getSize();
 		double halfWidth = mySize.getLength(WIDTH) / 2.0d;
 		double halfHeight = mySize.getLength(HEIGHT) / 2.0d;
 
-		return abs(x) <= halfWidth &&	abs(y) <= halfHeight;
+		return abs(p.getCoordinate(X)) <= halfWidth && abs(p.getCoordinate(Y)) <= halfHeight;
 	}
 }

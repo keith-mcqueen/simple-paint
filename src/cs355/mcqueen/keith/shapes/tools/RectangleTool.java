@@ -3,7 +3,7 @@ package cs355.mcqueen.keith.shapes.tools;
 import cs355.mcqueen.keith.shapes.Point;
 import cs355.mcqueen.keith.shapes.Rectangle;
 import cs355.mcqueen.keith.shapes.Shape;
-import cs355.mcqueen.keith.shapes.Size;
+import cs355.mcqueen.keith.shapes.*;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -31,6 +31,9 @@ public class RectangleTool extends ShapeTool<Rectangle> {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
+		// clear the current selection
+		Shapes.getInstance().setSelectedShape(null);
+
 		// save the current location as the original location
 		this.original = new Point(e.getX(), e.getY());
 

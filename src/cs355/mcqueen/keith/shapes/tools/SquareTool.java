@@ -13,6 +13,8 @@ import static cs355.mcqueen.keith.shapes.Size.WIDTH;
 import static java.lang.Math.max;
 
 /**
+ * The <code>SquareTool</code> class creates squares in a 2-dimensional context.
+ *
  * Created by keith on 5/3/14.
  */
 public class SquareTool extends RectangleTool {

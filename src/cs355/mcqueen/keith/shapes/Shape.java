@@ -75,7 +75,7 @@ public abstract class Shape {
 		this.listeners.addIfAbsent(listener);
 	}
 
-	public void removeShapelistener(ShapeListener listener) {
+	public void removeShapeListener(ShapeListener listener) {
 		this.listeners.remove(listener);
 	}
 
@@ -85,17 +85,10 @@ public abstract class Shape {
 		}
 	}
 
-	public boolean contains(double x, double y, double scaleFactor) {
-		// create a point from the given x and y
-		Point2D worldPoint = new Point2D.Double(x, y);
-		Point2D shapePoint = new Point2D.Double();
+	public boolean contains(Point point, double scaleFactor) {
+		Point shapePoint = this.transformPointToShape(point);
 
-		AffineTransform worldToShape = this.getWorldToShapeTransform();
-
-		// transform the point from the world-space to the shape-space
-		worldToShape.transform(worldPoint, shapePoint);
-
-		return this.doesContain(shapePoint.getX(), shapePoint.getY(), scaleFactor);
+		return this.doesContain(shapePoint, scaleFactor);
 	}
 
 	public AffineTransform getWorldToShapeTransform() {
@@ -143,5 +136,5 @@ public abstract class Shape {
 		return new Point(world.getX(), world.getY());
 	}
 
-	protected abstract boolean doesContain(double x, double y, double scaleFactor);
+	protected abstract boolean doesContain(Point p, double scaleFactor);
 }

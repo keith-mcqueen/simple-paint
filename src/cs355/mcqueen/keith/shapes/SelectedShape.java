@@ -1,18 +1,26 @@
 package cs355.mcqueen.keith.shapes;
 
+import cs355.mcqueen.keith.shapes.tools.Handle;
+
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import static cs355.GUIFunctions.refresh;
+import static cs355.mcqueen.keith.shapes.Point.X;
+import static cs355.mcqueen.keith.shapes.Point.Y;
 
 /**
  * The <code>SelectedShape</code> class decorates a given instance of another {@link Shape}.
  *
  * Created by keith on 5/14/14.
  */
-public abstract class SelectedShape<S extends Shape> extends Shape {
+public abstract class SelectedShape<S extends Shape> extends Shape implements Handle {
 	private static final int BOUNDS_OFFSET = 2;
 	private static final int ROTATE_OFFSET = 20;
+	private Point mouseOffset;
 
 	public static final class Factory {
 		public static SelectedShape getSelectedShape(Shape shape) {
@@ -42,7 +50,7 @@ public abstract class SelectedShape<S extends Shape> extends Shape {
 
 	private final S selected;
 	private final List<ResizeHandle> resizeHandles = new ArrayList<>();
-	private final RotateHandle rotateHandle;
+	private RotateHandle rotateHandle;
 
 
 	protected SelectedShape(S shape) {
@@ -51,6 +59,10 @@ public abstract class SelectedShape<S extends Shape> extends Shape {
 		super.setRotation(shape.getRotation());
 		this.selected = shape;
 
+		this.initHandles();
+	}
+
+	private void initHandles() {
 		this.resizeHandles.addAll(this.initResizeHandles(this.selected));
 		this.rotateHandle = this.initRotateHandle(this.selected);
 	}
@@ -63,6 +75,11 @@ public abstract class SelectedShape<S extends Shape> extends Shape {
 	public void setLocation(Point center) {
 		super.setLocation(center);
 		this.selected.setLocation(center);
+
+		// clear the handles and re-init them
+		// TODO - If I could update the handles, that might be better
+		this.clearHandles();
+		this.initHandles();
 	}
 
 	@Override
@@ -87,22 +104,44 @@ public abstract class SelectedShape<S extends Shape> extends Shape {
 	}
 
 	@Override
-	public boolean contains(double x, double y, double scaleFactor) {
+	public boolean contains(Point p, double scaleFactor) {
 		// check the handles
-		if (null != this.rotateHandle && this.rotateHandle.contains(x, y, scaleFactor)) {
+
+		if (null != this.rotateHandle && this.rotateHandle.contains(p, scaleFactor)) {
 			return true;
 		}
 
 		List<ResizeHandle> resizeHandles = this.getResizeHandles();
 		for (ResizeHandle handle : resizeHandles) {
-			if (handle.contains(x, y, scaleFactor)) {
+			if (handle.contains(p, scaleFactor)) {
 				return true;
 			}
 		}
 
-		// for now, just forward this to the internal shape; later we may want to also check
-		//  the resize/rotate handles
-		return this.selected.contains(x, y, scaleFactor);
+		// check the selected shape
+
+		return this.selected.contains(p, scaleFactor);
+	}
+
+	public Shape getShapeAt(Point p, double scaleFactor) {
+		// check the handles
+
+		if (null != this.rotateHandle && this.rotateHandle.contains(p, scaleFactor)) {
+			return this.rotateHandle;
+		}
+
+		List<ResizeHandle> resizeHandles = this.getResizeHandles();
+		for (ResizeHandle handle : resizeHandles) {
+			if (handle.contains(p, scaleFactor)) {
+				return handle;
+			}
+		}
+
+		if (this.selected.contains(p, scaleFactor)) {
+			return this;
+		}
+
+		return null;
 	}
 
 	public int getBoundsOffset() {
@@ -114,7 +153,7 @@ public abstract class SelectedShape<S extends Shape> extends Shape {
 	}
 
 	@Override
-	protected boolean doesContain(double x, double y, double scaleFactor) {
+	protected boolean doesContain(Point p, double scaleFactor) {
 		return false;
 	}
 
@@ -126,8 +165,32 @@ public abstract class SelectedShape<S extends Shape> extends Shape {
 		return this.rotateHandle;
 	}
 
+	private void clearHandles() {
+		this.rotateHandle = null;
+		this.resizeHandles.clear();
+	}
+
 	protected abstract Collection<? extends ResizeHandle> initResizeHandles(S shape);
 
 	protected abstract RotateHandle initRotateHandle(S shape);
 
+	////////////////////////////////////////
+	// Handle implementation
+	////////////////////////////////////////
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		this.mouseOffset = this.transformPointToShape(new Point(e.getX(), e.getY()));
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		Point mouseLoc = this.transformPointToShape(new Point(e.getX(), e.getY()));
+		Point newLocation = this.transformPointToWorld(new Point(mouseLoc.getCoordinate(X) - this.mouseOffset.getCoordinate(X),
+				mouseLoc.getCoordinate(Y) - this.mouseOffset.getCoordinate(Y)));
+
+		this.setLocation(newLocation);
+
+		refresh();
+	}
 }

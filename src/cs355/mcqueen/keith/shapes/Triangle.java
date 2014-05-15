@@ -13,6 +13,22 @@ public class Triangle extends Shape {
 	private Point pointB;
 	private Point pointC;
 
+	@Override
+	public void setLocation(Point location) {
+		// transform the vertex points to the shape space
+		Point a = this.transformPointToShape(this.getPointA());
+		Point b = this.transformPointToShape(this.getPointB());
+		Point c = this.transformPointToShape(this.getPointC());
+
+		// set the location
+		super.setLocation(location);
+
+		// transform the vertex points back to world space
+		this.setPointA(this.transformPointToWorld(a));
+		this.setPointB(this.transformPointToWorld(b));
+		this.setPointC(this.transformPointToWorld(c));
+	}
+
 	public Triangle(Point center, Point a, Point b, Point c) {
 		super(center);
 
@@ -40,17 +56,27 @@ public class Triangle extends Shape {
 		return pointC;
 	}
 
-	@Override
-	protected boolean doesContain(double x, double y, double scaleFactor) {
-		Point loc = new Point(x, y);
+	public void setPointA(Point pointA) {
+		this.pointA = pointA;
+	}
 
+	public void setPointB(Point pointB) {
+		this.pointB = pointB;
+	}
+
+	public void setPointC(Point pointC) {
+		this.pointC = pointC;
+	}
+
+	@Override
+	protected boolean doesContain(Point p, double scaleFactor) {
 		Point a = this.transformPointToShape(this.getPointA());
 		Point b = this.transformPointToShape(this.getPointB());
 		Point c = this.transformPointToShape(this.getPointC());
 
-		return dotProduct(loc, a, b) > 0
-				&& dotProduct(loc, b, c) > 0
-				&& dotProduct(loc, c, a) > 0;
+		return dotProduct(p, a, b) > 0
+				&& dotProduct(p, b, c) > 0
+				&& dotProduct(p, c, a) > 0;
 	}
 
 	private static double dotProduct(Point a, Point b, Point c) {

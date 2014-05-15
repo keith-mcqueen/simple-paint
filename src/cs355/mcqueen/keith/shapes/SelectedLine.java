@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import static cs355.mcqueen.keith.shapes.Point.X;
-import static cs355.mcqueen.keith.shapes.Point.Y;
+import static cs355.mcqueen.keith.shapes.Size.HEIGHT;
 
 /**
  * The <code>SelectedLine</code> class decorates an instance of {@link Line}.
@@ -30,14 +30,14 @@ public class SelectedLine extends SelectedShape<Line> {
 
 		// left handle
 		// compute the location of the handle in shape space, then transform it back to world space
-		Point handleLoc = new Point(loc.getCoordinate(X) - offset, loc.getCoordinate(Y));
+		Point handleLoc = new Point(loc.getCoordinate(X) - offset, -(handleSize.getLength(HEIGHT) / 2));
 		ResizeHandle handle = new ResizeHandle(this.transformPointToWorld(handleLoc), handleSize);
 		handle.setRotation(shape.getRotation());
 		handles.add(handle);
 
 		// right handle
 		// compute the location of the handle in shape space, then transform it back to world space
-		handleLoc = new Point(loc.getCoordinate(X) + shape.getLength() + offset, loc.getCoordinate(Y));
+		handleLoc = new Point(loc.getCoordinate(X) + shape.getLength() + offset, -(handleSize.getLength(HEIGHT) / 2));
 		handle = new ResizeHandle(this.transformPointToWorld(handleLoc), handleSize);
 		handle.setRotation(shape.getRotation());
 		handles.add(handle);
