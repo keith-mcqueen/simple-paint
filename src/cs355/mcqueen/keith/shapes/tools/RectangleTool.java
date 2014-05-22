@@ -52,30 +52,37 @@ public class RectangleTool extends ShapeTool<Rectangle> {
 	}
 
 	public void updateRectangle(MouseEvent e, Point fixedPoint, Rectangle rectangle) {
-		Point centerLoc = calculateRectangleLocation(e, fixedPoint);
-		Size rectSize = calculateRectangleSize(e, fixedPoint);
+		Point rectLoc = calculateRectangleLocation(e, fixedPoint, rectangle);
+		Size rectSize = calculateRectangleSize(e, fixedPoint, rectangle);
 
-		rectangle.setLocation(centerLoc);
+		rectangle.setLocation(rectLoc);
 		rectangle.setSize(rectSize);
 
-		// notify that the shape has changed
 		rectangle.changed();
 	}
 
-	public Size calculateRectangleSize(MouseEvent e, Point fixedPoint) {
+	protected Size calculateRectangleSize(MouseEvent e, Point fixedPoint, Rectangle rectangle) {
+		Point tFixedPoint = rectangle.transformPointToShape(fixedPoint);
+		Point tMouseLoc = rectangle.transformPointToShape(new Point(e.getX(), e.getY()));
+
 		// the size of the rectangle is the difference between the X's and Y's
-		return new Size(abs(fixedPoint.getCoordinate(X) - e.getX()),
-				abs(fixedPoint.getCoordinate(Y) - e.getY()));
+		return new Size(abs(tFixedPoint.getCoordinate(X) - tMouseLoc.getCoordinate(X)),
+				abs(tFixedPoint.getCoordinate(Y) - tMouseLoc.getCoordinate(Y)));
 	}
 
-	public Point calculateRectangleLocation(MouseEvent e, Point fixedPoint) {
+	protected Point calculateRectangleLocation(MouseEvent e, Point fixedPoint, Rectangle rectangle) {
+		Point tFixedPoint = rectangle.transformPointToShape(fixedPoint);
+		Point tMouseLoc = rectangle.transformPointToShape(new Point(e.getX(), e.getY()));
+
 		// get the difference between the new point and the fixed point
-		Size diff = new Size(e.getX() - fixedPoint.getCoordinate(X),
-				e.getY() - fixedPoint.getCoordinate(Y));
+		Size diff = new Size(tMouseLoc.getCoordinate(X) - tFixedPoint.getCoordinate(X),
+				tMouseLoc.getCoordinate(Y) - tFixedPoint.getCoordinate(Y));
 
 		// the center of the rectangle is located at the fixed point plus half the
 		// difference to the new point
-		return new Point(fixedPoint.getCoordinate(X) + diff.getLength(WIDTH) / 2,
-				fixedPoint.getCoordinate(Y) + diff.getLength(HEIGHT) / 2);
+		Point rectLoc = new Point(tFixedPoint.getCoordinate(X) + diff.getLength(WIDTH) / 2,
+				tFixedPoint.getCoordinate(Y) + diff.getLength(HEIGHT) / 2);
+
+		return rectangle.transformPointToWorld(rectLoc);
 	}
 }

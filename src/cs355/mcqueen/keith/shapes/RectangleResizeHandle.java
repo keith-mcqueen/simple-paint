@@ -76,12 +76,12 @@ public class RectangleResizeHandle extends ResizeHandle<Rectangle> {
 			this.heightFactor = heightFactor;
 		}
 
-		private final Point getLocation(Rectangle rectangle) {
-			Point rectCenter = rectangle.getLocation();
+		private Point getLocation(Rectangle rectangle) {
+			Point rectCenter = rectangle.transformPointToShape(rectangle.getLocation());
 			Size rectSize = rectangle.getSize();
 
-			return new Point(rectCenter.getCoordinate(X) + (this.widthFactor * (rectSize.getLength(WIDTH) / 2.0)),
-					rectCenter.getCoordinate(Y) - (this.heightFactor * (rectSize.getLength(HEIGHT) / 2.0)));
+			return rectangle.transformPointToWorld(new Point(rectCenter.getCoordinate(X) + (this.widthFactor * (rectSize.getLength(WIDTH) / 2.0)),
+					rectCenter.getCoordinate(Y) - (this.heightFactor * (rectSize.getLength(HEIGHT) / 2.0))));
 		}
 
 		protected Corner getOpposite() {

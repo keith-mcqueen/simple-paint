@@ -1,6 +1,7 @@
 package cs355.mcqueen.keith.shapes.tools;
 
 import cs355.mcqueen.keith.shapes.Point;
+import cs355.mcqueen.keith.shapes.Rectangle;
 import cs355.mcqueen.keith.shapes.Size;
 
 import java.awt.*;
@@ -23,9 +24,9 @@ public class SquareTool extends RectangleTool {
 	}
 
 	@Override
-	public Size calculateRectangleSize(MouseEvent e, Point fixedPoint) {
+	protected Size calculateRectangleSize(MouseEvent e, Point fixedPoint, Rectangle rectangle) {
 		// let the super first calculate the rectangle size
-		Size newSize = super.calculateRectangleSize(e, fixedPoint);
+		Size newSize = super.calculateRectangleSize(e, fixedPoint, rectangle);
 
 		// pick the greater of the sides
 		double greater = max(newSize.getLength(WIDTH), newSize.getLength(HEIGHT));
@@ -33,10 +34,13 @@ public class SquareTool extends RectangleTool {
 		return new Size(greater, greater);
 	}
 
-	public Point calculateRectangleLocation(MouseEvent e, Point fixedPoint) {
+	protected Point calculateRectangleLocation(MouseEvent e, Point fixedPoint, Rectangle rectangle) {
+		Point tFixedPoint = rectangle.transformPointToShape(fixedPoint);
+		Point tMouseLoc = rectangle.transformPointToShape(new Point(e.getX(), e.getY()));
+
 		// get the difference between the new point and the fixed point
-		Size diff = new Size(e.getX() - fixedPoint.getCoordinate(X),
-				e.getY() - fixedPoint.getCoordinate(Y));
+		Size diff = new Size(tMouseLoc.getCoordinate(X) - tFixedPoint.getCoordinate(X),
+				tMouseLoc.getCoordinate(Y) - tFixedPoint.getCoordinate(Y));
 
 		double width = diff.getLength(WIDTH);
 		double height = diff.getLength(HEIGHT);
@@ -47,7 +51,11 @@ public class SquareTool extends RectangleTool {
 			width = copySign(height, width);
 		}
 
-		return new Point(fixedPoint.getCoordinate(X) + width / 2,
-				fixedPoint.getCoordinate(Y) + height / 2);
+		// the center of the rectangle is located at the fixed point plus half the
+		// difference to the new point
+		Point rectLoc = new Point(tFixedPoint.getCoordinate(X) + width / 2,
+				tFixedPoint.getCoordinate(Y) + height / 2);
+
+		return rectangle.transformPointToWorld(rectLoc);
 	}
 }
