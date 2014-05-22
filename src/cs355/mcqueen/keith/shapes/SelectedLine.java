@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import static cs355.mcqueen.keith.shapes.Point.X;
+import static cs355.mcqueen.keith.shapes.LineResizeHandle.Endpoints.END;
+import static cs355.mcqueen.keith.shapes.LineResizeHandle.Endpoints.START;
 import static cs355.mcqueen.keith.shapes.Size.HEIGHT;
 
 /**
@@ -18,28 +19,32 @@ public class SelectedLine extends SelectedShape<Line> {
 	}
 
 	@Override
-	public Collection<? extends ResizeHandle> initResizeHandles(Line shape) {
+	public Collection<? extends ResizeHandle> initResizeHandles(Line line) {
 		List<ResizeHandle> handles = new ArrayList<>(2);
-
-		// transform the shape's location from world space to shape space
-		Point loc = this.transformPointToShape(shape.getLocation());
 
 		// the handles will be offset and sized by the bounds offset
 		int offset = this.getBoundsOffset();
 		Size handleSize = new Size(offset * 4, offset * 4);
 
+		Point handleLoc;
+		ResizeHandle handle;
+
 		// left handle
-		// compute the location of the handle in shape space, then transform it back to world space
-		Point handleLoc = new Point(loc.getCoordinate(X) - offset, -(handleSize.getLength(HEIGHT) / 2));
-		ResizeHandle handle = new ResizeHandle(this.transformPointToWorld(handleLoc), handleSize);
-		handle.setRotation(shape.getRotation());
+		// compute the location of the handle in line space, then transform it back to world space
+		handleLoc = new Point(0 - offset,
+				-(handleSize.getLength(HEIGHT) / 2));
+		handle = new LineResizeHandle(line.transformPointToWorld(handleLoc),
+				handleSize, line, START);
+		handle.setRotation(line.getRotation());
 		handles.add(handle);
 
 		// right handle
-		// compute the location of the handle in shape space, then transform it back to world space
-		handleLoc = new Point(loc.getCoordinate(X) + shape.getLength() + offset, -(handleSize.getLength(HEIGHT) / 2));
-		handle = new ResizeHandle(this.transformPointToWorld(handleLoc), handleSize);
-		handle.setRotation(shape.getRotation());
+		// compute the location of the handle in line space, then transform it back to world space
+		handleLoc = new Point(0 + line.getLength() + offset,
+				-(handleSize.getLength(HEIGHT) / 2));
+		handle = new LineResizeHandle(line.transformPointToWorld(handleLoc),
+				handleSize, line, END);
+		handle.setRotation(line.getRotation());
 		handles.add(handle);
 
 		return handles;

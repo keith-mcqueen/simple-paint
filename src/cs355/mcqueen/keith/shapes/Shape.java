@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static cs355.mcqueen.keith.shapes.Point.X;
@@ -23,6 +25,7 @@ public abstract class Shape {
 	private Color color;
 	private Point location;
 	private double rotation;
+	private Map<Object, Object> userObjects = new HashMap<>();
 
 	protected Shape(Point location) {
 		this.location = location;
@@ -89,7 +92,7 @@ public abstract class Shape {
 		this.listeners.remove(listener);
 	}
 
-	protected void changed() {
+	public void changed() {
 		for (ShapeListener listener : this.listeners) {
 			listener.shapeChanged(this);
 		}
@@ -144,6 +147,18 @@ public abstract class Shape {
 		s2w.transform(shape, world);
 
 		return new Point(world.getX(), world.getY());
+	}
+
+	public void setUserObject(Object key, Object value) {
+		if (null == value) {
+			this.userObjects.remove(key);
+		} else {
+			this.userObjects.put(key, value);
+		}
+	}
+
+	public Object getUserObject(Object key) {
+		return this.userObjects.get(key);
 	}
 
 	protected abstract boolean doesContain(Point p, double scaleFactor);

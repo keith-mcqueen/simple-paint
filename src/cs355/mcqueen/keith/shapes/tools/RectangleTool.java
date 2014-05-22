@@ -2,16 +2,17 @@ package cs355.mcqueen.keith.shapes.tools;
 
 import cs355.mcqueen.keith.shapes.Point;
 import cs355.mcqueen.keith.shapes.Rectangle;
-import cs355.mcqueen.keith.shapes.Shape;
-import cs355.mcqueen.keith.shapes.*;
+import cs355.mcqueen.keith.shapes.Shapes;
+import cs355.mcqueen.keith.shapes.Size;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
 import static cs355.mcqueen.keith.shapes.Point.X;
 import static cs355.mcqueen.keith.shapes.Point.Y;
+import static cs355.mcqueen.keith.shapes.Size.HEIGHT;
+import static cs355.mcqueen.keith.shapes.Size.WIDTH;
 import static java.lang.Math.abs;
-import static java.lang.Math.min;
 
 /**
  * The <code>RectangleTool</code> is used to create {@link Rectangle} instances drawn on a 2-dimensional canvas.
@@ -47,40 +48,34 @@ public class RectangleTool extends ShapeTool<Rectangle> {
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		Rectangle rectangle = this.getShape();
-		if (null != rectangle) {
-			Point cornerLoc = this.calculateRectangleLocation(e);
-			Size rectSize = this.calculateRectangleSize(e);
-
-			Point centerLoc = new Point(cornerLoc.getCoordinate(X) + rectSize.getLength(Size.WIDTH) / 2.0d,
-					cornerLoc.getCoordinate(Y) + rectSize.getLength(Size.HEIGHT) / 2.0d);
-
-			rectangle.setLocation(centerLoc);
-			rectangle.setSize(rectSize);
-
-			// notify that the shape has changed
-			super.shapeChanged(rectangle);
-		}
+		this.updateRectangle(e, this.getOriginal(), this.getShape());
 	}
 
-	protected Size calculateRectangleSize(MouseEvent e) {
-		Point origin = this.getOriginal();
+	public void updateRectangle(MouseEvent e, Point fixedPoint, Rectangle rectangle) {
+		Point centerLoc = calculateRectangleLocation(e, fixedPoint);
+		Size rectSize = calculateRectangleSize(e, fixedPoint);
 
+		rectangle.setLocation(centerLoc);
+		rectangle.setSize(rectSize);
+
+		// notify that the shape has changed
+		rectangle.changed();
+	}
+
+	public Size calculateRectangleSize(MouseEvent e, Point fixedPoint) {
 		// the size of the rectangle is the difference between the X's and Y's
-		return new Size(abs(origin.getCoordinate(X) - e.getX()),
-				abs(origin.getCoordinate(Y) - e.getY()));
+		return new Size(abs(fixedPoint.getCoordinate(X) - e.getX()),
+				abs(fixedPoint.getCoordinate(Y) - e.getY()));
 	}
 
-	protected Point calculateRectangleLocation(MouseEvent e) {
-		Point origin = this.getOriginal();
+	public Point calculateRectangleLocation(MouseEvent e, Point fixedPoint) {
+		// get the difference between the new point and the fixed point
+		Size diff = new Size(e.getX() - fixedPoint.getCoordinate(X),
+				e.getY() - fixedPoint.getCoordinate(Y));
 
-		// the (upper left corner of the) rectangle will be located at the point with the lower X and Y values
-		return new Point(min(origin.getCoordinate(X), e.getX()),
-				min(origin.getCoordinate(Y), e.getY()));
-	}
-
-	@Override
-	public void shapeChanged(Shape shape) {
-		// do nothing
+		// the center of the rectangle is located at the fixed point plus half the
+		// difference to the new point
+		return new Point(fixedPoint.getCoordinate(X) + diff.getLength(WIDTH) / 2,
+				fixedPoint.getCoordinate(Y) + diff.getLength(HEIGHT) / 2);
 	}
 }

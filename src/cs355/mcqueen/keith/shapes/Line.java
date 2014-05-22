@@ -28,6 +28,13 @@ public class Line extends Shape {
 		this.length = length;
 	}
 
+	public Point getEnd() {
+		Point start = this.transformPointToShape(this.getLocation());
+		Point end = new Point(start.getCoordinate(X) + this.getLength(), 0);
+
+		return this.transformPointToWorld(end);
+	}
+
 	@Override
 	public boolean contains(Point p, double scaleFactor) {
 		return super.contains(p, scaleFactor);

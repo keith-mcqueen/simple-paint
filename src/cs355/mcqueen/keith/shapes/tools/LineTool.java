@@ -45,7 +45,7 @@ public class LineTool extends ShapeTool<Line> {
 			line.setLength(length);
 			line.setRotation(rotation);
 
-			this.shapeChanged(line);
+			line.changed();
 		}
 	}
 }

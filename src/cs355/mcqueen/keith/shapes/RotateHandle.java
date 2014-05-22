@@ -18,7 +18,7 @@ public class RotateHandle extends Ellipse implements Handle {
 	private final Shape shapeToRotate;
 	private Point oldLoc;
 
-	public RotateHandle(Shape shape, Point location, Size size) {
+	public RotateHandle(Point location, Size size, Shape shape) {
 		super(location, size);
 
 		this.shapeToRotate = shape;
@@ -41,6 +41,7 @@ public class RotateHandle extends Ellipse implements Handle {
 		double theta = Math.atan2(a_cross_b, a_dot_b);
 
 		this.shapeToRotate.setRotation(this.shapeToRotate.getRotation() + theta);
+		this.shapeToRotate.changed();
 
 		// save the new location for next time to do a differential angle measurement
 		this.oldLoc = newLoc;

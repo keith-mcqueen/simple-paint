@@ -10,11 +10,11 @@ import static cs355.mcqueen.keith.shapes.Point.X;
 import static cs355.mcqueen.keith.shapes.Point.Y;
 import static cs355.mcqueen.keith.shapes.Size.HEIGHT;
 import static cs355.mcqueen.keith.shapes.Size.WIDTH;
-import static java.lang.Math.max;
+import static java.lang.Math.*;
 
 /**
  * The <code>SquareTool</code> class creates squares in a 2-dimensional context.
- *
+ * <p>
  * Created by keith on 5/3/14.
  */
 public class SquareTool extends RectangleTool {
@@ -23,26 +23,31 @@ public class SquareTool extends RectangleTool {
 	}
 
 	@Override
-	protected Size calculateRectangleSize(MouseEvent e) {
-		Size newSize = super.calculateRectangleSize(e);
+	public Size calculateRectangleSize(MouseEvent e, Point fixedPoint) {
+		// let the super first calculate the rectangle size
+		Size newSize = super.calculateRectangleSize(e, fixedPoint);
 
+		// pick the greater of the sides
 		double greater = max(newSize.getLength(WIDTH), newSize.getLength(HEIGHT));
 
 		return new Size(greater, greater);
 	}
 
-	protected Point calculateRectangleLocation(MouseEvent e) {
-		// get the location of the original click
-		Point origin = this.getOriginal();
-		double originX = origin.getCoordinate(X);
-		double originY = origin.getCoordinate(Y);
+	public Point calculateRectangleLocation(MouseEvent e, Point fixedPoint) {
+		// get the difference between the new point and the fixed point
+		Size diff = new Size(e.getX() - fixedPoint.getCoordinate(X),
+				e.getY() - fixedPoint.getCoordinate(Y));
 
-		Size size = this.calculateRectangleSize(e);
+		double width = diff.getLength(WIDTH);
+		double height = diff.getLength(HEIGHT);
 
-		// if e.x >= origin.X, then keep origin.x
-		double locX = e.getX() < originX ? originX - size.getLength(WIDTH) : originX;
-		double locY = e.getY() < originY ? originY - size.getLength(WIDTH) : originY;
+		if (abs(width) > abs(height)) {
+			height = copySign(width, height);
+		} else {
+			width = copySign(height, width);
+		}
 
-		return new Point(locX, locY);
+		return new Point(fixedPoint.getCoordinate(X) + width / 2,
+				fixedPoint.getCoordinate(Y) + height / 2);
 	}
 }

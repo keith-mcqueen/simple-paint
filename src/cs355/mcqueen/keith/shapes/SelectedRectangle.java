@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static cs355.mcqueen.keith.shapes.RectangleResizeHandle.Corner.*;
 import static cs355.mcqueen.keith.shapes.Size.HEIGHT;
 import static cs355.mcqueen.keith.shapes.Size.WIDTH;
 
@@ -39,25 +40,29 @@ public class SelectedRectangle extends SelectedShape<Rectangle> {
 
 		// northwest corner
 		handleLoc = new Point(_NW_x - offset, _NW_y - offset);
-		handle = new ResizeHandle(this.transformPointToWorld(handleLoc), handleSize);
+		handle = new RectangleResizeHandle(shape.transformPointToWorld(handleLoc),
+				handleSize, shape, NORTHWEST);
 		handle.setRotation(shape.getRotation());
 		handles.add(handle);
 
 		// northeast corner
 		handleLoc = new Point(_NW_x + width + offset, _NW_y - offset);
-		handle = new ResizeHandle(this.transformPointToWorld(handleLoc), handleSize);
+		handle = new RectangleResizeHandle(shape.transformPointToWorld(handleLoc),
+				handleSize, shape, NORTHEAST);
 		handle.setRotation(shape.getRotation());
 		handles.add(handle);
 
 		// southeast corner
 		handleLoc = new Point(_NW_x + width + offset, _NW_y + height + offset);
-		handle = new ResizeHandle(this.transformPointToWorld(handleLoc), handleSize);
+		handle = new RectangleResizeHandle(shape.transformPointToWorld(handleLoc),
+				handleSize, shape, SOUTHEAST);
 		handle.setRotation(shape.getRotation());
 		handles.add(handle);
 
 		// southwest corner
 		handleLoc = new Point(_NW_x - offset, _NW_y + height + offset);
-		handle = new ResizeHandle(this.transformPointToWorld(handleLoc), handleSize);
+		handle = new RectangleResizeHandle(shape.transformPointToWorld(handleLoc),
+				handleSize, shape, SOUTHWEST);
 		handle.setRotation(shape.getRotation());
 		handles.add(handle);
 
@@ -82,7 +87,7 @@ public class SelectedRectangle extends SelectedShape<Rectangle> {
 		// northeast corner
 		double theta = Math.PI / 4.0d;
 		Point handleLoc = new Point(_NW_x + width + (offset * Math.cos(theta)), _NW_y - (offset * Math.sin(theta)));
-		RotateHandle handle = new RotateHandle(this, this.transformPointToWorld(handleLoc), handleSize);
+		RotateHandle handle = new RotateHandle(shape.transformPointToWorld(handleLoc), handleSize, shape);
 		handle.setRotation(shape.getRotation());
 
 		return handle;

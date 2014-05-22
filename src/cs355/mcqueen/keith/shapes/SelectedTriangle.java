@@ -6,6 +6,7 @@ import java.util.List;
 
 import static cs355.mcqueen.keith.shapes.Point.X;
 import static cs355.mcqueen.keith.shapes.Point.Y;
+import static cs355.mcqueen.keith.shapes.Triangle.Points.*;
 import static java.lang.Math.*;
 
 /**
@@ -35,7 +36,8 @@ public class SelectedTriangle extends SelectedShape<Triangle> {
 		y = loc.getCoordinate(Y);
 		theta = atan2(y, x);
 		handleLoc = new Point(x + (offset * cos(theta)), y + (offset * sin(theta)));
-		handle = new ResizeHandle(this.transformPointToWorld(handleLoc), handleSize);
+		handle = new TriangleResizeHandle(this.transformPointToWorld(handleLoc),
+				handleSize, shape, A);
 		handle.setRotation(shape.getRotation());
 		handles.add(handle);
 
@@ -45,7 +47,8 @@ public class SelectedTriangle extends SelectedShape<Triangle> {
 		y = loc.getCoordinate(Y);
 		theta = atan2(y, x);
 		handleLoc = new Point(x + (offset * cos(theta)), y + (offset * sin(theta)));
-		handle = new ResizeHandle(this.transformPointToWorld(handleLoc), handleSize);
+		handle = new TriangleResizeHandle(this.transformPointToWorld(handleLoc),
+				handleSize, shape, B);
 		handle.setRotation(shape.getRotation());
 		handles.add(handle);
 
@@ -55,7 +58,8 @@ public class SelectedTriangle extends SelectedShape<Triangle> {
 		y = loc.getCoordinate(Y);
 		theta = atan2(y, x);
 		handleLoc = new Point(x + (offset * cos(theta)), y + (offset * sin(theta)));
-		handle = new ResizeHandle(this.transformPointToWorld(handleLoc), handleSize);
+		handle = new TriangleResizeHandle(this.transformPointToWorld(handleLoc),
+				handleSize, shape, C);
 		handle.setRotation(shape.getRotation());
 		handles.add(handle);
 
@@ -63,18 +67,19 @@ public class SelectedTriangle extends SelectedShape<Triangle> {
 	}
 
 	@Override
-	protected RotateHandle initRotateHandle(Triangle shape) {
+	protected RotateHandle initRotateHandle(Triangle triangle) {
 		int offset = this.getRotateOffset();
 		int boundsOffset = this.getBoundsOffset();
 		Size handleSize = new Size(boundsOffset * 6, boundsOffset * 6);
 
-		Point c = this.transformPointToShape(shape.getPointC());
+		Point c = triangle.transformPointToShape(triangle.getPointC());
 		double x = c.getCoordinate(X);
 		double y = c.getCoordinate(Y);
 		double theta = atan2(y, x);
 		Point handleLoc = new Point(x + (offset * cos(theta)), y + (offset * sin(theta)));
-		RotateHandle handle = new RotateHandle(this, shape.transformPointToWorld(handleLoc), handleSize);
-		handle.setRotation(shape.getRotation());
+		RotateHandle handle = new RotateHandle(triangle.transformPointToWorld(handleLoc),
+				handleSize, triangle);
+		handle.setRotation(triangle.getRotation());
 
 		return handle;
 	}

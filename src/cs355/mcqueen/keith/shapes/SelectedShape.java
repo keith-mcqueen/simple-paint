@@ -17,7 +17,7 @@ import static cs355.mcqueen.keith.shapes.Point.Y;
  *
  * Created by keith on 5/14/14.
  */
-public abstract class SelectedShape<S extends Shape> extends Shape implements Handle {
+public abstract class SelectedShape<S extends Shape> extends Shape implements Handle, ShapeListener {
 	private static final int BOUNDS_OFFSET = 2;
 	private static final int ROTATE_OFFSET = 20;
 	private Point mouseOffset;
@@ -56,8 +56,8 @@ public abstract class SelectedShape<S extends Shape> extends Shape implements Ha
 	protected SelectedShape(S shape) {
 		super(shape.getLocation());
 
-		//super.setRotation(shape.getRotation());
 		this.selected = shape;
+		this.selected.addShapeListener(this);
 
 		this.initHandles();
 	}
@@ -75,11 +75,6 @@ public abstract class SelectedShape<S extends Shape> extends Shape implements Ha
 	public void setLocation(Point center) {
 		super.setLocation(center);
 		this.selected.setLocation(center);
-
-		// clear the handles and re-init them
-		// TODO - If I could update the handles, that might be better
-		this.clearHandles();
-		this.initHandles();
 	}
 
 	@Override
@@ -91,11 +86,6 @@ public abstract class SelectedShape<S extends Shape> extends Shape implements Ha
 	public void setRotation(double rotation) {
 		super.setRotation(rotation);
 		this.selected.setRotation(rotation);
-
-		// clear the handles and re-init them
-		// TODO - If I could update the handles, that might be better
-		this.clearHandles();
-		this.initHandles();
 	}
 
 	@Override
@@ -175,6 +165,12 @@ public abstract class SelectedShape<S extends Shape> extends Shape implements Ha
 		this.resizeHandles.clear();
 	}
 
+	@Override
+	public void shapeChanged(Shape shape) {
+		this.clearHandles();
+		this.initHandles();
+	}
+
 	protected abstract Collection<? extends ResizeHandle> initResizeHandles(S shape);
 
 	protected abstract RotateHandle initRotateHandle(S shape);
@@ -185,16 +181,21 @@ public abstract class SelectedShape<S extends Shape> extends Shape implements Ha
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		this.mouseOffset = this.transformPointToShape(new Point(e.getX(), e.getY()));
+		Shape myShape = this.getShape();
+
+		this.mouseOffset = myShape.transformPointToShape(new Point(e.getX(), e.getY()));
 	}
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
+		Shape myShape = this.getShape();
+
 		Point mouseLoc = this.transformPointToShape(new Point(e.getX(), e.getY()));
 		Point newLocation = this.transformPointToWorld(new Point(mouseLoc.getCoordinate(X) - this.mouseOffset.getCoordinate(X),
 				mouseLoc.getCoordinate(Y) - this.mouseOffset.getCoordinate(Y)));
 
 		this.setLocation(newLocation);
+		myShape.changed();
 
 		refresh();
 	}
