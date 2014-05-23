@@ -8,6 +8,7 @@ import cs355.mcqueen.keith.shapes.SelectedShape;
 import java.awt.*;
 import java.util.List;
 
+import static cs355.mcqueen.keith.Transformations.transformPointToShapeCoordinates;
 import static cs355.mcqueen.keith.shapes.Point.X;
 import static cs355.mcqueen.keith.shapes.Point.Y;
 import static cs355.mcqueen.keith.shapes.painting.ShapePainter.Factory.getPainterForShape;
@@ -59,7 +60,7 @@ public class SelectedShapePainter<S extends SelectedShape> extends AbstractBaseS
 		int[] yCoords = new int[handles.size()];
 		for (int i = 0; i < yCoords.length; i++) {
 			ResizeHandle handle = handles.get(i);
-			Point handleLoc = shape.transformPointToShape(handle.getLocation());
+			Point handleLoc = transformPointToShapeCoordinates(handle.getLocation(), shape);
 			xCoords[i] = (int) handleLoc.getCoordinate(X);
 			yCoords[i] = (int) handleLoc.getCoordinate(Y);
 		}

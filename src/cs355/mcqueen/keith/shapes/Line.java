@@ -1,5 +1,7 @@
 package cs355.mcqueen.keith.shapes;
 
+import static cs355.mcqueen.keith.Transformations.transformPointFromShapeCoordinates;
+import static cs355.mcqueen.keith.Transformations.transformPointToShapeCoordinates;
 import static cs355.mcqueen.keith.shapes.Point.X;
 import static cs355.mcqueen.keith.shapes.Point.Y;
 
@@ -29,10 +31,10 @@ public class Line extends Shape {
 	}
 
 	public Point getEnd() {
-		Point start = this.transformPointToShape(this.getLocation());
+		Point start = transformPointToShapeCoordinates(this.getLocation(), this);
 		Point end = new Point(start.getCoordinate(X) + this.getLength(), 0);
 
-		return this.transformPointToWorld(end);
+		return transformPointFromShapeCoordinates(end, this);
 	}
 
 	@Override

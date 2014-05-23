@@ -1,5 +1,7 @@
 package cs355.mcqueen.keith.shapes;
 
+import static cs355.mcqueen.keith.Transformations.transformPointFromShapeCoordinates;
+import static cs355.mcqueen.keith.Transformations.transformPointToShapeCoordinates;
 import static cs355.mcqueen.keith.shapes.Point.X;
 import static cs355.mcqueen.keith.shapes.Point.Y;
 
@@ -65,17 +67,17 @@ public class Triangle extends Shape {
 	@Override
 	public void setLocation(Point location) {
 		// transform the vertex points to the shape space
-		Point a = this.transformPointToShape(this.getPointA());
-		Point b = this.transformPointToShape(this.getPointB());
-		Point c = this.transformPointToShape(this.getPointC());
+		Point a = transformPointToShapeCoordinates(this.getPointA(), this);
+		Point b = transformPointToShapeCoordinates(this.getPointB(), this);
+		Point c = transformPointToShapeCoordinates(this.getPointC(), this);
 
 		// set the location
 		super.setLocation(location);
 
 		// transform the vertex points back to world space
-		this.setPointA(this.transformPointToWorld(a));
-		this.setPointB(this.transformPointToWorld(b));
-		this.setPointC(this.transformPointToWorld(c));
+		this.setPointA(transformPointFromShapeCoordinates(a, this));
+		this.setPointB(transformPointFromShapeCoordinates(b, this));
+		this.setPointC(transformPointFromShapeCoordinates(c, this));
 	}
 
 	public void updateLocation(Point location) {
@@ -85,24 +87,24 @@ public class Triangle extends Shape {
 	@Override
 	public void setRotation(double rotation) {
 		// transform the vertex points to the shape space
-		Point a = this.transformPointToShape(this.getPointA());
-		Point b = this.transformPointToShape(this.getPointB());
-		Point c = this.transformPointToShape(this.getPointC());
+		Point a = transformPointToShapeCoordinates(this.getPointA(), this);
+		Point b = transformPointToShapeCoordinates(this.getPointB(), this);
+		Point c = transformPointToShapeCoordinates(this.getPointC(), this);
 
 		// set the rotation
 		super.setRotation(rotation);
 
 		// transform the vertex points back to world space
-		this.setPointA(this.transformPointToWorld(a));
-		this.setPointB(this.transformPointToWorld(b));
-		this.setPointC(this.transformPointToWorld(c));
+		this.setPointA(transformPointFromShapeCoordinates(a, this));
+		this.setPointB(transformPointFromShapeCoordinates(b, this));
+		this.setPointC(transformPointFromShapeCoordinates(c, this));
 	}
 
 	@Override
 	protected boolean doesContain(Point p, double scaleFactor) {
-		Point a = this.transformPointToShape(this.getPointA());
-		Point b = this.transformPointToShape(this.getPointB());
-		Point c = this.transformPointToShape(this.getPointC());
+		Point a = transformPointToShapeCoordinates(this.getPointA(), this);
+		Point b = transformPointToShapeCoordinates(this.getPointB(), this);
+		Point c = transformPointToShapeCoordinates(this.getPointC(), this);
 
 		return dotProduct(p, a, b) > 0
 				&& dotProduct(p, b, c) > 0

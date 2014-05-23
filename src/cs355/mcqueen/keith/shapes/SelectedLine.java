@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static cs355.mcqueen.keith.Transformations.transformPointFromShapeCoordinates;
 import static cs355.mcqueen.keith.shapes.LineResizeHandle.Endpoints.END;
 import static cs355.mcqueen.keith.shapes.LineResizeHandle.Endpoints.START;
 import static cs355.mcqueen.keith.shapes.Size.HEIGHT;
@@ -33,7 +34,7 @@ public class SelectedLine extends SelectedShape<Line> {
 		// compute the location of the handle in line space, then transform it back to world space
 		handleLoc = new Point(0 - offset,
 				-(handleSize.getLength(HEIGHT) / 2));
-		handle = new LineResizeHandle(line.transformPointToWorld(handleLoc),
+		handle = new LineResizeHandle(transformPointFromShapeCoordinates(handleLoc, line),
 				handleSize, line, START);
 		handle.setRotation(line.getRotation());
 		handles.add(handle);
@@ -42,7 +43,7 @@ public class SelectedLine extends SelectedShape<Line> {
 		// compute the location of the handle in line space, then transform it back to world space
 		handleLoc = new Point(0 + line.getLength() + offset,
 				-(handleSize.getLength(HEIGHT) / 2));
-		handle = new LineResizeHandle(line.transformPointToWorld(handleLoc),
+		handle = new LineResizeHandle(transformPointFromShapeCoordinates(handleLoc, line),
 				handleSize, line, END);
 		handle.setRotation(line.getRotation());
 		handles.add(handle);

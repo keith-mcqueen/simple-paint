@@ -104,7 +104,7 @@ public abstract class Shape {
 		return this.doesContain(shapePoint, scaleFactor);
 	}
 
-	public AffineTransform getWorldToShapeTransform() {
+	private AffineTransform getWorldToShapeTransform() {
 		// create a new transformation (defaults to identity)
 		AffineTransform worldToShape = new AffineTransform();
 
@@ -118,7 +118,7 @@ public abstract class Shape {
 		return worldToShape;
 	}
 
-	public AffineTransform getShapeToWorldTransform() {
+	private AffineTransform getShapeToWorldTransform() {
 		try {
 			return this.getWorldToShapeTransform().createInverse();
 		} catch (NoninvertibleTransformException e) {
@@ -127,7 +127,7 @@ public abstract class Shape {
 		}
 	}
 
-	public Point transformPointToShape(Point p) {
+	private Point transformPointToShape(Point p) {
 		AffineTransform w2s = this.getWorldToShapeTransform();
 
 		Point2D world = new Point2D.Double(p.getCoordinate(X), p.getCoordinate(Y));
@@ -138,7 +138,7 @@ public abstract class Shape {
 		return new Point(shape.getX(), shape.getY());
 	}
 
-	public Point transformPointToWorld(Point p) {
+	private Point transformPointToWorld(Point p) {
 		AffineTransform s2w = this.getShapeToWorldTransform();
 
 		Point2D shape = new Point2D.Double(p.getCoordinate(X), p.getCoordinate(Y));
