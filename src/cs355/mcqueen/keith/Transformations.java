@@ -4,11 +4,12 @@ import cs355.mcqueen.keith.shapes.Point;
 import cs355.mcqueen.keith.shapes.Shape;
 
 import java.awt.geom.AffineTransform;
-import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 
 import static cs355.mcqueen.keith.shapes.Point.X;
 import static cs355.mcqueen.keith.shapes.Point.Y;
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
 
 /**
  * Contains utility methods for performing transformations.
@@ -55,24 +56,30 @@ public class Transformations {
 	}
 
 	public static AffineTransform getWorldToShapeTransform(Shape shape) {
-		// create the new (empty) transform
-		AffineTransform toShape = new AffineTransform();
-
-		// add the rotation
-		toShape.rotate(0 - shape.getRotation());
-
-		// add the translation
 		Point shapeLoc = shape.getLocation();
-		toShape.translate(0 - shapeLoc.getCoordinate(X), 0 - shapeLoc.getCoordinate(Y));
+		double x = shapeLoc.getCoordinate(X);
+		double y = shapeLoc.getCoordinate(Y);
 
-		return toShape;
+		double theta = shape.getRotation();
+		double cos_theta = cos(theta);
+		double sin_theta = sin(theta);
+
+		return new AffineTransform(cos_theta, -sin_theta,
+				sin_theta, cos_theta,
+				(-cos_theta * x) - (sin_theta * y), (sin_theta * x) - (cos_theta * y));
 	}
 
 	public static AffineTransform getShapeToWorldTransform(Shape shape) {
-		try {
-			return getWorldToShapeTransform(shape).createInverse();
-		} catch (NoninvertibleTransformException e) {
-			return new AffineTransform();
-		}
+		Point shapeLoc = shape.getLocation();
+		double x = shapeLoc.getCoordinate(X);
+		double y = shapeLoc.getCoordinate(Y);
+
+		double theta = shape.getRotation();
+		double cos_theta = cos(theta);
+		double sin_theta = sin(theta);
+
+		return new AffineTransform(cos_theta, sin_theta,
+				-sin_theta, cos_theta,
+				x, y);
 	}
 }
