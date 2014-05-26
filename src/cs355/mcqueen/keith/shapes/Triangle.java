@@ -106,9 +106,11 @@ public class Triangle extends Shape {
 		Point b = transformPointToShapeCoordinates(this.getPointB(), this);
 		Point c = transformPointToShapeCoordinates(this.getPointC(), this);
 
-		return dotProduct(p, a, b) > 0
-				&& dotProduct(p, b, c) > 0
-				&& dotProduct(p, c, a) > 0;
+		double dot_a_b = dotProduct(p, a, b);
+		double dot_b_c = dotProduct(p, b, c);
+		double dot_c_a = dotProduct(p, c, a);
+
+		return (dot_a_b > 0 && dot_b_c > 0 && dot_c_a > 0) || (0 > dot_a_b && 0 > dot_b_c && 0 > dot_c_a);
 	}
 
 	private static double dotProduct(Point a, Point b, Point c) {
