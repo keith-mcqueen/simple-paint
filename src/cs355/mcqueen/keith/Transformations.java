@@ -64,9 +64,9 @@ public class Transformations {
 		double cos_theta = cos(theta);
 		double sin_theta = sin(theta);
 
-		return new AffineTransform(cos_theta, -sin_theta,
-				sin_theta, cos_theta,
-				(-cos_theta * x) - (sin_theta * y), (sin_theta * x) - (cos_theta * y));
+		return new AffineTransform(              cos_theta,                        -sin_theta,
+				                                     sin_theta,                         cos_theta,
+				                       (-cos_theta * x) - (sin_theta * y), (sin_theta * x) - (cos_theta * y));
 	}
 
 	public static AffineTransform getShapeToWorldTransform(Shape shape) {
@@ -78,8 +78,8 @@ public class Transformations {
 		double cos_theta = cos(theta);
 		double sin_theta = sin(theta);
 
-		return new AffineTransform(cos_theta, sin_theta,
-				-sin_theta, cos_theta,
-				x, y);
+		return new AffineTransform( cos_theta, sin_theta,
+				                       -sin_theta, cos_theta,
+				                            x,         y);
 	}
 }
