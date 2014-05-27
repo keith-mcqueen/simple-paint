@@ -16,6 +16,11 @@ import java.util.Iterator;
 
 import static cs355.GUIFunctions.changeSelectedColor;
 import static cs355.GUIFunctions.refresh;
+import static cs355.mcqueen.keith.Transformations.getZoomFactor;
+import static cs355.mcqueen.keith.Transformations.setZoomFactor;
+import static cs355.solution.CS355.*;
+import static java.lang.Math.max;
+import static java.lang.Math.min;
 
 /**
  * The {@code PaintController} class implements the {@link CS355Controller} interface. It also implements the {@link
@@ -86,16 +91,16 @@ public class PaintController implements CS355Controller, MouseListener, MouseMot
 
 	@Override
 	public void zoomInButtonHit() {
-//		double newFactor = min(getScaleFactor() * 2, MAX_ZOOM);
-//
-//		setScaleFactor(newFactor);
+		double newFactor = min(getZoomFactor() * ZOOM_INCREMENT, ZOOM_MAX);
+
+		setZoomFactor(newFactor);
 	}
 
 	@Override
 	public void zoomOutButtonHit() {
-//		double newFactor = max(getScaleFactor() / 2.0, MIN_ZOOM);
-//
-//		setScaleFactor(newFactor);
+		double newFactor = max(getZoomFactor() / ZOOM_INCREMENT, ZOOM_MIN);
+
+		setZoomFactor(newFactor);
 	}
 
 	@Override
