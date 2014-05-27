@@ -1,6 +1,5 @@
 package cs355.mcqueen.keith.shapes;
 
-import cs355.mcqueen.keith.Transformations;
 import cs355.mcqueen.keith.shapes.tools.Handle;
 
 import java.awt.*;
@@ -10,6 +9,7 @@ import java.util.Collection;
 import java.util.List;
 
 import static cs355.GUIFunctions.refresh;
+import static cs355.mcqueen.keith.Transformations.transformPointFromShapeCoordinates;
 import static cs355.mcqueen.keith.Transformations.transformPointToShapeCoordinates;
 import static cs355.mcqueen.keith.shapes.Point.X;
 import static cs355.mcqueen.keith.shapes.Point.Y;
@@ -192,10 +192,10 @@ public abstract class SelectedShape<S extends Shape> extends Shape implements Ha
 	public void mouseDragged(MouseEvent e) {
 		Shape myShape = this.getShape();
 
-		Point mouseLoc = Transformations.transformPointToShapeCoordinates(new Point(e.getX(), e.getY()), myShape);
+		Point mouseLoc = transformPointToShapeCoordinates(new Point(e.getX(), e.getY()), myShape);
 		Point p = new Point(mouseLoc.getCoordinate(X) - this.mouseOffset.getCoordinate(X),
 				mouseLoc.getCoordinate(Y) - this.mouseOffset.getCoordinate(Y));
-		Point newLocation = Transformations.transformPointFromShapeCoordinates(p, myShape);
+		Point newLocation = transformPointFromShapeCoordinates(p, myShape);
 
 		myShape.setLocation(newLocation);
 		myShape.changed();

@@ -1,10 +1,9 @@
 package cs355.mcqueen.keith.shapes.painting;
 
+import cs355.mcqueen.keith.Transformations;
 import cs355.mcqueen.keith.shapes.Shape;
 
 import java.awt.*;
-
-import static cs355.mcqueen.keith.Transformations.getShapeToWorldTransform;
 
 /**
  * The <code>AbstractBaseShapePainter</code> class is an abstract base class for any
@@ -17,7 +16,7 @@ public abstract class AbstractBaseShapePainter<S extends Shape> implements Shape
 	@Override
 	final public void paint(S shape, Graphics2D g2d) {
 		// set the drawing transformation
-		g2d.setTransform(getShapeToWorldTransform(shape));
+		g2d.setTransform(Transformations.getShapeToWorldTransform(shape));
 
 		// set the painting color from the shape's color
 		g2d.setColor(shape.getColor());

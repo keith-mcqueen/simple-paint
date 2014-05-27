@@ -1,15 +1,12 @@
 package cs355.mcqueen.keith.shapes;
 
+import cs355.mcqueen.keith.Transformations;
+
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.NoninvertibleTransformException;
-import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static cs355.mcqueen.keith.shapes.Point.X;
-import static cs355.mcqueen.keith.shapes.Point.Y;
 import static java.lang.Math.PI;
 
 /**
@@ -99,54 +96,9 @@ public abstract class Shape {
 	}
 
 	public boolean contains(Point point, double scaleFactor) {
-		Point shapePoint = this.transformPointToShape(point);
+		Point shapePoint = Transformations.transformPointToShapeCoordinates(point, this);
 
 		return this.doesContain(shapePoint, scaleFactor);
-	}
-
-	private AffineTransform getWorldToShapeTransform() {
-		// create a new transformation (defaults to identity)
-		AffineTransform worldToShape = new AffineTransform();
-
-		// rotate back from its orientation (last transformation)
-		worldToShape.rotate(-this.getRotation());
-
-		// translate back from its position in the world (first transformation)
-		Point center = this.getLocation();
-		worldToShape.translate(-center.getCoordinate(X), -center.getCoordinate(Y));
-
-		return worldToShape;
-	}
-
-	private AffineTransform getShapeToWorldTransform() {
-		try {
-			return this.getWorldToShapeTransform().createInverse();
-		} catch (NoninvertibleTransformException e) {
-			//return new AffineTransform();
-			return null;
-		}
-	}
-
-	private Point transformPointToShape(Point p) {
-		AffineTransform w2s = this.getWorldToShapeTransform();
-
-		Point2D world = new Point2D.Double(p.getCoordinate(X), p.getCoordinate(Y));
-		Point2D shape = new Point2D.Double();
-
-		w2s.transform(world, shape);
-
-		return new Point(shape.getX(), shape.getY());
-	}
-
-	private Point transformPointToWorld(Point p) {
-		AffineTransform s2w = this.getShapeToWorldTransform();
-
-		Point2D shape = new Point2D.Double(p.getCoordinate(X), p.getCoordinate(Y));
-		Point2D world = new Point2D.Double();
-
-		s2w.transform(shape, world);
-
-		return new Point(world.getX(), world.getY());
 	}
 
 	public void setUserObject(Object key, Object value) {

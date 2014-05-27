@@ -4,17 +4,19 @@
  */
 package cs355.solution;
 
+import cs355.GUIFunctions;
 import cs355.ViewRefresher;
 import cs355.mcqueen.keith.CanvasRefresher;
 import cs355.mcqueen.keith.PaintController;
 
 import static cs355.GUIFunctions.createCS355Frame;
-import static cs355.GUIFunctions.refresh;
 
 /**
  * @author [your name here]
  */
 public class CS355 {
+
+	public static final int VIEWPORT_WIDTH = 512;
 
 	/**
 	 * @param args the command line arguments
@@ -29,6 +31,13 @@ public class CS355 {
 		// the controller implements MouseListener and MouseMotionListener
 		createCS355Frame(controller, refresher, controller, controller);
 
-		refresh();
+//		setHScrollBarKnob(VIEWPORT_WIDTH);
+//		setVScrollBarKnob(VIEWPORT_WIDTH);
+//		setHScrollBarMin(getHScrollBarMin());
+//		setHScrollBarMax(getHScrollBarMax());
+//		setVScrollBarMin(getVScrollBarMin());
+//		setVScrollBarMax(getVScrollBarMax());
+
+		GUIFunctions.refresh();
 	}
 }

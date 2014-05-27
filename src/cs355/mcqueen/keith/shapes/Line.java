@@ -38,11 +38,6 @@ public class Line extends Shape {
 	}
 
 	@Override
-	public boolean contains(Point p, double scaleFactor) {
-		return super.contains(p, scaleFactor);
-	}
-
-	@Override
 	protected boolean doesContain(Point p, double scaleFactor) {
 		double x = p.getCoordinate(X);
 		return 0 <= x && x <= this.length && Math.abs(p.getCoordinate(Y)) <= SELECTION_MARGIN;

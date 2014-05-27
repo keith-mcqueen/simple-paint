@@ -86,22 +86,26 @@ public class PaintController implements CS355Controller, MouseListener, MouseMot
 
 	@Override
 	public void zoomInButtonHit() {
-
+//		double newFactor = min(getScaleFactor() * 2, MAX_ZOOM);
+//
+//		setScaleFactor(newFactor);
 	}
 
 	@Override
 	public void zoomOutButtonHit() {
-
+//		double newFactor = max(getScaleFactor() / 2.0, MIN_ZOOM);
+//
+//		setScaleFactor(newFactor);
 	}
 
 	@Override
 	public void hScrollbarChanged(int value) {
-
+//		setHorizontalPos(value);
 	}
 
 	@Override
 	public void vScrollbarChanged(int value) {
-
+//		setVerticalPos(value);
 	}
 
 	@Override
