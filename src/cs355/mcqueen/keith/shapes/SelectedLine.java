@@ -23,7 +23,7 @@ public class SelectedLine extends SelectedShape<Line> {
 		List<ResizeHandle> handles = new ArrayList<>(2);
 
 		// the handles will be offset and sized by the bounds offset
-		int offset = this.getBoundsOffset();
+		double offset = this.getBoundsOffset();
 
 		Point handleLoc;
 		ResizeHandle handle;

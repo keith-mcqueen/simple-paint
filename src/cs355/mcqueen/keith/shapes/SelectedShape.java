@@ -9,8 +9,7 @@ import java.util.Collection;
 import java.util.List;
 
 import static cs355.GUIFunctions.refresh;
-import static cs355.mcqueen.keith.Transformations.transformPointFromShapeCoordinates;
-import static cs355.mcqueen.keith.Transformations.transformPointToShapeCoordinates;
+import static cs355.mcqueen.keith.Transformations.*;
 import static cs355.mcqueen.keith.shapes.Point.X;
 import static cs355.mcqueen.keith.shapes.Point.Y;
 
@@ -141,12 +140,12 @@ public abstract class SelectedShape<S extends Shape> extends Shape implements Ha
 		return null;
 	}
 
-	public int getBoundsOffset() {
-		return BOUNDS_OFFSET;
+	public double getBoundsOffset() {
+		return BOUNDS_OFFSET / getZoomFactor();
 	}
 
-	public int getRotateOffset() {
-		return ROTATE_OFFSET;
+	public double getRotateOffset() {
+		return ROTATE_OFFSET / getZoomFactor();
 	}
 
 	@Override

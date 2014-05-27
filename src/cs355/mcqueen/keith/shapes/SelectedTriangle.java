@@ -25,7 +25,7 @@ public class SelectedTriangle extends SelectedShape<Triangle> {
 	public Collection<? extends ResizeHandle> initResizeHandles(Triangle shape) {
 		List<ResizeHandle> handles = new ArrayList<>(3);
 
-		int offset = this.getBoundsOffset();
+		double offset = this.getBoundsOffset();
 
 		double x, y, theta;
 		Point loc, handleLoc;
@@ -69,7 +69,7 @@ public class SelectedTriangle extends SelectedShape<Triangle> {
 
 	@Override
 	protected RotateHandle initRotateHandle(Triangle triangle) {
-		int offset = this.getRotateOffset();
+		double offset = this.getRotateOffset();
 
 		Point c = transformPointToShapeCoordinates(triangle.getPointC(), triangle);
 		double x = c.getCoordinate(X);

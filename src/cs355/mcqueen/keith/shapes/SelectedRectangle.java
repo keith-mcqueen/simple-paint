@@ -34,7 +34,7 @@ public class SelectedRectangle extends SelectedShape<Rectangle> {
 		int _NW_y = (int) Math.floor(-(height / 2.0d));
 
 		// the handles will be offset and sized by the bounds offset
-		int offset = this.getBoundsOffset();
+		double offset = this.getBoundsOffset();
 		Point handleLoc;
 		ResizeHandle handle;
 
@@ -80,7 +80,7 @@ public class SelectedRectangle extends SelectedShape<Rectangle> {
 		int _NW_y = (int) Math.floor(-(height / 2.0d));
 
 		// the handles will be offset and sized by the bounds offset
-		int offset = this.getRotateOffset();
+		double offset = this.getRotateOffset();
 
 		// northeast corner
 		double theta = Math.PI / 4.0d;
