@@ -23,7 +23,7 @@ import static java.awt.BasicStroke.JOIN_MITER;
 public class SelectedShapePainter<S extends SelectedShape> extends AbstractBaseShapePainter<S> {
 	@Override
 	public void paint(S shape, Graphics2D g2d) {
-		this.doPaint(shape, g2d);
+		super.paint(shape, g2d);
 	}
 
 	@Override

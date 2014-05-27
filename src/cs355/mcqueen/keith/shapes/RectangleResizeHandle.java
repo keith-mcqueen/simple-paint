@@ -21,8 +21,8 @@ public class RectangleResizeHandle extends ResizeHandle<Rectangle> {
 	private Corner corner;
 	private Point fixedPoint;
 
-	public RectangleResizeHandle(Point location, Size size, Rectangle shape, Corner corner) {
-		super(location, size, shape);
+	public RectangleResizeHandle(Point location, Rectangle shape, Corner corner) {
+		super(location, shape);
 
 		this.corner = corner;
 	}

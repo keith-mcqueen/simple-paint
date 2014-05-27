@@ -3,6 +3,7 @@ package cs355.mcqueen.keith.shapes.painting;
 import cs355.mcqueen.keith.shapes.Shape;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 
 import static cs355.mcqueen.keith.Transformations.getShapeToViewTransform;
 
@@ -17,13 +18,17 @@ public abstract class AbstractBaseShapePainter<S extends Shape> implements Shape
 	@Override
 	public void paint(S shape, Graphics2D g2d) {
 		// set the drawing transformation
-		g2d.setTransform(getShapeToViewTransform(shape));
+		g2d.setTransform(getDrawingTransform(shape));
 
 		// set the painting color from the shape's color
 		g2d.setColor(shape.getColor());
 
 		// and finally draw
 		this.doPaint(shape, g2d);
+	}
+
+	protected AffineTransform getDrawingTransform(S shape) {
+		return getShapeToViewTransform(shape);
 	}
 
 	/**

@@ -21,8 +21,8 @@ public class LineResizeHandle extends ResizeHandle<Line> {
 
 	private final Endpoints ep;
 
-	public LineResizeHandle(Point location, Size size, Line shape, Endpoints ep) {
-		super(location, size, shape);
+	public LineResizeHandle(Point location, Line shape, Endpoints ep) {
+		super(location, shape);
 		this.ep = ep;
 	}
 

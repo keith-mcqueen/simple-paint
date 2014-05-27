@@ -12,8 +12,8 @@ import static cs355.mcqueen.keith.shapes.Triangle.calculateCenterPoint;
 public class TriangleResizeHandle extends ResizeHandle<Triangle> {
 	private final Triangle.Points associatedPoint;
 
-	public TriangleResizeHandle(Point location, Size size, Triangle shape, Triangle.Points point) {
-		super(location, size, shape);
+	public TriangleResizeHandle(Point location, Triangle shape, Triangle.Points point) {
+		super(location, shape);
 
 		this.associatedPoint = point;
 	}

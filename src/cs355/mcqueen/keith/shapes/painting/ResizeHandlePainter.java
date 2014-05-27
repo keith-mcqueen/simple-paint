@@ -12,6 +12,11 @@ import java.awt.*;
  */
 public class ResizeHandlePainter extends RectanglePainter<ResizeHandle> {
 	@Override
+	public void paint(ResizeHandle shape, Graphics2D g2d) {
+		super.paint(shape, g2d);
+	}
+
+	@Override
 	protected void paintRectangle(Graphics2D g2d, int paintX, int paintY, int paintWidth, int paintHeight) {
 		g2d.setStroke(new BasicStroke(1.0f));
 

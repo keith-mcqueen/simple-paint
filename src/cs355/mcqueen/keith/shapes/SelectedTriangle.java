@@ -26,7 +26,6 @@ public class SelectedTriangle extends SelectedShape<Triangle> {
 		List<ResizeHandle> handles = new ArrayList<>(3);
 
 		int offset = this.getBoundsOffset();
-		Size handleSize = new Size(offset * 4, offset * 4);
 
 		double x, y, theta;
 		Point loc, handleLoc;
@@ -39,7 +38,7 @@ public class SelectedTriangle extends SelectedShape<Triangle> {
 		theta = atan2(y, x);
 		handleLoc = new Point(x + (offset * cos(theta)), y + (offset * sin(theta)));
 		handle = new TriangleResizeHandle(transformPointFromShapeCoordinates(handleLoc, shape),
-				handleSize, shape, A);
+				shape, A);
 		handle.setRotation(shape.getRotation());
 		handles.add(handle);
 
@@ -50,7 +49,7 @@ public class SelectedTriangle extends SelectedShape<Triangle> {
 		theta = atan2(y, x);
 		handleLoc = new Point(x + (offset * cos(theta)), y + (offset * sin(theta)));
 		handle = new TriangleResizeHandle(transformPointFromShapeCoordinates(handleLoc, shape),
-				handleSize, shape, B);
+				shape, B);
 		handle.setRotation(shape.getRotation());
 		handles.add(handle);
 
@@ -61,7 +60,7 @@ public class SelectedTriangle extends SelectedShape<Triangle> {
 		theta = atan2(y, x);
 		handleLoc = new Point(x + (offset * cos(theta)), y + (offset * sin(theta)));
 		handle = new TriangleResizeHandle(transformPointFromShapeCoordinates(handleLoc, shape),
-				handleSize, shape, C);
+				shape, C);
 		handle.setRotation(shape.getRotation());
 		handles.add(handle);
 

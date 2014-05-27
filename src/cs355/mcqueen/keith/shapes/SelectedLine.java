@@ -7,7 +7,6 @@ import java.util.List;
 import static cs355.mcqueen.keith.Transformations.transformPointFromShapeCoordinates;
 import static cs355.mcqueen.keith.shapes.LineResizeHandle.Endpoints.END;
 import static cs355.mcqueen.keith.shapes.LineResizeHandle.Endpoints.START;
-import static cs355.mcqueen.keith.shapes.Size.HEIGHT;
 
 /**
  * The <code>SelectedLine</code> class decorates an instance of {@link Line}.
@@ -25,7 +24,6 @@ public class SelectedLine extends SelectedShape<Line> {
 
 		// the handles will be offset and sized by the bounds offset
 		int offset = this.getBoundsOffset();
-		Size handleSize = new Size(offset * 4, offset * 4);
 
 		Point handleLoc;
 		ResizeHandle handle;
@@ -33,18 +31,18 @@ public class SelectedLine extends SelectedShape<Line> {
 		// left handle
 		// compute the location of the handle in line space, then transform it back to world space
 		handleLoc = new Point(0 - offset,
-				-(handleSize.getLength(HEIGHT) / 2));
+				-(ResizeHandle.SIZE / 2));
 		handle = new LineResizeHandle(transformPointFromShapeCoordinates(handleLoc, line),
-				handleSize, line, START);
+				line, START);
 		handle.setRotation(line.getRotation());
 		handles.add(handle);
 
 		// right handle
 		// compute the location of the handle in line space, then transform it back to world space
 		handleLoc = new Point(0 + line.getLength() + offset,
-				-(handleSize.getLength(HEIGHT) / 2));
+				-(ResizeHandle.SIZE / 2));
 		handle = new LineResizeHandle(transformPointFromShapeCoordinates(handleLoc, line),
-				handleSize, line, END);
+				line, END);
 		handle.setRotation(line.getRotation());
 		handles.add(handle);
 

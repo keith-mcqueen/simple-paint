@@ -35,35 +35,34 @@ public class SelectedRectangle extends SelectedShape<Rectangle> {
 
 		// the handles will be offset and sized by the bounds offset
 		int offset = this.getBoundsOffset();
-		Size handleSize = new Size(offset * 4, offset * 4);
 		Point handleLoc;
 		ResizeHandle handle;
 
 		// northwest corner
 		handleLoc = new Point(_NW_x - offset, _NW_y - offset);
 		handle = new RectangleResizeHandle(transformPointFromShapeCoordinates(handleLoc, shape),
-				handleSize, shape, NORTHWEST);
+				shape, NORTHWEST);
 		handle.setRotation(shape.getRotation());
 		handles.add(handle);
 
 		// northeast corner
 		handleLoc = new Point(_NW_x + width + offset, _NW_y - offset);
 		handle = new RectangleResizeHandle(transformPointFromShapeCoordinates(handleLoc, shape),
-				handleSize, shape, NORTHEAST);
+				shape, NORTHEAST);
 		handle.setRotation(shape.getRotation());
 		handles.add(handle);
 
 		// southeast corner
 		handleLoc = new Point(_NW_x + width + offset, _NW_y + height + offset);
 		handle = new RectangleResizeHandle(transformPointFromShapeCoordinates(handleLoc, shape),
-				handleSize, shape, SOUTHEAST);
+				shape, SOUTHEAST);
 		handle.setRotation(shape.getRotation());
 		handles.add(handle);
 
 		// southwest corner
 		handleLoc = new Point(_NW_x - offset, _NW_y + height + offset);
 		handle = new RectangleResizeHandle(transformPointFromShapeCoordinates(handleLoc, shape),
-				handleSize, shape, SOUTHWEST);
+				shape, SOUTHWEST);
 		handle.setRotation(shape.getRotation());
 		handles.add(handle);
 

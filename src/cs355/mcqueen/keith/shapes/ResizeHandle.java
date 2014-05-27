@@ -8,10 +8,12 @@ import cs355.mcqueen.keith.shapes.tools.Handle;
  * Created by keith on 5/14/14.
  */
 public abstract class ResizeHandle<S extends Shape> extends Rectangle implements Handle {
+	public static final int SIZE = 8;
+
 	private final S shapeToResize;
 
-	public ResizeHandle(Point location, Size size, S shape) {
-		super(location, size);
+	public ResizeHandle(Point location, S shape) {
+		super(location, new Size(SIZE, SIZE));
 
 		this.shapeToResize = shape;
 	}
