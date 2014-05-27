@@ -16,8 +16,7 @@ import java.util.Iterator;
 
 import static cs355.GUIFunctions.changeSelectedColor;
 import static cs355.GUIFunctions.refresh;
-import static cs355.mcqueen.keith.Transformations.getZoomFactor;
-import static cs355.mcqueen.keith.Transformations.setZoomFactor;
+import static cs355.mcqueen.keith.Transformations.*;
 import static cs355.solution.CS355.*;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -105,12 +104,12 @@ public class PaintController implements CS355Controller, MouseListener, MouseMot
 
 	@Override
 	public void hScrollbarChanged(int value) {
-//		setHorizontalPos(value);
+		setHorizontalViewPosition(value);
 	}
 
 	@Override
 	public void vScrollbarChanged(int value) {
-//		setVerticalPos(value);
+		setVerticalViewPosition(value);
 	}
 
 	@Override

@@ -12,6 +12,7 @@ import static cs355.GUIFunctions.setHScrollBarKnob;
 import static cs355.GUIFunctions.setVScrollBarKnob;
 import static cs355.mcqueen.keith.shapes.Point.X;
 import static cs355.mcqueen.keith.shapes.Point.Y;
+import static cs355.solution.CS355.SCROLL_BAR_MIN;
 import static cs355.solution.CS355.VIEWPORT_WIDTH;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
@@ -114,7 +115,9 @@ public class Transformations {
 		return new AffineTransform();
 	}
 
+	////////////////////////////////////////
 	// Zooming
+	////////////////////////////////////////
 	private static double zoomFactor = CS355.ZOOM_DEFAULT;
 
 	public static double getZoomFactor() {
@@ -131,6 +134,32 @@ public class Transformations {
 		// does it change their position?
 
 		// refresh the UI
+		GUIFunctions.refresh();
+	}
+
+	////////////////////////////////////////
+	// Scrolling
+	////////////////////////////////////////
+	private static int horizontalViewPosition = SCROLL_BAR_MIN;
+	private static int verticalViewPosition = SCROLL_BAR_MIN;
+
+	public static int getHorizontalViewPosition() {
+		return horizontalViewPosition;
+	}
+
+	public static void setHorizontalViewPosition(int horizontalViewPosition) {
+		Transformations.horizontalViewPosition = horizontalViewPosition;
+
+		GUIFunctions.refresh();
+	}
+
+	public static int getVerticalViewPosition() {
+		return verticalViewPosition;
+	}
+
+	public static void setVerticalViewPosition(int verticalViewPosition) {
+		Transformations.verticalViewPosition = verticalViewPosition;
+
 		GUIFunctions.refresh();
 	}
 }
