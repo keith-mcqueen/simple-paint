@@ -6,9 +6,9 @@ import cs355.mcqueen.keith.shapes.RotateHandle;
 import cs355.mcqueen.keith.shapes.SelectedShape;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.util.List;
 
-import static cs355.mcqueen.keith.Transformations.transformPointToShapeCoordinates;
 import static cs355.mcqueen.keith.shapes.Point.X;
 import static cs355.mcqueen.keith.shapes.Point.Y;
 import static cs355.mcqueen.keith.shapes.painting.ShapePainter.Factory.getPainterForShape;
@@ -21,11 +21,6 @@ import static java.awt.BasicStroke.JOIN_MITER;
  * Created by keith on 5/14/14.
  */
 public class SelectedShapePainter<S extends SelectedShape> extends AbstractBaseShapePainter<S> {
-	@Override
-	public void paint(S shape, Graphics2D g2d) {
-		super.paint(shape, g2d);
-	}
-
 	@Override
 	protected final void doPaint(S shape, Graphics2D g2d) {
 		// paint the bounding box
@@ -59,13 +54,16 @@ public class SelectedShapePainter<S extends SelectedShape> extends AbstractBaseS
 	}
 
 	protected void paintOutline(S shape, Graphics2D g2d) {
+		// clear the transform
+		g2d.setTransform(new AffineTransform());
+
 		// use the resize handles as the vertices of the polygon
 		List<ResizeHandle> handles = shape.getResizeHandles();
 		int[] xCoords = new int[handles.size()];
 		int[] yCoords = new int[handles.size()];
 		for (int i = 0; i < yCoords.length; i++) {
 			ResizeHandle handle = handles.get(i);
-			Point handleLoc = transformPointToShapeCoordinates(handle.getLocation(), shape);
+			Point handleLoc = handle.getLocation();//transformPointToShapeCoordinates(handle.getLocation(), shape.getShape());
 			xCoords[i] = (int) handleLoc.getCoordinate(X);
 			yCoords[i] = (int) handleLoc.getCoordinate(Y);
 		}

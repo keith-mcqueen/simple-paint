@@ -81,13 +81,11 @@ public class SelectedRectangle extends SelectedShape<Rectangle> {
 
 		// the handles will be offset and sized by the bounds offset
 		int offset = this.getRotateOffset();
-		int boundsOffset = this.getBoundsOffset();
-		Size handleSize = new Size(boundsOffset * 6, boundsOffset * 6);
 
 		// northeast corner
 		double theta = Math.PI / 4.0d;
 		Point handleLoc = new Point(_NW_x + width + (offset * Math.cos(theta)), _NW_y - (offset * Math.sin(theta)));
-		RotateHandle handle = new RotateHandle(transformPointFromShapeCoordinates(handleLoc, shape), handleSize, shape);
+		RotateHandle handle = new RotateHandle(transformPointFromShapeCoordinates(handleLoc, shape), shape);
 		handle.setRotation(shape.getRotation());
 
 		return handle;

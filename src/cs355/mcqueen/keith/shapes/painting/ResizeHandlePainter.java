@@ -1,8 +1,14 @@
 package cs355.mcqueen.keith.shapes.painting;
 
+import cs355.mcqueen.keith.shapes.Point;
 import cs355.mcqueen.keith.shapes.ResizeHandle;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+
+import static cs355.mcqueen.keith.shapes.Point.X;
+import static cs355.mcqueen.keith.shapes.Point.Y;
+import static cs355.mcqueen.keith.shapes.ResizeHandle.SIZE;
 
 /**
  * The <code>ResizeHandlePainter</code> class paints the specialized {@link ResizeHandle}
@@ -10,20 +16,26 @@ import java.awt.*;
  * <p>
  * Created by keith on 5/14/14.
  */
-public class ResizeHandlePainter extends RectanglePainter<ResizeHandle> {
+public class ResizeHandlePainter implements ShapePainter<ResizeHandle> {
 	@Override
-	public void paint(ResizeHandle shape, Graphics2D g2d) {
-		super.paint(shape, g2d);
-	}
+	public void paint(ResizeHandle handle, Graphics2D g2d) {
+		// reset the transform (we will draw the handle without the aid of a transform)
+		g2d.setTransform(new AffineTransform());
 
-	@Override
-	protected void paintRectangle(Graphics2D g2d, int paintX, int paintY, int paintWidth, int paintHeight) {
+		// set the stroke
 		g2d.setStroke(new BasicStroke(1.0f));
 
-		g2d.setColor(Color.white);
-		g2d.fillRect(paintX, paintY, paintWidth, paintHeight);
+		// calculate the handle's X and Y
+		Point handleLoc = handle.getLocation();
+		int handle_x = (int) Math.floor(handleLoc.getCoordinate(X) - SIZE / 2);
+		int handle_y = (int) Math.floor(handleLoc.getCoordinate(Y) - SIZE / 2);
 
+		// fill a white rectangle
+		g2d.setColor(Color.white);
+		g2d.fillRect(handle_x, handle_y, SIZE, SIZE);
+
+		// outline the rectangle in black
 		g2d.setColor(Color.black);
-		g2d.drawRect(paintX, paintY, paintWidth, paintHeight);
+		g2d.drawRect(handle_x, handle_y, SIZE, SIZE);
 	}
 }

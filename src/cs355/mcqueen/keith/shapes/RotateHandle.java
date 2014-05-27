@@ -16,11 +16,13 @@ import static cs355.mcqueen.keith.shapes.Point.Y;
  * Created by keith on 5/14/14.
  */
 public class RotateHandle extends Ellipse implements Handle {
+	public static final int SIZE = 12;
+
 	private final Shape shapeToRotate;
 	private Point oldLoc;
 
-	public RotateHandle(Point location, Size size, Shape shape) {
-		super(location, size);
+	public RotateHandle(Point location, Shape shape) {
+		super(location, new Size(SIZE, SIZE));
 
 		this.shapeToRotate = shape;
 	}

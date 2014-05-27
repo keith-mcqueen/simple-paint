@@ -70,8 +70,6 @@ public class SelectedTriangle extends SelectedShape<Triangle> {
 	@Override
 	protected RotateHandle initRotateHandle(Triangle triangle) {
 		int offset = this.getRotateOffset();
-		int boundsOffset = this.getBoundsOffset();
-		Size handleSize = new Size(boundsOffset * 6, boundsOffset * 6);
 
 		Point c = transformPointToShapeCoordinates(triangle.getPointC(), triangle);
 		double x = c.getCoordinate(X);
@@ -79,7 +77,7 @@ public class SelectedTriangle extends SelectedShape<Triangle> {
 		double theta = atan2(y, x);
 		Point handleLoc = new Point(x + (offset * cos(theta)), y + (offset * sin(theta)));
 		RotateHandle handle = new RotateHandle(transformPointFromShapeCoordinates(handleLoc, triangle),
-				handleSize, triangle);
+				triangle);
 		handle.setRotation(triangle.getRotation());
 
 		return handle;
