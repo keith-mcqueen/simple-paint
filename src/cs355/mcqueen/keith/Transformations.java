@@ -108,11 +108,15 @@ public class Transformations {
 	}
 
 	private static AffineTransform getViewToWorldTransform() {
-		return new AffineTransform();
+		return new AffineTransform(         1 / zoomFactor,                        0.0,
+																     					 0.0,                     1 / zoomFactor,
+																(double) horizontalViewPosition, (double) verticalViewPosition);
 	}
 
 	private static  AffineTransform getWorldToViewTransform() {
-		return new AffineTransform();
+		return new AffineTransform(            zoomFactor,                         0.0,
+				                                      0.0,                          zoomFactor,
+				                       (double) -horizontalViewPosition, (double) -verticalViewPosition);
 	}
 
 	////////////////////////////////////////
