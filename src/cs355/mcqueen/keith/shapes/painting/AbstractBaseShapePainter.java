@@ -15,7 +15,7 @@ import static cs355.mcqueen.keith.Transformations.getShapeToViewTransform;
  */
 public abstract class AbstractBaseShapePainter<S extends Shape> implements ShapePainter<S> {
 	@Override
-	final public void paint(S shape, Graphics2D g2d) {
+	public void paint(S shape, Graphics2D g2d) {
 		// set the drawing transformation
 		g2d.setTransform(getShapeToViewTransform(shape));
 

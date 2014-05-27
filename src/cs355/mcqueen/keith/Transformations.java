@@ -2,7 +2,9 @@ package cs355.mcqueen.keith;
 
 import cs355.GUIFunctions;
 import cs355.mcqueen.keith.shapes.Point;
+import cs355.mcqueen.keith.shapes.SelectedShape;
 import cs355.mcqueen.keith.shapes.Shape;
+import cs355.mcqueen.keith.shapes.Shapes;
 import cs355.solution.CS355;
 
 import java.awt.geom.AffineTransform;
@@ -32,7 +34,6 @@ public class Transformations {
 	 * @return a new point in the same location relative to the space defined by the shape
 	 */
 	public static Point transformPointToShapeCoordinates(Point p, Shape shape) {
-		//AffineTransform w2s = getWorldToShapeTransform(shape);
 		AffineTransform w2s = getViewToShapeTransform(shape);
 
 		Point2D pWorld = new Point2D.Double(p.getCoordinate(X), p.getCoordinate(Y));
@@ -52,7 +53,6 @@ public class Transformations {
 	 * @return a new point in the same location relative to the space containing the shape
 	 */
 	public static Point transformPointFromShapeCoordinates(Point p, Shape shape) {
-		//AffineTransform w2s = getShapeToWorldTransform(shape);
 		AffineTransform w2s = getShapeToViewTransform(shape);
 
 		Point2D pShape = new Point2D.Double(p.getCoordinate(X), p.getCoordinate(Y));
@@ -65,16 +65,16 @@ public class Transformations {
 
 	public static AffineTransform getViewToShapeTransform(Shape shape) {
 		AffineTransform transform = new AffineTransform();
-		transform.concatenate(getViewToWorldTransform());
 		transform.concatenate(getWorldToShapeTransform(shape));
+		transform.concatenate(getViewToWorldTransform());
 
 		return transform;
 	}
 
 	public static AffineTransform getShapeToViewTransform(Shape shape){
 		AffineTransform transform = new AffineTransform();
-		transform.concatenate(getShapeToWorldTransform(shape));
 		transform.concatenate(getWorldToViewTransform());
+		transform.concatenate(getShapeToWorldTransform(shape));
 
 		return transform;
 	}
@@ -137,6 +137,12 @@ public class Transformations {
 
 		// does it change their position?
 
+		// update the selected shape (if any)
+		Shape selectedShape = Shapes.getInstance().getSelectedShape();
+		if (selectedShape instanceof SelectedShape) {
+			((SelectedShape) selectedShape).getShape().changed();
+		}
+
 		// refresh the UI
 		GUIFunctions.refresh();
 	}
@@ -154,6 +160,13 @@ public class Transformations {
 	public static void setHorizontalViewPosition(int horizontalViewPosition) {
 		Transformations.horizontalViewPosition = horizontalViewPosition;
 
+		// update the selected shape (if any)
+		Shape selectedShape = Shapes.getInstance().getSelectedShape();
+		if (selectedShape instanceof SelectedShape) {
+			((SelectedShape) selectedShape).getShape().changed();
+		}
+
+		// refresh the UI
 		GUIFunctions.refresh();
 	}
 
@@ -164,6 +177,13 @@ public class Transformations {
 	public static void setVerticalViewPosition(int verticalViewPosition) {
 		Transformations.verticalViewPosition = verticalViewPosition;
 
+		// update the selected shape (if any)
+		Shape selectedShape = Shapes.getInstance().getSelectedShape();
+		if (selectedShape instanceof SelectedShape) {
+			((SelectedShape) selectedShape).getShape().changed();
+		}
+
+		// refresh the UI
 		GUIFunctions.refresh();
 	}
 }

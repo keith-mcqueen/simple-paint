@@ -22,6 +22,11 @@ import static java.awt.BasicStroke.JOIN_MITER;
  */
 public class SelectedShapePainter<S extends SelectedShape> extends AbstractBaseShapePainter<S> {
 	@Override
+	public void paint(S shape, Graphics2D g2d) {
+		this.doPaint(shape, g2d);
+	}
+
+	@Override
 	protected final void doPaint(S shape, Graphics2D g2d) {
 		// paint the bounding box
 		this.paintOutline(shape, g2d);
