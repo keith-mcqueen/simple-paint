@@ -18,7 +18,7 @@ public abstract class AbstractBaseShapePainter<S extends Shape> implements Shape
 	@Override
 	public void paint(S shape, Graphics2D g2d) {
 		// set the drawing transformation
-		g2d.setTransform(getDrawingTransform(shape));
+		g2d.setTransform(this.getDrawingTransform(shape));
 
 		// set the painting color from the shape's color
 		g2d.setColor(shape.getColor());

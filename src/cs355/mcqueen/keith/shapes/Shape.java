@@ -1,12 +1,11 @@
 package cs355.mcqueen.keith.shapes;
 
-import cs355.mcqueen.keith.Transformations;
-
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import static cs355.mcqueen.keith.Transformations.transformPointToShapeCoordinates;
 import static java.lang.Math.PI;
 
 /**
@@ -96,7 +95,7 @@ public abstract class Shape {
 	}
 
 	public boolean contains(Point point, double scaleFactor) {
-		Point shapePoint = Transformations.transformPointToShapeCoordinates(point, this);
+		Point shapePoint = transformPointToShapeCoordinates(point, this);
 
 		return this.doesContain(shapePoint, scaleFactor);
 	}

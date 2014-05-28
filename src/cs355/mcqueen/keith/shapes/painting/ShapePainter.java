@@ -31,9 +31,9 @@ public interface ShapePainter<S extends Shape> {
 			PAINTERS_BY_SHAPE_CLASS.put(Line.class, new LinePainter());
 			PAINTERS_BY_SHAPE_CLASS.put(Rectangle.class, new RectanglePainter());
 			PAINTERS_BY_SHAPE_CLASS.put(Ellipse.class, new EllipsePainter());
-			PAINTERS_BY_SHAPE_CLASS.put(Triangle.class, new TrianglePainter());
+			PAINTERS_BY_SHAPE_CLASS.put(Triangle2.class, new Triangle2Painter());
 			PAINTERS_BY_SHAPE_CLASS.put(SelectedRectangle.class, new SelectedShapePainter<>());
-			PAINTERS_BY_SHAPE_CLASS.put(SelectedTriangle.class, new SelectedShapePainter<>());
+			PAINTERS_BY_SHAPE_CLASS.put(SelectedTriangle2.class, new SelectedShapePainter<>());
 			PAINTERS_BY_SHAPE_CLASS.put(SelectedLine.class, new SelectedLinePainter());
 			PAINTERS_BY_SHAPE_CLASS.put(ResizeHandle.class, new ResizeHandlePainter());
 			PAINTERS_BY_SHAPE_CLASS.put(RotateHandle.class, new RotateHandlePainter());

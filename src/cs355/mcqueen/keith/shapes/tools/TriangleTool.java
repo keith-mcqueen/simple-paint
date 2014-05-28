@@ -2,7 +2,7 @@ package cs355.mcqueen.keith.shapes.tools;
 
 import cs355.mcqueen.keith.shapes.Point;
 import cs355.mcqueen.keith.shapes.Shapes;
-import cs355.mcqueen.keith.shapes.Triangle;
+import cs355.mcqueen.keith.shapes.Triangle2;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -14,7 +14,7 @@ import java.util.List;
  * <p>
  * Created by keith on 5/3/14.
  */
-public class TriangleTool extends ShapeTool<Triangle> {
+public class TriangleTool extends ShapeTool<Triangle2> {
 	private List<Point> points = new ArrayList<>();
 
 	public TriangleTool(Color color) {
@@ -33,7 +33,8 @@ public class TriangleTool extends ShapeTool<Triangle> {
 			Point pointB = this.points.get(1);
 			Point pointC = this.points.get(2);
 
-			Triangle triangle = new Triangle(pointA, pointB, pointC);
+			//Triangle triangle = new Triangle(pointA, pointB, pointC);
+			Triangle2 triangle = new Triangle2(pointA, pointB, pointC);
 
 			this.setShape(triangle);
 			this.points.clear();

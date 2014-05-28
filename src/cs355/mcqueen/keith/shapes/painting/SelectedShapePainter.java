@@ -1,5 +1,6 @@
 package cs355.mcqueen.keith.shapes.painting;
 
+import cs355.mcqueen.keith.Transformations;
 import cs355.mcqueen.keith.shapes.Point;
 import cs355.mcqueen.keith.shapes.ResizeHandle;
 import cs355.mcqueen.keith.shapes.RotateHandle;
@@ -33,7 +34,7 @@ public class SelectedShapePainter<S extends SelectedShape> extends AbstractBaseS
 		this.paintRotateHandle(shape, g2d);
 	}
 
-	private void paintRotateHandle(S shape, Graphics2D g2d) {
+	protected void paintRotateHandle(S shape, Graphics2D g2d) {
 		RotateHandle handle = shape.getRotateHandle();
 		if (null != handle) {
 			ShapePainter painter = getPainterForShape(handle.getClass());
@@ -43,7 +44,7 @@ public class SelectedShapePainter<S extends SelectedShape> extends AbstractBaseS
 		}
 	}
 
-	private void paintResizeHandles(S shape, Graphics2D g2d) {
+	protected void paintResizeHandles(S shape, Graphics2D g2d) {
 		List<ResizeHandle> handles = shape.getResizeHandles();
 		for (ResizeHandle handle : handles) {
 			ShapePainter painter = getPainterForShape(handle.getClass());
@@ -63,7 +64,7 @@ public class SelectedShapePainter<S extends SelectedShape> extends AbstractBaseS
 		int[] yCoords = new int[handles.size()];
 		for (int i = 0; i < yCoords.length; i++) {
 			ResizeHandle handle = handles.get(i);
-			Point handleLoc = handle.getLocation();//transformPointToShapeCoordinates(handle.getLocation(), shape.getShape());
+			Point handleLoc = handle.getLocation();
 			xCoords[i] = (int) handleLoc.getCoordinate(X);
 			yCoords[i] = (int) handleLoc.getCoordinate(Y);
 		}
@@ -77,5 +78,10 @@ public class SelectedShapePainter<S extends SelectedShape> extends AbstractBaseS
 		g2d.setStroke(new BasicStroke(1.0f, CAP_BUTT, JOIN_MITER, 10.0f, new float[]{5.0f}, 0.0f));
 		g2d.setColor(Color.white);
 		g2d.drawPolygon(xCoords, yCoords, xCoords.length);
+	}
+
+	@Override
+	protected AffineTransform getDrawingTransform(S shape) {
+		return Transformations.getShapeToViewTransform(shape.getShape());
 	}
 }

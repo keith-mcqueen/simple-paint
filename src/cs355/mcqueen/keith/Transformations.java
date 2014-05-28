@@ -34,14 +34,7 @@ public class Transformations {
 	 * @return a new point in the same location relative to the space defined by the shape
 	 */
 	public static Point transformPointToShapeCoordinates(Point p, Shape shape) {
-		AffineTransform w2s = getViewToShapeTransform(shape);
-
-		Point2D pWorld = new Point2D.Double(p.getCoordinate(X), p.getCoordinate(Y));
-		Point2D pShape = new Point2D.Double();
-
-		w2s.transform(pWorld, pShape);
-
-		return new Point(pShape.getX(), pShape.getY());
+		return transformPoint(getViewToShapeTransform(shape), p);
 	}
 
 	/**
@@ -53,12 +46,14 @@ public class Transformations {
 	 * @return a new point in the same location relative to the space containing the shape
 	 */
 	public static Point transformPointFromShapeCoordinates(Point p, Shape shape) {
-		AffineTransform w2s = getShapeToViewTransform(shape);
+		return transformPoint(getShapeToViewTransform(shape), p);
+	}
 
-		Point2D pShape = new Point2D.Double(p.getCoordinate(X), p.getCoordinate(Y));
+	public static Point transformPoint(AffineTransform transform, Point point) {
+		Point2D pShape = new Point2D.Double(point.getCoordinate(X), point.getCoordinate(Y));
 		Point2D pWorld = new Point2D.Double();
 
-		w2s.transform(pShape, pWorld);
+		transform.transform(pShape, pWorld);
 
 		return new Point(pWorld.getX(), pWorld.getY());
 	}
@@ -79,7 +74,7 @@ public class Transformations {
 		return transform;
 	}
 
-	private static AffineTransform getWorldToShapeTransform(Shape shape) {
+	public static AffineTransform getWorldToShapeTransform(Shape shape) {
 		Point shapeLoc = shape.getLocation();
 		double x = shapeLoc.getCoordinate(X);
 		double y = shapeLoc.getCoordinate(Y);
@@ -93,7 +88,7 @@ public class Transformations {
 				                       (-cos_theta * x) - (sin_theta * y), (sin_theta * x) - (cos_theta * y));
 	}
 
-	private static AffineTransform getShapeToWorldTransform(Shape shape) {
+	public static AffineTransform getShapeToWorldTransform(Shape shape) {
 		Point shapeLoc = shape.getLocation();
 		double x = shapeLoc.getCoordinate(X);
 		double y = shapeLoc.getCoordinate(Y);
@@ -107,13 +102,13 @@ public class Transformations {
 				                            x,         y);
 	}
 
-	private static AffineTransform getViewToWorldTransform() {
+	public static AffineTransform getViewToWorldTransform() {
 		return new AffineTransform(         1 / zoomFactor,                        0.0,
 																     					 0.0,                     1 / zoomFactor,
 																(double) horizontalViewPosition, (double) verticalViewPosition);
 	}
 
-	private static  AffineTransform getWorldToViewTransform() {
+	public static  AffineTransform getWorldToViewTransform() {
 		return new AffineTransform(            zoomFactor,                         0.0,
 				                                      0.0,                          zoomFactor,
 				                       (double) -horizontalViewPosition, (double) -verticalViewPosition);
