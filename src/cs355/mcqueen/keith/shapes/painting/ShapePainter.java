@@ -50,7 +50,7 @@ public interface ShapePainter<S extends Shape> {
 				return getPainterForShape((Class<? extends Shape>) superclass);
 			}
 
-			return painter;
+			return null;
 		}
 	}
 }

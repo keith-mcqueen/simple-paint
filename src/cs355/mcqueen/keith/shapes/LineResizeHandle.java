@@ -37,7 +37,7 @@ public class LineResizeHandle extends ResizeHandle<Line> {
 	public void mouseDragged(MouseEvent e) {
 		switch (this.ep) {
 			case START:
-				this.udpateStartPoint(e);
+				this.updateStartPoint(e);
 				break;
 
 			case END:
@@ -46,31 +46,18 @@ public class LineResizeHandle extends ResizeHandle<Line> {
 		}
 	}
 
-	private void udpateStartPoint(MouseEvent e) {
-		System.out.println("******************** LineResizeHandle.udpateStartPoint ********************");
-		System.out.println("e = " + e);
-
+	private void updateStartPoint(MouseEvent e) {
 		Line line = this.getShape();
-		System.out.println("line.getLocation() = " + line.getLocation());
-		System.out.println("line.getRotation() = " + line.getRotation());
-		System.out.println("line.getLength() = " + line.getLength());
 
 		Point lineEnd = line.getEnd();
-		System.out.println("lineEnd = " + lineEnd);
 
 		Point mouseLoc = transformPoint(viewToWorld(), new Point(e.getX(), e.getY()));
-		System.out.println("mouseLoc = " + mouseLoc);
 
 		double deltaX = lineEnd.getCoordinate(X) - mouseLoc.getCoordinate(X);
 		double deltaY = lineEnd.getCoordinate(Y) - mouseLoc.getCoordinate(Y);
-		System.out.println("deltaX = " + deltaX);
-		System.out.println("deltaY = " + deltaY);
 
 		double length = sqrt(pow(deltaX, 2) + pow(deltaY, 2));
 		double rotation = atan2(deltaY, deltaX);
-		System.out.println("length = " + length);
-		System.out.println("rotation = " + rotation);
-		System.out.println();
 
 		line.setLocation(mouseLoc);
 		line.setLength(length);

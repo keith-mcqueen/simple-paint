@@ -190,22 +190,12 @@ public abstract class SelectedShape<S extends Shape> extends Shape implements Ha
 	public void mouseDragged(MouseEvent e) {
 		Shape myShape = this.getShape();
 
-		System.out.println("******************** SelectedShape.mouseDragged ********************");
-		System.out.println("myShape.getLocation() = " + myShape.getLocation());
-		System.out.println("e = " + e);
-		System.out.println("this.mouseOffset = " + this.mouseOffset);
-
 		Point mouseLoc = transformPoint(viewToShape(myShape), new Point(e.getX(), e.getY()));
-		System.out.println("mouseLoc = " + mouseLoc);
 
 		Point p = new Point(mouseLoc.getCoordinate(X) - this.mouseOffset.getCoordinate(X),
 				mouseLoc.getCoordinate(Y) - this.mouseOffset.getCoordinate(Y));
-		System.out.println("p = " + p);
 
-		//Point newLocation = transformPointFromShapeCoordinates(p, myShape);
 		Point newLocation = transformPoint(shapeToWorld(myShape), p);
-		System.out.println("newLocation = " + newLocation);
-		System.out.println();
 
 		myShape.setLocation(newLocation);
 		myShape.changed();

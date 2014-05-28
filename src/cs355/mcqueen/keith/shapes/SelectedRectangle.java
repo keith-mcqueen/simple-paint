@@ -84,8 +84,7 @@ public class SelectedRectangle extends SelectedShape<Rectangle> {
 		// northeast corner
 		double theta = Math.PI / 4.0d;
 		Point handleLoc = new Point(_NW_x + width + (offset * cos(theta)), _NW_y - (offset * sin(theta)));
-		RotateHandle handle = new RotateHandle(transformPoint(shapeToWorld(rect), handleLoc), rect);
 
-		return handle;
+		return new RotateHandle(transformPoint(shapeToWorld(rect), handleLoc), rect);
 	}
 }

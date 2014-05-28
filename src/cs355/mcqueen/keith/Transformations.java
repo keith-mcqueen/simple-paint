@@ -14,10 +14,8 @@ import static cs355.GUIFunctions.setHScrollBarKnob;
 import static cs355.GUIFunctions.setVScrollBarKnob;
 import static cs355.mcqueen.keith.shapes.Point.X;
 import static cs355.mcqueen.keith.shapes.Point.Y;
-import static cs355.solution.CS355.SCROLL_BAR_MIN;
-import static cs355.solution.CS355.VIEWPORT_WIDTH;
-import static java.lang.Math.cos;
-import static java.lang.Math.sin;
+import static cs355.solution.CS355.*;
+import static java.lang.Math.*;
 
 /**
  * Contains utility methods for performing transformations.
@@ -25,30 +23,6 @@ import static java.lang.Math.sin;
  * Created by keith on 5/23/14.
  */
 public class Transformations {
-	/**
-	 * Transform the given point to the coordinate space of the given shape.
-	 *
-	 * @param p     the point to be transformed
-	 * @param shape the shape to whose space the point is to be transformed
-	 *
-	 * @return a new point in the same location relative to the space defined by the shape
-	 */
-	private static Point transformPointToShapeCoordinates(Point p, Shape shape) {
-		return transformPoint(viewToShape(shape), p);
-	}
-
-	/**
-	 * Transform the given point from the coordinate space of the given shape
-	 *
-	 * @param p     the point to be transformed
-	 * @param shape the shape from whose coordinate space the point is to be transformed
-	 *
-	 * @return a new point in the same location relative to the space containing the shape
-	 */
-	private static Point transformPointFromShapeCoordinates(Point p, Shape shape) {
-		return transformPoint(shapeToView(shape), p);
-	}
-
 	public static Point transformPoint(AffineTransform transform, Point point) {
 		Point2D pShape = new Point2D.Double(point.getCoordinate(X), point.getCoordinate(Y));
 		Point2D pWorld = new Point2D.Double();
@@ -144,16 +118,30 @@ public class Transformations {
 		return zoomFactor;
 	}
 
-	public static void setZoomFactor(double zoomFactor) {
-		Transformations.zoomFactor = zoomFactor;
-
+	public static void setZoomFactor(double factor) {
 		// changing the zoom should change the knob size on the scroll bars
-		setHScrollBarKnob((int) (VIEWPORT_WIDTH / zoomFactor));
-		setVScrollBarKnob((int) (VIEWPORT_WIDTH / zoomFactor));
+		int knobWidth = (int) (VIEWPORT_WIDTH / factor);
+		setHScrollBarKnob(knobWidth);
+		setVScrollBarKnob(knobWidth);
 
-		// does it change the scroll bars' positions?
+		// update scrollbar positions
+
+		// get the current center of the viewport
+		int halfViewportWidth = VIEWPORT_WIDTH / 2;
+
+		double scaledWidth = halfViewportWidth / zoomFactor;
+		double center_x = horizontalViewPosition + scaledWidth;
+		double center_y = verticalViewPosition + scaledWidth;
+
+		horizontalViewPosition = max(min((int) (center_x - halfViewportWidth / factor), SCROLL_BAR_MAX - knobWidth), 0);
+		verticalViewPosition   = max(min((int) (center_y - halfViewportWidth / factor), SCROLL_BAR_MAX - knobWidth), 0);
+
+		zoomFactor = factor;
 
 		viewportMoved();
+
+		GUIFunctions.setHScrollBarPosit(horizontalViewPosition);
+		GUIFunctions.setVScrollBarPosit(verticalViewPosition);
 	}
 
 	////////////////////////////////////////
