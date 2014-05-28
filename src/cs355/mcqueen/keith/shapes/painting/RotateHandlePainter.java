@@ -6,6 +6,8 @@ import cs355.mcqueen.keith.shapes.RotateHandle;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
+import static cs355.mcqueen.keith.Transformations.transformPoint;
+import static cs355.mcqueen.keith.Transformations.worldToView;
 import static cs355.mcqueen.keith.shapes.Point.X;
 import static cs355.mcqueen.keith.shapes.Point.Y;
 import static cs355.mcqueen.keith.shapes.RotateHandle.SIZE;
@@ -25,7 +27,7 @@ public class RotateHandlePainter implements ShapePainter<RotateHandle> {
 		g2d.setStroke(new BasicStroke(1.0f));
 
 		// calculate the handle's X and Y
-		Point handleLoc = handle.getLocation();
+		Point handleLoc = transformPoint(worldToView(), handle.getLocation());
 		int handle_x = (int) Math.floor(handleLoc.getCoordinate(X) - SIZE / 2);
 		int handle_y = (int) Math.floor(handleLoc.getCoordinate(Y) - SIZE / 2);
 

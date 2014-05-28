@@ -9,6 +9,8 @@ import static cs355.mcqueen.keith.Transformations.transformPoint;
 import static cs355.mcqueen.keith.shapes.RectangleResizeHandle.Corner.*;
 import static cs355.mcqueen.keith.shapes.Size.HEIGHT;
 import static cs355.mcqueen.keith.shapes.Size.WIDTH;
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
 
 /**
  * The <code>SelectedRectangle</code> class decorates an instance of {@link Rectangle}
@@ -43,28 +45,24 @@ public class SelectedRectangle extends SelectedShape<Rectangle> {
 		handleLoc = new Point(_NW_x - offset, _NW_y - offset);
 		handle = new RectangleResizeHandle(transformPoint(shapeToWorld(rect), handleLoc),
 				rect, NORTHWEST);
-		handle.setRotation(rect.getRotation());
 		handles.add(handle);
 
 		// northeast corner
 		handleLoc = new Point(_NW_x + width + offset, _NW_y - offset);
 		handle = new RectangleResizeHandle(transformPoint(shapeToWorld(rect), handleLoc),
 				rect, NORTHEAST);
-		handle.setRotation(rect.getRotation());
 		handles.add(handle);
 
 		// southeast corner
 		handleLoc = new Point(_NW_x + width + offset, _NW_y + height + offset);
 		handle = new RectangleResizeHandle(transformPoint(shapeToWorld(rect), handleLoc),
 				rect, SOUTHEAST);
-		handle.setRotation(rect.getRotation());
 		handles.add(handle);
 
 		// southwest corner
 		handleLoc = new Point(_NW_x - offset, _NW_y + height + offset);
 		handle = new RectangleResizeHandle(transformPoint(shapeToWorld(rect), handleLoc),
 				rect, SOUTHWEST);
-		handle.setRotation(rect.getRotation());
 		handles.add(handle);
 
 		return handles;
@@ -85,9 +83,8 @@ public class SelectedRectangle extends SelectedShape<Rectangle> {
 
 		// northeast corner
 		double theta = Math.PI / 4.0d;
-		Point handleLoc = new Point(_NW_x + width + (offset * Math.cos(theta)), _NW_y - (offset * Math.sin(theta)));
+		Point handleLoc = new Point(_NW_x + width + (offset * cos(theta)), _NW_y - (offset * sin(theta)));
 		RotateHandle handle = new RotateHandle(transformPoint(shapeToWorld(rect), handleLoc), rect);
-		handle.setRotation(rect.getRotation());
 
 		return handle;
 	}

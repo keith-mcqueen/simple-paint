@@ -10,6 +10,8 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.util.List;
 
+import static cs355.mcqueen.keith.Transformations.transformPoint;
+import static cs355.mcqueen.keith.Transformations.worldToView;
 import static cs355.mcqueen.keith.shapes.Point.X;
 import static cs355.mcqueen.keith.shapes.Point.Y;
 import static cs355.mcqueen.keith.shapes.painting.ShapePainter.Factory.getPainterForShape;
@@ -64,7 +66,7 @@ public class SelectedShapePainter<S extends SelectedShape> extends AbstractBaseS
 		int[] yCoords = new int[handles.size()];
 		for (int i = 0; i < yCoords.length; i++) {
 			ResizeHandle handle = handles.get(i);
-			Point handleLoc = handle.getLocation();
+			Point handleLoc = transformPoint(worldToView(), handle.getLocation());
 			xCoords[i] = (int) handleLoc.getCoordinate(X);
 			yCoords[i] = (int) handleLoc.getCoordinate(Y);
 		}
