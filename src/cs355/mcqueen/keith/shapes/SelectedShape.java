@@ -100,40 +100,40 @@ public abstract class SelectedShape<S extends Shape> extends Shape implements Ha
 	}
 
 	@Override
-	public boolean contains(Point p, double scaleFactor) {
+	public boolean contains(Point p) {
 		// check the handles
 
-		if (null != this.rotateHandle && this.rotateHandle.contains(p, scaleFactor)) {
+		if (null != this.rotateHandle && this.rotateHandle.contains(p)) {
 			return true;
 		}
 
 		List<ResizeHandle> resizeHandles = this.getResizeHandles();
 		for (ResizeHandle handle : resizeHandles) {
-			if (handle.contains(p, scaleFactor)) {
+			if (handle.contains(p)) {
 				return true;
 			}
 		}
 
 		// check the selected shape
 
-		return this.selected.contains(p, scaleFactor);
+		return this.selected.contains(p);
 	}
 
 	public Shape getShapeAt(Point p, double scaleFactor) {
 		// check the handles
 
-		if (null != this.rotateHandle && this.rotateHandle.contains(p, scaleFactor)) {
+		if (null != this.rotateHandle && this.rotateHandle.contains(p)) {
 			return this.rotateHandle;
 		}
 
 		List<ResizeHandle> resizeHandles = this.getResizeHandles();
 		for (ResizeHandle handle : resizeHandles) {
-			if (handle.contains(p, scaleFactor)) {
+			if (handle.contains(p)) {
 				return handle;
 			}
 		}
 
-		if (this.selected.contains(p, scaleFactor)) {
+		if (this.selected.contains(p)) {
 			return this;
 		}
 
@@ -149,7 +149,7 @@ public abstract class SelectedShape<S extends Shape> extends Shape implements Ha
 	}
 
 	@Override
-	protected boolean doesContain(Point p, double scaleFactor) {
+	protected boolean doesContain(Point p) {
 		return false;
 	}
 

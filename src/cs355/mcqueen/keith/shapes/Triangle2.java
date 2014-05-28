@@ -78,7 +78,7 @@ public class Triangle2 extends Shape {
 	}
 
 	@Override
-	protected boolean doesContain(Point p, double scaleFactor) {
+	protected boolean doesContain(Point p) {
 		Point a = this.getPointA();
 		Point b = this.getPointB();
 		Point c = this.getPointC();

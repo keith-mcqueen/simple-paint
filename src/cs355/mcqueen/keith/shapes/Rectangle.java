@@ -31,7 +31,7 @@ public class Rectangle extends Shape {
 	}
 
 	@Override
-	protected boolean doesContain(Point p, double scaleFactor) {
+	protected boolean doesContain(Point p) {
 		Size mySize = this.getSize();
 		double halfWidth = mySize.getLength(WIDTH) / 2.0d;
 		double halfHeight = mySize.getLength(HEIGHT) / 2.0d;

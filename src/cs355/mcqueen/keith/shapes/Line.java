@@ -38,7 +38,7 @@ public class Line extends Shape {
 	}
 
 	@Override
-	protected boolean doesContain(Point p, double scaleFactor) {
+	protected boolean doesContain(Point p) {
 		double x = p.getCoordinate(X);
 		return 0 <= x && x <= this.length && Math.abs(p.getCoordinate(Y)) <= SELECTION_MARGIN;
 	}

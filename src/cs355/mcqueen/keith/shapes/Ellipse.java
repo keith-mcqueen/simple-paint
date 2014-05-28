@@ -17,10 +17,10 @@ public class Ellipse extends Rectangle {
 	}
 
 	@Override
-	protected boolean doesContain(Point p, double scaleFactor) {
+	protected boolean doesContain(Point p) {
 		// let the super check the bounding box, if that fails, then there is no need to
 		// check any further
-		if (!super.doesContain(p, scaleFactor)) {
+		if (!super.doesContain(p)) {
 			return false;
 		}
 

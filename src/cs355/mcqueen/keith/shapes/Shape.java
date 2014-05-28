@@ -94,10 +94,10 @@ public abstract class Shape {
 		}
 	}
 
-	public boolean contains(Point point, double scaleFactor) {
+	public boolean contains(Point point) {
 		Point shapePoint = transformPointToShapeCoordinates(point, this);
 
-		return this.doesContain(shapePoint, scaleFactor);
+		return this.doesContain(shapePoint);
 	}
 
 	public void setUserObject(Object key, Object value) {
@@ -112,5 +112,5 @@ public abstract class Shape {
 		return this.userObjects.get(key);
 	}
 
-	protected abstract boolean doesContain(Point p, double scaleFactor);
+	protected abstract boolean doesContain(Point p);
 }

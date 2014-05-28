@@ -45,14 +45,14 @@ public class Shapes implements Iterable<Shape> {
 
 	public Shape getShapeAt(Point p, double scaleFactor) {
 		// check the selected shape first?
-		if (null != this.selectedShape && this.selectedShape.contains(p, scaleFactor)) {
+		if (null != this.selectedShape && this.selectedShape.contains(p)) {
 			return this.selectedShape;
 		}
 
 		// check the current shapes, in reverse order (front to back)
 		for(Iterator<Shape> it = this.shapeList.descendingIterator(); it.hasNext();) {
 			Shape shape = it.next();
-			if (shape.contains(p, scaleFactor)) {
+			if (shape.contains(p)) {
 				return shape;
 			}
 		}
