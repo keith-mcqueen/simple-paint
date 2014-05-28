@@ -5,8 +5,7 @@ import cs355.mcqueen.keith.shapes.tools.Handle;
 import java.awt.event.MouseEvent;
 
 import static cs355.GUIFunctions.refresh;
-import static cs355.mcqueen.keith.Transformations.transformPoint;
-import static cs355.mcqueen.keith.Transformations.viewToShape;
+import static cs355.mcqueen.keith.Transformations.*;
 import static cs355.mcqueen.keith.shapes.Point.X;
 import static cs355.mcqueen.keith.shapes.Point.Y;
 
@@ -69,5 +68,15 @@ public class RotateHandle extends Ellipse implements Handle {
 		double b_y = vecB.getCoordinate(Y);
 
 		return (a_x * b_y) - (a_y * b_x);
+	}
+
+	@Override
+	public boolean contains(Point point) {
+		Point handleLoc = transformPoint(worldToView(), this.getLocation());
+
+		double delta_x = point.getCoordinate(X) - handleLoc.getCoordinate(X);
+		double delta_y = point.getCoordinate(Y) - handleLoc.getCoordinate(Y);
+
+		return Math.abs(delta_x) <= SIZE && Math.abs(delta_y) <= SIZE;
 	}
 }

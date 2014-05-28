@@ -37,8 +37,7 @@ public class Triangle2ResizeHandle extends ResizeHandle<Triangle2> {
 		Point b = transformPoint(shapeToWorld(triangle), triangle.getPointB());
 		Point c = transformPoint(shapeToWorld(triangle), triangle.getPointC());
 
-		triangle.updateLocation(calculateCenterPoint(a,
-				b, c));
+		triangle.updateLocation(calculateCenterPoint(a,	b, c));
 
 		// notify listeners that the triangle has changed
 		triangle.changed();

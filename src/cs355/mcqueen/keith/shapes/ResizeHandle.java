@@ -2,6 +2,11 @@ package cs355.mcqueen.keith.shapes;
 
 import cs355.mcqueen.keith.shapes.tools.Handle;
 
+import static cs355.mcqueen.keith.Transformations.transformPoint;
+import static cs355.mcqueen.keith.Transformations.worldToView;
+import static cs355.mcqueen.keith.shapes.Point.X;
+import static cs355.mcqueen.keith.shapes.Point.Y;
+
 /**
  * The <code>ResizeHandle</code> is a specialized rectangle that is used to draw handles for resizing another shape.
  * <p>
@@ -20,5 +25,15 @@ public abstract class ResizeHandle<S extends Shape> extends Rectangle implements
 
 	public S getShape() {
 		return shapeToResize;
+	}
+
+	@Override
+	public boolean contains(Point point) {
+		Point handleLoc = transformPoint(worldToView(), this.getLocation());
+
+		double delta_x = point.getCoordinate(X) - handleLoc.getCoordinate(X);
+		double delta_y = point.getCoordinate(Y) - handleLoc.getCoordinate(Y);
+
+		return Math.abs(delta_x) <= SIZE && Math.abs(delta_y) <= SIZE;
 	}
 }
