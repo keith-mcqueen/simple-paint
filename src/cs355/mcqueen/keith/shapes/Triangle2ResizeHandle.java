@@ -2,10 +2,13 @@ package cs355.mcqueen.keith.shapes;
 
 import java.awt.event.MouseEvent;
 
+import static cs355.mcqueen.keith.Transformations.transformPointFromShapeCoordinates;
 import static cs355.mcqueen.keith.Transformations.transformPointToShapeCoordinates;
 import static cs355.mcqueen.keith.shapes.Triangle2.calculateCenterPoint;
 
 /**
+ * New <code>Triangle2ResizeHandle</code> class.
+ *
  * Created by keith on 5/27/14.
  */
 public class Triangle2ResizeHandle extends ResizeHandle<Triangle2> {
@@ -31,8 +34,12 @@ public class Triangle2ResizeHandle extends ResizeHandle<Triangle2> {
 		triangle.setPoint(this.associatedPoint, transformPointToShapeCoordinates(new Point(e.getX(), e.getY()), triangle));
 
 		// recalculate the center
-		triangle.updateLocation(calculateCenterPoint(triangle.getPointA(),
-				triangle.getPointB(), triangle.getPointC()));
+		Point a = transformPointFromShapeCoordinates(triangle.getPointA(), triangle);
+		Point b = transformPointFromShapeCoordinates(triangle.getPointB(), triangle);
+		Point c = transformPointFromShapeCoordinates(triangle.getPointC(), triangle);
+
+		triangle.updateLocation(calculateCenterPoint(a,
+				b, c));
 
 		// notify listeners that the triangle has changed
 		triangle.changed();
