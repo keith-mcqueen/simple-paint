@@ -5,8 +5,7 @@ import cs355.mcqueen.keith.shapes.tools.ShapeTool;
 
 import java.awt.event.MouseEvent;
 
-import static cs355.mcqueen.keith.Transformations.transformPointFromShapeCoordinates;
-import static cs355.mcqueen.keith.Transformations.transformPointToShapeCoordinates;
+import static cs355.mcqueen.keith.Transformations.*;
 import static cs355.mcqueen.keith.shapes.Point.X;
 import static cs355.mcqueen.keith.shapes.Point.Y;
 import static cs355.mcqueen.keith.shapes.Size.HEIGHT;
@@ -35,13 +34,14 @@ public class RectangleResizeHandle extends ResizeHandle<Rectangle> {
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		// TODO I need to fix this for when the shape is rotated
-		Object obj = this.getShape().getUserObject(ShapeTool.class);
+		Rectangle rectangle = this.getShape();
+
+		Object obj = rectangle.getUserObject(ShapeTool.class);
 		if (!(obj instanceof RectangleTool)) {
 			return;
 		}
 
-		((RectangleTool) obj).updateRectangle(e, this.fixedPoint, this.getShape());
+		((RectangleTool) obj).updateRectangle(e, this.fixedPoint, rectangle);
 	}
 
 	public static enum Corner {
@@ -79,13 +79,16 @@ public class RectangleResizeHandle extends ResizeHandle<Rectangle> {
 		}
 
 		private Point getLocation(Rectangle rectangle) {
-			Point rectCenter = transformPointToShapeCoordinates(rectangle.getLocation(), rectangle);
+			Point rectCenter = transformPoint(worldToShape(rectangle), rectangle.getLocation());
 			Size rectSize = rectangle.getSize();
 
-			Point p = new Point(rectCenter.getCoordinate(X) + (this.widthFactor * (rectSize.getLength(WIDTH) / 2.0)),
-					rectCenter.getCoordinate(Y) - (this.heightFactor * (rectSize.getLength(HEIGHT) / 2.0)));
+			double width = rectSize.getLength(WIDTH) / 2.0;
+			double height = rectSize.getLength(HEIGHT) / 2.0;
+			double x = rectCenter.getCoordinate(X);
+			double y = rectCenter.getCoordinate(Y);
+			Point p = new Point(x + (this.widthFactor * width),	y - (this.heightFactor * height));
 
-			return transformPointFromShapeCoordinates(p, rectangle);
+			return transformPoint(shapeToWorld(rectangle), p);
 		}
 
 		protected Corner getOpposite() {

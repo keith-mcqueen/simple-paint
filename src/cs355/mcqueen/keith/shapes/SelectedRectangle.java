@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import static cs355.mcqueen.keith.Transformations.transformPointFromShapeCoordinates;
+import static cs355.mcqueen.keith.Transformations.shapeToWorld;
+import static cs355.mcqueen.keith.Transformations.transformPoint;
 import static cs355.mcqueen.keith.shapes.RectangleResizeHandle.Corner.*;
 import static cs355.mcqueen.keith.shapes.Size.HEIGHT;
 import static cs355.mcqueen.keith.shapes.Size.WIDTH;
@@ -21,12 +22,12 @@ public class SelectedRectangle extends SelectedShape<Rectangle> {
 	}
 
 	@Override
-	public Collection<? extends ResizeHandle> initResizeHandles(Rectangle shape) {
+	public Collection<? extends ResizeHandle> initResizeHandles(Rectangle rect) {
 		// prepare the list
 		List<ResizeHandle> handles = new ArrayList<>(4);
 
-		// using the selected shape's size, calculate the location of the shape's NW corner
-		Size size = shape.getSize();
+		// using the selected rect's size, calculate the location of the rect's NW corner
+		Size size = rect.getSize();
 		int width = (int) size.getLength(WIDTH);
 		int height = (int) size.getLength(HEIGHT);
 
@@ -40,39 +41,39 @@ public class SelectedRectangle extends SelectedShape<Rectangle> {
 
 		// northwest corner
 		handleLoc = new Point(_NW_x - offset, _NW_y - offset);
-		handle = new RectangleResizeHandle(transformPointFromShapeCoordinates(handleLoc, shape),
-				shape, NORTHWEST);
-		handle.setRotation(shape.getRotation());
+		handle = new RectangleResizeHandle(transformPoint(shapeToWorld(rect), handleLoc),
+				rect, NORTHWEST);
+		handle.setRotation(rect.getRotation());
 		handles.add(handle);
 
 		// northeast corner
 		handleLoc = new Point(_NW_x + width + offset, _NW_y - offset);
-		handle = new RectangleResizeHandle(transformPointFromShapeCoordinates(handleLoc, shape),
-				shape, NORTHEAST);
-		handle.setRotation(shape.getRotation());
+		handle = new RectangleResizeHandle(transformPoint(shapeToWorld(rect), handleLoc),
+				rect, NORTHEAST);
+		handle.setRotation(rect.getRotation());
 		handles.add(handle);
 
 		// southeast corner
 		handleLoc = new Point(_NW_x + width + offset, _NW_y + height + offset);
-		handle = new RectangleResizeHandle(transformPointFromShapeCoordinates(handleLoc, shape),
-				shape, SOUTHEAST);
-		handle.setRotation(shape.getRotation());
+		handle = new RectangleResizeHandle(transformPoint(shapeToWorld(rect), handleLoc),
+				rect, SOUTHEAST);
+		handle.setRotation(rect.getRotation());
 		handles.add(handle);
 
 		// southwest corner
 		handleLoc = new Point(_NW_x - offset, _NW_y + height + offset);
-		handle = new RectangleResizeHandle(transformPointFromShapeCoordinates(handleLoc, shape),
-				shape, SOUTHWEST);
-		handle.setRotation(shape.getRotation());
+		handle = new RectangleResizeHandle(transformPoint(shapeToWorld(rect), handleLoc),
+				rect, SOUTHWEST);
+		handle.setRotation(rect.getRotation());
 		handles.add(handle);
 
 		return handles;
 	}
 
 	@Override
-	protected RotateHandle initRotateHandle(Rectangle shape) {
-		// using the selected shape's size, calculate the location of the shape's NW corner
-		Size size = shape.getSize();
+	protected RotateHandle initRotateHandle(Rectangle rect) {
+		// using the selected rect's size, calculate the location of the rect's NW corner
+		Size size = rect.getSize();
 		int width = (int) size.getLength(WIDTH);
 		int height = (int) size.getLength(HEIGHT);
 
@@ -85,8 +86,8 @@ public class SelectedRectangle extends SelectedShape<Rectangle> {
 		// northeast corner
 		double theta = Math.PI / 4.0d;
 		Point handleLoc = new Point(_NW_x + width + (offset * Math.cos(theta)), _NW_y - (offset * Math.sin(theta)));
-		RotateHandle handle = new RotateHandle(transformPointFromShapeCoordinates(handleLoc, shape), shape);
-		handle.setRotation(shape.getRotation());
+		RotateHandle handle = new RotateHandle(transformPoint(shapeToWorld(rect), handleLoc), rect);
+		handle.setRotation(rect.getRotation());
 
 		return handle;
 	}

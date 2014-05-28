@@ -7,6 +7,8 @@ import cs355.mcqueen.keith.shapes.Shapes;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
+import static cs355.mcqueen.keith.Transformations.transformPoint;
+import static cs355.mcqueen.keith.Transformations.viewToWorld;
 import static cs355.mcqueen.keith.shapes.Point.X;
 import static cs355.mcqueen.keith.shapes.Point.Y;
 import static java.lang.Math.*;
@@ -27,7 +29,7 @@ public class LineTool extends ShapeTool<Line> {
 		Shapes.getInstance().setSelectedShape(null);
 
 		// create a new line with the same start and end points
-		this.setShape(new Line(new Point(e.getX(), e.getY()), 0.0d, 0.0d));
+		this.setShape(new Line(transformPoint(viewToWorld(), new Point(e.getX(), e.getY())), 0.0d, 0.0d));
 	}
 
 	@Override
@@ -36,8 +38,10 @@ public class LineTool extends ShapeTool<Line> {
 		if (null != line) {
 			Point lineStart = line.getLocation();
 
-			double deltaX = e.getX() - lineStart.getCoordinate(X);
-			double deltaY = e.getY() - lineStart.getCoordinate(Y);
+			Point mouseLoc = transformPoint(viewToWorld(), new Point(e.getX(), e.getY()));
+
+			double deltaX = mouseLoc.getCoordinate(X) - lineStart.getCoordinate(X);
+			double deltaY = mouseLoc.getCoordinate(Y) - lineStart.getCoordinate(Y);
 
 			double length = sqrt(pow(deltaX, 2) + pow(deltaY, 2));
 			double rotation = atan2(deltaY, deltaX);

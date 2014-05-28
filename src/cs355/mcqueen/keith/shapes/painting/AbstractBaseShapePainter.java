@@ -5,7 +5,7 @@ import cs355.mcqueen.keith.shapes.Shape;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
-import static cs355.mcqueen.keith.Transformations.getShapeToViewTransform;
+import static cs355.mcqueen.keith.Transformations.shapeToView;
 
 /**
  * The <code>AbstractBaseShapePainter</code> class is an abstract base class for any
@@ -28,7 +28,7 @@ public abstract class AbstractBaseShapePainter<S extends Shape> implements Shape
 	}
 
 	protected AffineTransform getDrawingTransform(S shape) {
-		return getShapeToViewTransform(shape);
+		return shapeToView(shape);
 	}
 
 	/**

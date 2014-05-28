@@ -1,7 +1,6 @@
 package cs355.mcqueen.keith.shapes;
 
-import static cs355.mcqueen.keith.Transformations.transformPointFromShapeCoordinates;
-import static cs355.mcqueen.keith.Transformations.transformPointToShapeCoordinates;
+import static cs355.mcqueen.keith.Transformations.*;
 import static cs355.mcqueen.keith.shapes.Point.X;
 import static cs355.mcqueen.keith.shapes.Point.Y;
 
@@ -64,17 +63,17 @@ public class Triangle2 extends Shape {
 
 	public void updateLocation(Point location) {
 		// transform the vertices to world space
-		Point a = transformPointFromShapeCoordinates(this.getPointA(), this);
-		Point b = transformPointFromShapeCoordinates(this.getPointB(), this);
-		Point c = transformPointFromShapeCoordinates(this.getPointC(), this);
+		Point a = transformPoint(shapeToWorld(this), this.getPointA());
+		Point b = transformPoint(shapeToWorld(this), this.getPointB());
+		Point c = transformPoint(shapeToWorld(this), this.getPointC());
 
 		// set the new location
 		super.setLocation(location);
 
 		// transform the vertices back to shape space
-		this.setPointA(transformPointToShapeCoordinates(a, this));
-		this.setPointB(transformPointToShapeCoordinates(b, this));
-		this.setPointC(transformPointToShapeCoordinates(c, this));
+		this.setPointA(transformPoint(worldToShape(this), a));
+		this.setPointB(transformPoint(worldToShape(this), b));
+		this.setPointC(transformPoint(worldToShape(this), c));
 	}
 
 	@Override

@@ -43,7 +43,7 @@ public class Shapes implements Iterable<Shape> {
 		this.selectedShape = selectedShape;
 	}
 
-	public Shape getShapeAt(Point p, double scaleFactor) {
+	public Shape getShapeAt(Point p) {
 		// check the selected shape first?
 		if (null != this.selectedShape && this.selectedShape.contains(p)) {
 			return this.selectedShape;

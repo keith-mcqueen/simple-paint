@@ -82,6 +82,6 @@ public class SelectedShapePainter<S extends SelectedShape> extends AbstractBaseS
 
 	@Override
 	protected AffineTransform getDrawingTransform(S shape) {
-		return Transformations.getShapeToViewTransform(shape.getShape());
+		return Transformations.shapeToView(shape.getShape());
 	}
 }

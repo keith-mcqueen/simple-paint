@@ -8,8 +8,7 @@ import cs355.mcqueen.keith.shapes.Size;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
-import static cs355.mcqueen.keith.Transformations.transformPointFromShapeCoordinates;
-import static cs355.mcqueen.keith.Transformations.transformPointToShapeCoordinates;
+import static cs355.mcqueen.keith.Transformations.*;
 import static cs355.mcqueen.keith.shapes.Point.X;
 import static cs355.mcqueen.keith.shapes.Point.Y;
 import static cs355.mcqueen.keith.shapes.Size.HEIGHT;
@@ -64,8 +63,8 @@ public class RectangleTool extends ShapeTool<Rectangle> {
 	}
 
 	protected Size calculateRectangleSize(MouseEvent e, Point fixedPoint, Rectangle rectangle) {
-		Point tFixedPoint = transformPointToShapeCoordinates(fixedPoint, rectangle);
-		Point tMouseLoc = transformPointToShapeCoordinates(new Point(e.getX(), e.getY()), rectangle);
+		Point tFixedPoint = transformPoint(worldToShape(rectangle), fixedPoint);
+		Point tMouseLoc = transformPoint(viewToShape(rectangle), new Point(e.getX(), e.getY()));
 
 		// the size of the rectangle is the difference between the X's and Y's
 		return new Size(abs(tFixedPoint.getCoordinate(X) - tMouseLoc.getCoordinate(X)),
@@ -73,8 +72,8 @@ public class RectangleTool extends ShapeTool<Rectangle> {
 	}
 
 	protected Point calculateRectangleLocation(MouseEvent e, Point fixedPoint, Rectangle rectangle) {
-		Point tFixedPoint = transformPointToShapeCoordinates(fixedPoint, rectangle);
-		Point tMouseLoc = transformPointToShapeCoordinates(new Point(e.getX(), e.getY()), rectangle);
+		Point tFixedPoint = transformPoint(worldToShape(rectangle), fixedPoint);
+		Point tMouseLoc = transformPoint(viewToShape(rectangle), new Point(e.getX(), e.getY()));
 
 		// get the difference between the new point and the fixed point
 		Size diff = new Size(tMouseLoc.getCoordinate(X) - tFixedPoint.getCoordinate(X),
@@ -85,6 +84,6 @@ public class RectangleTool extends ShapeTool<Rectangle> {
 		Point rectLoc = new Point(tFixedPoint.getCoordinate(X) + diff.getLength(WIDTH) / 2,
 				tFixedPoint.getCoordinate(Y) + diff.getLength(HEIGHT) / 2);
 
-		return transformPointFromShapeCoordinates(rectLoc, rectangle);
+		return transformPoint(shapeToWorld(rectangle), rectLoc);
 	}
 }

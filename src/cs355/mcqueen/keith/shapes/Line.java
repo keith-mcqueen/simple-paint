@@ -1,9 +1,9 @@
 package cs355.mcqueen.keith.shapes;
 
-import static cs355.mcqueen.keith.Transformations.transformPointFromShapeCoordinates;
-import static cs355.mcqueen.keith.Transformations.transformPointToShapeCoordinates;
+import static cs355.mcqueen.keith.Transformations.*;
 import static cs355.mcqueen.keith.shapes.Point.X;
 import static cs355.mcqueen.keith.shapes.Point.Y;
+import static java.lang.Math.abs;
 
 /**
  * The {@code Line} class represents a line segment in some dimensional space.  The line is
@@ -31,15 +31,18 @@ public class Line extends Shape {
 	}
 
 	public Point getEnd() {
-		Point start = transformPointToShapeCoordinates(this.getLocation(), this);
+		Point start = transformPoint(worldToShape(this), this.getLocation());
 		Point end = new Point(start.getCoordinate(X) + this.getLength(), 0);
 
-		return transformPointFromShapeCoordinates(end, this);
+		return transformPoint(shapeToWorld(this), end);
 	}
 
 	@Override
 	protected boolean doesContain(Point p) {
 		double x = p.getCoordinate(X);
-		return 0 <= x && x <= this.length && Math.abs(p.getCoordinate(Y)) <= SELECTION_MARGIN;
+		double y = p.getCoordinate(Y);
+
+		return 0 <= x && x <= this.length &&
+				abs(y) <= SELECTION_MARGIN / getZoomFactor();
 	}
 }

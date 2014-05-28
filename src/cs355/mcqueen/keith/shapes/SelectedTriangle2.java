@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import static cs355.mcqueen.keith.Transformations.transformPointFromShapeCoordinates;
+import static cs355.mcqueen.keith.Transformations.shapeToWorld;
+import static cs355.mcqueen.keith.Transformations.transformPoint;
 import static cs355.mcqueen.keith.shapes.Point.X;
 import static cs355.mcqueen.keith.shapes.Point.Y;
 import static cs355.mcqueen.keith.shapes.Triangle2.Points.*;
@@ -36,7 +37,7 @@ public class SelectedTriangle2 extends SelectedShape<Triangle2> {
 		y = loc.getCoordinate(Y);
 		theta = atan2(y, x);
 		handleLoc = new Point(x + (offset * cos(theta)), y + (offset * sin(theta)));
-		handle = new Triangle2ResizeHandle(transformPointFromShapeCoordinates(handleLoc, triangle),
+		handle = new Triangle2ResizeHandle(transformPoint(shapeToWorld(triangle), handleLoc),
 				triangle, A);
 		handle.setRotation(triangle.getRotation());
 		handles.add(handle);
@@ -47,7 +48,7 @@ public class SelectedTriangle2 extends SelectedShape<Triangle2> {
 		y = loc.getCoordinate(Y);
 		theta = atan2(y, x);
 		handleLoc = new Point(x + (offset * cos(theta)), y + (offset * sin(theta)));
-		handle = new Triangle2ResizeHandle(transformPointFromShapeCoordinates(handleLoc, triangle),
+		handle = new Triangle2ResizeHandle(transformPoint(shapeToWorld(triangle), handleLoc),
 				triangle, B);
 		handle.setRotation(triangle.getRotation());
 		handles.add(handle);
@@ -58,7 +59,7 @@ public class SelectedTriangle2 extends SelectedShape<Triangle2> {
 		y = loc.getCoordinate(Y);
 		theta = atan2(y, x);
 		handleLoc = new Point(x + (offset * cos(theta)), y + (offset * sin(theta)));
-		handle = new Triangle2ResizeHandle(transformPointFromShapeCoordinates(handleLoc, triangle),
+		handle = new Triangle2ResizeHandle(transformPoint(shapeToWorld(triangle), handleLoc),
 				triangle, C);
 		handle.setRotation(triangle.getRotation());
 		handles.add(handle);
@@ -75,7 +76,7 @@ public class SelectedTriangle2 extends SelectedShape<Triangle2> {
 		double y = c.getCoordinate(Y);
 		double theta = atan2(y, x);
 		Point handleLoc = new Point(x + (offset * cos(theta)), y + (offset * sin(theta)));
-		RotateHandle handle = new RotateHandle(transformPointFromShapeCoordinates(handleLoc, triangle),
+		RotateHandle handle = new RotateHandle(transformPoint(shapeToWorld(triangle), handleLoc),
 				triangle);
 		handle.setRotation(triangle.getRotation());
 

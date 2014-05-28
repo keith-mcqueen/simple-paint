@@ -33,8 +33,8 @@ public class Transformations {
 	 *
 	 * @return a new point in the same location relative to the space defined by the shape
 	 */
-	public static Point transformPointToShapeCoordinates(Point p, Shape shape) {
-		return transformPoint(getViewToShapeTransform(shape), p);
+	private static Point transformPointToShapeCoordinates(Point p, Shape shape) {
+		return transformPoint(viewToShape(shape), p);
 	}
 
 	/**
@@ -45,8 +45,8 @@ public class Transformations {
 	 *
 	 * @return a new point in the same location relative to the space containing the shape
 	 */
-	public static Point transformPointFromShapeCoordinates(Point p, Shape shape) {
-		return transformPoint(getShapeToViewTransform(shape), p);
+	private static Point transformPointFromShapeCoordinates(Point p, Shape shape) {
+		return transformPoint(shapeToView(shape), p);
 	}
 
 	public static Point transformPoint(AffineTransform transform, Point point) {
@@ -58,23 +58,23 @@ public class Transformations {
 		return new Point(pWorld.getX(), pWorld.getY());
 	}
 
-	public static AffineTransform getViewToShapeTransform(Shape shape) {
+	public static AffineTransform viewToShape(Shape shape) {
 		AffineTransform transform = new AffineTransform();
-		transform.concatenate(getWorldToShapeTransform(shape));
-		transform.concatenate(getViewToWorldTransform());
+		transform.concatenate(worldToShape(shape));
+		transform.concatenate(viewToWorld());
 
 		return transform;
 	}
 
-	public static AffineTransform getShapeToViewTransform(Shape shape){
+	public static AffineTransform shapeToView(Shape shape){
 		AffineTransform transform = new AffineTransform();
-		transform.concatenate(getWorldToViewTransform());
-		transform.concatenate(getShapeToWorldTransform(shape));
+		transform.concatenate(worldToView());
+		transform.concatenate(shapeToWorld(shape));
 
 		return transform;
 	}
 
-	public static AffineTransform getWorldToShapeTransform(Shape shape) {
+	public static AffineTransform worldToShape(Shape shape) {
 		Point shapeLoc = shape.getLocation();
 		double x = shapeLoc.getCoordinate(X);
 		double y = shapeLoc.getCoordinate(Y);
@@ -88,7 +88,7 @@ public class Transformations {
 				                       (-cos_theta * x) - (sin_theta * y), (sin_theta * x) - (cos_theta * y));
 	}
 
-	public static AffineTransform getShapeToWorldTransform(Shape shape) {
+	public static AffineTransform shapeToWorld(Shape shape) {
 		Point shapeLoc = shape.getLocation();
 		double x = shapeLoc.getCoordinate(X);
 		double y = shapeLoc.getCoordinate(Y);
@@ -102,16 +102,37 @@ public class Transformations {
 				                            x,         y);
 	}
 
-	public static AffineTransform getViewToWorldTransform() {
-		return new AffineTransform(         1 / zoomFactor,                        0.0,
-																     					 0.0,                     1 / zoomFactor,
-																(double) horizontalViewPosition, (double) verticalViewPosition);
+	public static AffineTransform viewToWorld() {
+		AffineTransform transform = new AffineTransform();
+
+		// translate
+		transform.concatenate(new AffineTransform(                  1.0,                          0.0,
+                                                        				0.0,                          1.0,
+				                                      (double) horizontalViewPosition, (double) verticalViewPosition));
+
+		// scale
+		transform.concatenate(new AffineTransform(1 / zoomFactor,        0.0,
+				                                             0.0,     1 / zoomFactor,
+				                                             0.0,            0.0));
+
+
+		return transform;
 	}
 
-	public static  AffineTransform getWorldToViewTransform() {
-		return new AffineTransform(            zoomFactor,                         0.0,
-				                                      0.0,                          zoomFactor,
-				                       (double) -horizontalViewPosition, (double) -verticalViewPosition);
+	public static  AffineTransform worldToView() {
+		AffineTransform transform = new AffineTransform();
+
+		// scale
+		transform.concatenate(new AffineTransform(zoomFactor,    0.0,
+				                                         0.0,     zoomFactor,
+				                                         0.0,        0.0));
+
+		// translate
+		transform.concatenate(new AffineTransform(                   1.0,                           0.0,
+				                                                         0.0,                           1.0,
+				                                      (double) -horizontalViewPosition, (double) -verticalViewPosition));
+
+		return transform;
 	}
 
 	////////////////////////////////////////
@@ -130,16 +151,9 @@ public class Transformations {
 		setHScrollBarKnob((int) (VIEWPORT_WIDTH / zoomFactor));
 		setVScrollBarKnob((int) (VIEWPORT_WIDTH / zoomFactor));
 
-		// does it change their position?
+		// does it change the scroll bars' positions?
 
-		// update the selected shape (if any)
-		Shape selectedShape = Shapes.getInstance().getSelectedShape();
-		if (selectedShape instanceof SelectedShape) {
-			((SelectedShape) selectedShape).getShape().changed();
-		}
-
-		// refresh the UI
-		GUIFunctions.refresh();
+		viewportMoved();
 	}
 
 	////////////////////////////////////////
@@ -148,30 +162,17 @@ public class Transformations {
 	private static int horizontalViewPosition = SCROLL_BAR_MIN;
 	private static int verticalViewPosition = SCROLL_BAR_MIN;
 
-	public static int getHorizontalViewPosition() {
-		return horizontalViewPosition;
-	}
-
 	public static void setHorizontalViewPosition(int horizontalViewPosition) {
 		Transformations.horizontalViewPosition = horizontalViewPosition;
-
-		// update the selected shape (if any)
-		Shape selectedShape = Shapes.getInstance().getSelectedShape();
-		if (selectedShape instanceof SelectedShape) {
-			((SelectedShape) selectedShape).getShape().changed();
-		}
-
-		// refresh the UI
-		GUIFunctions.refresh();
-	}
-
-	public static int getVerticalViewPosition() {
-		return verticalViewPosition;
+		viewportMoved();
 	}
 
 	public static void setVerticalViewPosition(int verticalViewPosition) {
 		Transformations.verticalViewPosition = verticalViewPosition;
+		viewportMoved();
+	}
 
+	private static void viewportMoved() {
 		// update the selected shape (if any)
 		Shape selectedShape = Shapes.getInstance().getSelectedShape();
 		if (selectedShape instanceof SelectedShape) {

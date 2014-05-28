@@ -7,8 +7,7 @@ import cs355.mcqueen.keith.shapes.Size;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
-import static cs355.mcqueen.keith.Transformations.transformPointFromShapeCoordinates;
-import static cs355.mcqueen.keith.Transformations.transformPointToShapeCoordinates;
+import static cs355.mcqueen.keith.Transformations.*;
 import static cs355.mcqueen.keith.shapes.Point.X;
 import static cs355.mcqueen.keith.shapes.Point.Y;
 import static cs355.mcqueen.keith.shapes.Size.HEIGHT;
@@ -37,8 +36,8 @@ public class SquareTool extends RectangleTool {
 	}
 
 	protected Point calculateRectangleLocation(MouseEvent e, Point fixedPoint, Rectangle rectangle) {
-		Point tFixedPoint = transformPointToShapeCoordinates(fixedPoint, rectangle);
-		Point tMouseLoc = transformPointToShapeCoordinates(new Point(e.getX(), e.getY()), rectangle);
+		Point tFixedPoint = transformPoint(worldToShape(rectangle), fixedPoint);
+		Point tMouseLoc = transformPoint(viewToShape(rectangle), new Point(e.getX(), e.getY()));
 
 		// get the difference between the new point and the fixed point
 		Size diff = new Size(tMouseLoc.getCoordinate(X) - tFixedPoint.getCoordinate(X),
@@ -58,6 +57,6 @@ public class SquareTool extends RectangleTool {
 		Point rectLoc = new Point(tFixedPoint.getCoordinate(X) + width / 2,
 				tFixedPoint.getCoordinate(Y) + height / 2);
 
-		return transformPointFromShapeCoordinates(rectLoc, rectangle);
+		return transformPoint(shapeToWorld(rectangle), rectLoc);
 	}
 }

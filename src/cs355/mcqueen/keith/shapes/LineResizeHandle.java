@@ -5,6 +5,8 @@ import cs355.mcqueen.keith.shapes.tools.ShapeTool;
 
 import java.awt.event.MouseEvent;
 
+import static cs355.mcqueen.keith.Transformations.transformPoint;
+import static cs355.mcqueen.keith.Transformations.viewToWorld;
 import static cs355.mcqueen.keith.shapes.Point.X;
 import static cs355.mcqueen.keith.shapes.Point.Y;
 import static java.lang.Math.*;
@@ -45,17 +47,32 @@ public class LineResizeHandle extends ResizeHandle<Line> {
 	}
 
 	private void udpateStartPoint(MouseEvent e) {
+		System.out.println("******************** LineResizeHandle.udpateStartPoint ********************");
+		System.out.println("e = " + e);
+
 		Line line = this.getShape();
+		System.out.println("line.getLocation() = " + line.getLocation());
+		System.out.println("line.getRotation() = " + line.getRotation());
+		System.out.println("line.getLength() = " + line.getLength());
 
 		Point lineEnd = line.getEnd();
+		System.out.println("lineEnd = " + lineEnd);
 
-		double deltaX = lineEnd.getCoordinate(X) - e.getX();
-		double deltaY = lineEnd.getCoordinate(Y) - e.getY();
+		Point mouseLoc = transformPoint(viewToWorld(), new Point(e.getX(), e.getY()));
+		System.out.println("mouseLoc = " + mouseLoc);
+
+		double deltaX = lineEnd.getCoordinate(X) - mouseLoc.getCoordinate(X);
+		double deltaY = lineEnd.getCoordinate(Y) - mouseLoc.getCoordinate(Y);
+		System.out.println("deltaX = " + deltaX);
+		System.out.println("deltaY = " + deltaY);
 
 		double length = sqrt(pow(deltaX, 2) + pow(deltaY, 2));
 		double rotation = atan2(deltaY, deltaX);
+		System.out.println("length = " + length);
+		System.out.println("rotation = " + rotation);
+		System.out.println();
 
-		line.setLocation(new Point(e.getX(), e.getY()));
+		line.setLocation(mouseLoc);
 		line.setLength(length);
 		line.setRotation(rotation);
 

@@ -46,9 +46,8 @@ public class SelectionTool extends ShapeTool<SelectedShape> {
 		this.activeHandle = null;
 
 		// have the model return the shape (if any) where the mouse was clicked
-		double scaleFactor = 1.0;
 		Shape shapeAtLocation =
-				Shapes.getInstance().getShapeAt(new Point(e.getX(), e.getY()), scaleFactor);
+				Shapes.getInstance().getShapeAt(new Point(e.getX(), e.getY()));
 		SelectedShape selectedShape = getSelectedShape(shapeAtLocation);
 
 		this.setShape(selectedShape);
@@ -64,7 +63,7 @@ public class SelectionTool extends ShapeTool<SelectedShape> {
 	@Override
 	public void mousePressed(MouseEvent e) {
 		if (null != this.getShape()) {
-			Shape shape = this.getShape().getShapeAt(new Point(e.getX(), e.getY()), 1.0d);
+			Shape shape = this.getShape().getShapeAt(new Point(e.getX(), e.getY()));
 			if (shape instanceof Handle) {
 				this.activeHandle = (Handle) shape;
 				this.activeHandle.mousePressed(e);

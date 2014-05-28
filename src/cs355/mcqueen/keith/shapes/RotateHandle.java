@@ -5,7 +5,8 @@ import cs355.mcqueen.keith.shapes.tools.Handle;
 import java.awt.event.MouseEvent;
 
 import static cs355.GUIFunctions.refresh;
-import static cs355.mcqueen.keith.Transformations.transformPointToShapeCoordinates;
+import static cs355.mcqueen.keith.Transformations.transformPoint;
+import static cs355.mcqueen.keith.Transformations.viewToShape;
 import static cs355.mcqueen.keith.shapes.Point.X;
 import static cs355.mcqueen.keith.shapes.Point.Y;
 
@@ -36,8 +37,8 @@ public class RotateHandle extends Ellipse implements Handle {
 	public void mouseDragged(MouseEvent e) {
 		Point newLoc = new Point(e.getX(), e.getY());
 
-		Point vecA = transformPointToShapeCoordinates(this.oldLoc, this.shapeToRotate);
-		Point vecB = transformPointToShapeCoordinates(newLoc, this.shapeToRotate);
+		Point vecA = transformPoint(viewToShape(this.shapeToRotate), this.oldLoc);
+		Point vecB = transformPoint(viewToShape(this.shapeToRotate), newLoc);
 
 		double a_dot_b = dot(vecA, vecB);
 		double a_cross_b = cross(vecA, vecB);

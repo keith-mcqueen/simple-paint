@@ -119,9 +119,8 @@ public abstract class SelectedShape<S extends Shape> extends Shape implements Ha
 		return this.selected.contains(p);
 	}
 
-	public Shape getShapeAt(Point p, double scaleFactor) {
+	public Shape getShapeAt(Point p) {
 		// check the handles
-
 		if (null != this.rotateHandle && this.rotateHandle.contains(p)) {
 			return this.rotateHandle;
 		}
@@ -184,17 +183,29 @@ public abstract class SelectedShape<S extends Shape> extends Shape implements Ha
 	public void mousePressed(MouseEvent e) {
 		Shape myShape = this.getShape();
 
-		this.mouseOffset = transformPointToShapeCoordinates(new Point(e.getX(), e.getY()), myShape);
+		this.mouseOffset = transformPoint(viewToShape(myShape), new Point(e.getX(), e.getY()));
 	}
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		Shape myShape = this.getShape();
 
-		Point mouseLoc = transformPointToShapeCoordinates(new Point(e.getX(), e.getY()), myShape);
+		System.out.println("******************** SelectedShape.mouseDragged ********************");
+		System.out.println("myShape.getLocation() = " + myShape.getLocation());
+		System.out.println("e = " + e);
+		System.out.println("this.mouseOffset = " + this.mouseOffset);
+
+		Point mouseLoc = transformPoint(viewToShape(myShape), new Point(e.getX(), e.getY()));
+		System.out.println("mouseLoc = " + mouseLoc);
+
 		Point p = new Point(mouseLoc.getCoordinate(X) - this.mouseOffset.getCoordinate(X),
 				mouseLoc.getCoordinate(Y) - this.mouseOffset.getCoordinate(Y));
-		Point newLocation = transformPointFromShapeCoordinates(p, myShape);
+		System.out.println("p = " + p);
+
+		//Point newLocation = transformPointFromShapeCoordinates(p, myShape);
+		Point newLocation = transformPoint(shapeToWorld(myShape), p);
+		System.out.println("newLocation = " + newLocation);
+		System.out.println();
 
 		myShape.setLocation(newLocation);
 		myShape.changed();
