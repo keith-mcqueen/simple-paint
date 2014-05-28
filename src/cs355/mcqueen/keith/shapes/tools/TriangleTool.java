@@ -33,7 +33,6 @@ public class TriangleTool extends ShapeTool<Triangle2> {
 			Point pointB = this.points.get(1);
 			Point pointC = this.points.get(2);
 
-			//Triangle triangle = new Triangle(pointA, pointB, pointC);
 			Triangle2 triangle = new Triangle2(pointA, pointB, pointC);
 
 			this.setShape(triangle);

@@ -37,10 +37,6 @@ public abstract class SelectedShape<S extends Shape> extends Shape implements Ha
 				return new SelectedRectangle((Rectangle) shape);
 			}
 
-			if (shape instanceof Triangle) {
-				return new SelectedTriangle((Triangle) shape);
-			}
-
 			if (shape instanceof Triangle2) {
 				return new SelectedTriangle2((Triangle2) shape);
 			}
