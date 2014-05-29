@@ -9,6 +9,9 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import static cs355.mcqueen.keith.Transformations.transformPoint;
+import static cs355.mcqueen.keith.Transformations.viewToWorld;
+
 /**
  * The <code>TriangleTool</code> class is used to draw a triangle in a 2-dimensional space.
  * <p>
@@ -26,16 +29,14 @@ public class TriangleTool extends ShapeTool<Triangle2> {
 		// clear the current selection
 		Shapes.getInstance().setSelectedShape(null);
 
-		this.points.add(new Point(e.getX(), e.getY()));
+		this.points.add(transformPoint(viewToWorld(), new Point(e.getX(), e.getY())));
 
 		if (3 == this.points.size()) {
 			Point pointA = this.points.get(0);
 			Point pointB = this.points.get(1);
 			Point pointC = this.points.get(2);
 
-			Triangle2 triangle = new Triangle2(pointA, pointB, pointC);
-
-			this.setShape(triangle);
+			this.setShape(new Triangle2(pointA, pointB, pointC));
 			this.points.clear();
 		}
 	}
