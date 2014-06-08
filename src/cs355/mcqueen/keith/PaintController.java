@@ -13,6 +13,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.util.Iterator;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import static cs355.GUIFunctions.changeSelectedColor;
 import static cs355.GUIFunctions.refresh;
@@ -32,6 +33,8 @@ import static java.lang.Math.min;
 public class PaintController implements CS355Controller, MouseListener, MouseMotionListener {
 	private ShapeTool activeTool;
 	private Color activeColor;
+	private final CopyOnWriteArrayList<KeyTool> keyTools = new CopyOnWriteArrayList<>();
+	private HouseTool houseTool;
 
 	@Override
 	public void colorButtonHit(Color c) {
@@ -55,37 +58,65 @@ public class PaintController implements CS355Controller, MouseListener, MouseMot
 
 	@Override
 	public void triangleButtonHit() {
-		this.activeTool = new TriangleTool(this.activeColor);
+		this.activateTool(new TriangleTool(this.activeColor));
 	}
 
 	@Override
 	public void squareButtonHit() {
-		this.activeTool = new SquareTool(this.activeColor);
+		this.activateTool(new SquareTool(this.activeColor));
 	}
 
 	@Override
 	public void rectangleButtonHit() {
-		this.activeTool = new RectangleTool(this.activeColor);
+		this.activateTool(new RectangleTool(this.activeColor));
 	}
 
 	@Override
 	public void circleButtonHit() {
-		this.activeTool = new CircleTool(this.activeColor);
+		this.activateTool(new CircleTool(this.activeColor));
 	}
 
 	@Override
 	public void ellipseButtonHit() {
-		this.activeTool = new EllipseTool(this.activeColor);
+		this.activateTool(new EllipseTool(this.activeColor));
 	}
 
 	@Override
 	public void lineButtonHit() {
-		this.activeTool = new LineTool(this.activeColor);
+		this.activateTool(new LineTool(this.activeColor));
 	}
 
 	@Override
 	public void selectButtonHit() {
-		this.activeTool = new SelectionTool(this.activeColor);
+		this.activateTool(new SelectionTool(this.activeColor));
+	}
+
+	public void activateTool(ShapeTool<?> tool) {
+		// if there is an active tool, then deactivate it
+		if (null != this.activeTool) {
+			this.deactivateTool(this.activeTool);
+		}
+
+		// save the new tool as the active tool
+		this.activeTool = tool;
+
+		// activate the tool
+		this.activeTool.activate();
+
+		// if the active tool has a KeyTool, then save it
+		KeyTool keyTool = this.activeTool.getkeyTool();
+		if (null != keyTool) {
+			this.keyTools.addIfAbsent(keyTool);
+		}
+	}
+
+	public void deactivateTool(ShapeTool<?> tool) {
+		tool.deactivate();
+
+		KeyTool keyTool = tool.getkeyTool();
+		if (null != keyTool) {
+			this.keyTools.remove(keyTool);
+		}
 	}
 
 	@Override
@@ -114,12 +145,37 @@ public class PaintController implements CS355Controller, MouseListener, MouseMot
 
 	@Override
 	public void toggle3DModelDisplay() {
+		if (null == this.houseTool) {
+			this.houseTool = new HouseTool();
+		}
 
+		// do I activate or deactivate the house tool
+		if (this.houseTool.isActivated()) {
+			// deactivate the house tool
+			this.houseTool.deactivate();
+
+			// remove the HouseTool's KeyTool
+			KeyTool keyTool = this.houseTool.getkeyTool();
+			if (null != keyTool) {
+				this.keyTools.remove(keyTool);
+			}
+		} else {
+			// activate the house tool
+			this.houseTool.activate();
+
+			// add the HouseTool's KeyTool
+			KeyTool keyTool = this.houseTool.getkeyTool();
+			if (null != keyTool) {
+				this.keyTools.addIfAbsent(keyTool);
+			}
+		}
 	}
 
 	@Override
 	public void keyPressed(Iterator<Integer> iterator) {
-
+		for (KeyTool tool : this.keyTools) {
+			tool.keyPressed(iterator);
+		}
 	}
 
 	@Override

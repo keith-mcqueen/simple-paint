@@ -11,6 +11,7 @@ public class Shapes implements Iterable<Shape> {
 	private static Shapes ourInstance = new Shapes();
 
 	private Shape selectedShape;
+	private Shape specialShape;
 
 	public static Shapes getInstance() {
 		return ourInstance;
@@ -27,9 +28,17 @@ public class Shapes implements Iterable<Shape> {
 
 	@Override
 	public Iterator<Shape> iterator() {
+		// create a list of all the shapes
 		List<Shape> allShapes = new ArrayList<>(this.shapeList);
+
+		// add the selected shape (if any) to the list
 		if (null != this.selectedShape) {
 			allShapes.add(this.selectedShape);
+		}
+
+		// add the special shape (if any) to the list
+		if (null != this.specialShape) {
+			allShapes.add(this.specialShape);
 		}
 
 		return allShapes.iterator();
@@ -58,5 +67,9 @@ public class Shapes implements Iterable<Shape> {
 		}
 
 		return null;
+	}
+
+	public void setSpecialShape(Shape shape) {
+		this.specialShape = shape;
 	}
 }

@@ -43,7 +43,11 @@ public class Point {
 	}
 
 	public double getCoordinate(int dimension) {
-		return this.coordinates.length > dimension ? this.coordinates[dimension] : 0;
+		return  this.getCoordinate(dimension, 0.0);
+	}
+
+	public double getCoordinate(int dimension, double defVal) {
+		return this.coordinates.length > dimension ? this.coordinates[dimension] : defVal;
 	}
 
 	@Override

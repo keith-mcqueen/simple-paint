@@ -37,6 +37,7 @@ public interface ShapePainter<S extends Shape> {
 			PAINTERS_BY_SHAPE_CLASS.put(SelectedLine.class, new SelectedLinePainter());
 			PAINTERS_BY_SHAPE_CLASS.put(ResizeHandle.class, new ResizeHandlePainter());
 			PAINTERS_BY_SHAPE_CLASS.put(RotateHandle.class, new RotateHandlePainter());
+			PAINTERS_BY_SHAPE_CLASS.put(House.class, new HousePainter());
 		}
 
 		public static ShapePainter<? extends Shape> getPainterForShape(Class<? extends Shape> shapeClass) {

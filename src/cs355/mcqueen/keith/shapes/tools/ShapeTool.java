@@ -21,6 +21,7 @@ public class ShapeTool<S extends Shape> implements ShapeListener, MouseListener,
 	private S shape;
 
 	private Color color;
+	private boolean activated;
 
 	public ShapeTool(Color color) {
 		this.setColor(color);
@@ -60,8 +61,28 @@ public class ShapeTool<S extends Shape> implements ShapeListener, MouseListener,
 		refresh();
 	}
 
-	public void deactivate() {
+	public final void deactivate() {
+		this.activated = false;
+
+		this.setActive(this.activated);
+	}
+
+	protected void setActive(boolean activated) {
 		// no op
+	}
+
+	public final void activate() {
+		this.activated = true;
+
+		this.setActive(this.activated);
+	}
+
+	public boolean isActivated() {
+		return this.activated;
+	}
+
+	public KeyTool getkeyTool() {
+		return null;
 	}
 
 	////////////////////////////////////////////////////////////
