@@ -4,6 +4,7 @@ import cs355.GUIFunctions;
 import cs355.mcqueen.keith.shapes.House;
 import cs355.mcqueen.keith.shapes.Shapes;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.Iterator;
 
@@ -20,6 +21,11 @@ public class HouseTool extends ShapeTool<House> implements KeyTool {
 		super(null);
 
 		this.setShape(new House());
+	}
+
+	@Override
+	public void setColor(Color color) {
+		// no op
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import cs355.mcqueen.keith.shapes.House;
 import cs355.mcqueen.keith.shapes.Point;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 
 import static cs355.mcqueen.keith.Transformations.transformPoint;
 import static cs355.mcqueen.keith.Transformations.worldToView;
@@ -23,7 +24,7 @@ public class HousePainter implements ShapePainter<House> {
 
 	private static final double FOV = PI / 4.0;
 	private static final double ZOOM_X = 1.0 / tan(FOV / 2.0);
-	private static final double ZOOM_Y = ZOOM_X;
+	private static final double ZOOM_Y = 1.0 / tan(FOV / 2.0);
 	private static final double Z_NEAR = 1.0;
 	private static final double Z_FAR = 500.0;
 
@@ -40,7 +41,12 @@ public class HousePainter implements ShapePainter<House> {
 
 	@Override
 	public void paint(House house, Graphics2D g2d) {
-		g2d.setColor(null);
+		// clear the graphics color
+		g2d.setColor(Color.CYAN);
+
+		// clear any transform
+		g2d.setTransform(new AffineTransform());
+
 
 		// get the world-to-camera transformation matrix (translate, rotate)
 		this.translationMatrix = this.getTranslationMatrix(house);
@@ -153,11 +159,8 @@ public class HousePainter implements ShapePainter<House> {
 
 		double z1 = p1.getCoordinate(Z);
 		double z2 = p2.getCoordinate(Z);
-		if (z1 < -w1 || z2 < -w2) {
-			return true;
-		}
 
-		return false;
+		return z1 < -w1 || z2 < -w2;
 	}
 
 	private static double[][] getClipMatrix() {
