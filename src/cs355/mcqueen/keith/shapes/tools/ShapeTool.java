@@ -81,7 +81,7 @@ public class ShapeTool<S extends Shape> implements ShapeListener, MouseListener,
 		return this.activated;
 	}
 
-	public KeyTool getkeyTool() {
+	public KeyTool getKeyTool() {
 		return null;
 	}
 

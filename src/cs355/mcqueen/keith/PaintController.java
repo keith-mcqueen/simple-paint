@@ -104,7 +104,7 @@ public class PaintController implements CS355Controller, MouseListener, MouseMot
 		this.activeTool.activate();
 
 		// if the active tool has a KeyTool, then save it
-		KeyTool keyTool = this.activeTool.getkeyTool();
+		KeyTool keyTool = this.activeTool.getKeyTool();
 		if (null != keyTool) {
 			this.keyTools.addIfAbsent(keyTool);
 		}
@@ -113,7 +113,7 @@ public class PaintController implements CS355Controller, MouseListener, MouseMot
 	public void deactivateTool(ShapeTool<?> tool) {
 		tool.deactivate();
 
-		KeyTool keyTool = tool.getkeyTool();
+		KeyTool keyTool = tool.getKeyTool();
 		if (null != keyTool) {
 			this.keyTools.remove(keyTool);
 		}
@@ -155,7 +155,7 @@ public class PaintController implements CS355Controller, MouseListener, MouseMot
 			this.houseTool.deactivate();
 
 			// remove the HouseTool's KeyTool
-			KeyTool keyTool = this.houseTool.getkeyTool();
+			KeyTool keyTool = this.houseTool.getKeyTool();
 			if (null != keyTool) {
 				this.keyTools.remove(keyTool);
 			}
@@ -164,7 +164,7 @@ public class PaintController implements CS355Controller, MouseListener, MouseMot
 			this.houseTool.activate();
 
 			// add the HouseTool's KeyTool
-			KeyTool keyTool = this.houseTool.getkeyTool();
+			KeyTool keyTool = this.houseTool.getKeyTool();
 			if (null != keyTool) {
 				this.keyTools.addIfAbsent(keyTool);
 			}

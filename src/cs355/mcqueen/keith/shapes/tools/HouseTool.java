@@ -13,6 +13,9 @@ import java.util.Iterator;
  * Created by keith on 6/7/14.
  */
 public class HouseTool extends ShapeTool<House> implements KeyTool {
+	private static final double WALK_DISTANCE = 1.0;
+	private static final double ROTATION_ANGLE = Math.toRadians(1.0);
+
 	public HouseTool() {
 		super(null);
 
@@ -20,7 +23,7 @@ public class HouseTool extends ShapeTool<House> implements KeyTool {
 	}
 
 	@Override
-	public KeyTool getkeyTool() {
+	public KeyTool getKeyTool() {
 		return this;
 	}
 
@@ -30,12 +33,56 @@ public class HouseTool extends ShapeTool<House> implements KeyTool {
 			Integer key = iterator.next();
 			this.handleKey(key);
 		}
+
+		this.shapeChanged(this.getShape());
 	}
 
 	private void handleKey(Integer key) {
+		House house = this.getShape();
+
 		switch (key) {
+			// forward
 			case KeyEvent.VK_W:
-				// forward
+			case KeyEvent.VK_UP:
+				house.forward(WALK_DISTANCE);
+				break;
+
+			// backward
+			case KeyEvent.VK_S:
+			case KeyEvent.VK_DOWN:
+				house.back(WALK_DISTANCE);
+				break;
+
+			// move left
+			case KeyEvent.VK_A:
+			case KeyEvent.VK_LEFT:
+				house.left(WALK_DISTANCE);
+				break;
+
+			// move right
+			case KeyEvent.VK_D:
+			case KeyEvent.VK_RIGHT:
+				house.right(WALK_DISTANCE);
+				break;
+
+			// rotate left
+			case KeyEvent.VK_Q:
+				house.rotate(-ROTATION_ANGLE);
+				break;
+
+			// rotate right
+			case KeyEvent.VK_E:
+				house.rotate(ROTATION_ANGLE);
+				break;
+
+			// fly up
+			case KeyEvent.VK_R:
+				house.fly(WALK_DISTANCE);
+				break;
+
+			// fly down
+			case KeyEvent.VK_F:
+				house.fly(-WALK_DISTANCE);
 				break;
 		}
 	}

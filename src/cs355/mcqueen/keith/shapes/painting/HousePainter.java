@@ -24,7 +24,7 @@ public class HousePainter implements ShapePainter<House> {
 	private static final double FOV = PI / 4.0;
 	private static final double ZOOM_X = 1.0 / tan(FOV / 2.0);
 	private static final double ZOOM_Y = ZOOM_X;
-	private static final double Z_NEAR = 10.0;
+	private static final double Z_NEAR = 1.0;
 	private static final double Z_FAR = 500.0;
 
 	public static final double WIDTH = 1024.0;
