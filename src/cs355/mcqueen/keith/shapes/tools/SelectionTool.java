@@ -18,7 +18,7 @@ import static cs355.mcqueen.keith.shapes.SelectedShape.Factory.getSelectedShape;
  *
  * Created by keith on 5/13/14.
  */
-public class SelectionTool extends ShapeTool<SelectedShape> {
+public class SelectionTool extends ShapeTool<SelectedShape> /*implements KeyTool*/ {
 
 	private Handle activeHandle;
 
@@ -74,4 +74,25 @@ public class SelectionTool extends ShapeTool<SelectedShape> {
 			this.activeHandle = null;
 		}
 	}
+
+//	@Override
+//	public KeyTool getKeyTool() {
+//		return this;
+//	}
+//
+//	@Override
+//	public void keyPressed(Iterator<Integer> iterator) {
+//		while (iterator.hasNext()) {
+//			Integer key = iterator.next();
+//			switch (key) {
+//				case KeyEvent.VK_DELETE:
+//				case KeyEvent.VK_BACK_SPACE:
+//					// remove the selected shape from the model
+//					Shapes.getInstance().removeShape(this.getShape().getShape());
+//					Shapes.getInstance().setSelectedShape(null);
+//
+//					GUIFunctions.refresh();
+//			}
+//		}
+//	}
 }

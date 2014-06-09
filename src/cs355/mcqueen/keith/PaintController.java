@@ -174,6 +174,7 @@ public class PaintController implements CS355Controller, MouseListener, MouseMot
 	@Override
 	public void keyPressed(Iterator<Integer> iterator) {
 		for (KeyTool tool : this.keyTools) {
+			System.out.println("notifying keypress tool = " + tool);
 			tool.keyPressed(iterator);
 		}
 	}

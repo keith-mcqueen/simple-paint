@@ -68,8 +68,8 @@ public class House extends Shape {
 		double y = oldLoc.getCoordinate(Y);
 		double z = oldLoc.getCoordinate(Z);
 
-		x -= distance * sin(theta - _90_DEGREES);
-		z += distance * cos(theta - _90_DEGREES);
+		x += distance * sin(theta - _90_DEGREES);
+		z -= distance * cos(theta - _90_DEGREES);
 
 		this.setLocation(new Point(x, y, z));
 	}
@@ -82,8 +82,8 @@ public class House extends Shape {
 		double y = oldLoc.getCoordinate(Y);
 		double z = oldLoc.getCoordinate(Z);
 
-		x -= distance * (float) sin(theta + _90_DEGREES);
-		z += distance * (float) cos(theta + _90_DEGREES);
+		x += distance * (float) sin(theta + _90_DEGREES);
+		z -= distance * (float) cos(theta + _90_DEGREES);
 
 		this.setLocation(new Point(x, y, z));
 	}

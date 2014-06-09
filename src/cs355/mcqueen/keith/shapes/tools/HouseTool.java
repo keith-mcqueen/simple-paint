@@ -73,12 +73,12 @@ public class HouseTool extends ShapeTool<House> implements KeyTool {
 
 			// rotate left
 			case KeyEvent.VK_Q:
-				house.rotate(-ROTATION_ANGLE);
+				house.rotate(ROTATION_ANGLE);
 				break;
 
 			// rotate right
 			case KeyEvent.VK_E:
-				house.rotate(ROTATION_ANGLE);
+				house.rotate(-ROTATION_ANGLE);
 				break;
 
 			// fly up

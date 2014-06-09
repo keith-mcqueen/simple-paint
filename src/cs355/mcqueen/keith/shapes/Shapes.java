@@ -1,6 +1,9 @@
 package cs355.mcqueen.keith.shapes;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 
 /**
  * The <code>Shapes</code> class is the model containing all the shapes.
@@ -17,7 +20,8 @@ public class Shapes implements Iterable<Shape> {
 		return ourInstance;
 	}
 
-	private final Deque<Shape> shapeList = new ArrayDeque<>();
+//	private final Deque<Shape> shapeList = new ArrayDeque<>();
+	private final List<Shape> shapeList = new ArrayList<>();
 
 	private Shapes() {
 	}
@@ -59,8 +63,8 @@ public class Shapes implements Iterable<Shape> {
 		}
 
 		// check the current shapes, in reverse order (front to back)
-		for(Iterator<Shape> it = this.shapeList.descendingIterator(); it.hasNext();) {
-			Shape shape = it.next();
+		for(ListIterator<Shape> it = this.shapeList.listIterator(this.shapeList.size()); it.hasPrevious();) {
+			Shape shape = it.previous();
 			if (shape.contains(p)) {
 				return shape;
 			}
@@ -71,5 +75,9 @@ public class Shapes implements Iterable<Shape> {
 
 	public void setSpecialShape(Shape shape) {
 		this.specialShape = shape;
+	}
+
+	public void removeShape(Shape shape) {
+		this.shapeList.remove(shape);
 	}
 }
