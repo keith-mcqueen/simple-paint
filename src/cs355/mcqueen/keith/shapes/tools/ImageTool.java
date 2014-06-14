@@ -10,10 +10,11 @@ import java.awt.image.WritableRaster;
 
 import static java.lang.Math.pow;
 import static java.lang.Math.round;
+import static java.util.Arrays.sort;
 
 /**
  * The <code>ImageTool</code> class performs operations on image.
- *
+ * <p>
  * Created by keith on 6/13/14.
  */
 public class ImageTool extends ShapeTool<ImageShape> {
@@ -64,49 +65,70 @@ public class ImageTool extends ShapeTool<ImageShape> {
 	}
 
 	public void doSharpen() {
+		this.transformImage((image, pixelX, pixelY, pixelValue) -> {
+			int n = image.getPixelValue(pixelX, pixelY - 1);
+			int s = image.getPixelValue(pixelX, pixelY + 1);
+			int e = image.getPixelValue(pixelX + 1, pixelY);
+			int w = image.getPixelValue(pixelX - 1, pixelY);
 
+			return round(((6 * pixelValue) - n - s - e - w) / 2.0f);
+		});
 	}
 
 	public void doMedianBlur() {
+		this.transformImage((image, pixelX, pixelY, pixelValue) -> {
+			int[] pixelValues = new int[9];
+			int i = 0;
 
+			// collect all the neighborhood pixel values
+			for (int y = pixelY - 1; y < pixelY + 2; y++) {
+				for (int x = pixelX - 1; x < pixelX + 2; x++) {
+					// note that i++ is a POST increment
+					pixelValues[i++] = image.getPixelValue(x, y);
+				}
+			}
+
+			// now sort the array
+			sort(pixelValues);
+
+			// the median value is always in position 4
+			return pixelValues[4];
+		});
 	}
 
 	public void doUniformBlur() {
-		// get the shape
-		ImageShape imageShape = this.getShape();
-
-		// perform the blur
-		imageShape.performPixelOperation((image, pixelX, pixelY, pixelValue) -> {
+		this.transformImage((image, pixelX, pixelY, pixelValue) -> {
 			int total = 0;
 
+			// add up all the neighborhood pixel values
 			for (int y = pixelY - 1; y < pixelY + 2; y++) {
 				for (int x = pixelX - 1; x < pixelX + 2; x++) {
 					total += image.getPixelValue(x, y);
 				}
 			}
 
+			// return the average of the values (rounded)
 			return round(total / 9.0f);
 		});
 	}
 
 	public void doChangeContrast(int contrastAmount) {
-		// get the image
-		ImageShape imageShape = this.getShape();
-
-		// update the contrast
-		imageShape.performPixelOperation((image, pixelX, pixelY, pixelValue) ->
+		this.transformImage((image, pixelX, pixelY, pixelValue) ->
 				(int) ((pow((contrastAmount + 100.0) / 100.0, 4.0) * (pixelValue - 128)) + 128));
-
-		this.shapeChanged(imageShape);
 	}
 
 	public void doChangeBrightness(int brightnessAmount) {
-		// get the shape
+		this.transformImage((image, pixelX, pixelY, pixelValue) -> pixelValue + brightnessAmount);
+	}
+
+	public void transformImage(ImageShape.PixelOperator operator) {
+		// get the image
 		ImageShape imageShape = this.getShape();
 
-		// add the brightness to the pixels
-		imageShape.performPixelOperation((image, pixelX, pixelY, pixelValue) -> pixelValue + brightnessAmount);
+		// perform the operation
+		imageShape.performPixelOperation(operator);
 
+		// notify that the shape has changed
 		this.shapeChanged(imageShape);
 	}
 }
