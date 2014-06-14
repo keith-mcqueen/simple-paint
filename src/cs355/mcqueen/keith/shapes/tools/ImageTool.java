@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 
 import static java.lang.Math.pow;
+import static java.lang.Math.round;
 
 /**
  * The <code>ImageTool</code> class performs operations on image.
@@ -71,7 +72,21 @@ public class ImageTool extends ShapeTool<ImageShape> {
 	}
 
 	public void doUniformBlur() {
+		// get the shape
+		ImageShape imageShape = this.getShape();
 
+		// perform the blur
+		imageShape.performPixelOperation((image, pixelX, pixelY, pixelValue) -> {
+			int total = 0;
+
+			for (int y = pixelY - 1; y < pixelY + 2; y++) {
+				for (int x = pixelX - 1; x < pixelX + 2; x++) {
+					total += image.getPixelValue(x, y);
+				}
+			}
+
+			return round(total / 9.0f);
+		});
 	}
 
 	public void doChangeContrast(int contrastAmount) {

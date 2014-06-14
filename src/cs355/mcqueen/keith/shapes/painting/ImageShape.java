@@ -18,11 +18,20 @@ public class ImageShape extends Rectangle {
 	public static final int MIN_VALUE = 0;
 	public static final int MAX_VALUE = 255;
 	private final int[][] pixelData;
+	private final int width;
+	private final int height;
 
 	public ImageShape(Point location, int[][] pixelData) {
 		super(location,	new Size(pixelData[0].length, pixelData.length));
 
 		this.pixelData = pixelData;
+		this.height = this.pixelData.length;
+		this.width = this.pixelData[0].length;
+	}
+
+	@Override
+	public Size getSize() {
+		return new Size(this.width, this.height);
 	}
 
 	@Override
@@ -31,8 +40,8 @@ public class ImageShape extends Rectangle {
 	}
 
 	public void performPixelOperation(PixelOperator operator) {
-		for (int y = 0; y < this.pixelData.length; y++) {
-			for (int x = 0; x < this.pixelData[y].length; x++) {
+		for (int y = 0; y < this.height; y++) {
+			for (int x = 0; x < this.width; x++) {
 				int pixelValue = this.getPixelValue(x, y);
 				int newValue = operator.operateOn(this, x, y, pixelValue);
 
@@ -43,17 +52,12 @@ public class ImageShape extends Rectangle {
 		}
 	}
 
-	private int getPixelValue(int x, int y) {
-		// TODO bounds safety
-		return this.pixelData[y][x];
+	public int getPixelValue(int x, int y) {
+		return this.pixelData[max(0, min(y, this.height - 1))][max(0, min(x, this.width - 1))];
 	}
 
 	private void setPixelValue(int x, int y, int value) {
-		int lower = min(MAX_VALUE, value);
-		int higher = max(MIN_VALUE, lower);
-
-		// TODO: bounds safety
-		this.pixelData[y][x] = higher;
+		this.pixelData[max(0, min(y, this.height - 1))][max(0, min(x, this.width - 1))] = max(MIN_VALUE, min(MAX_VALUE, value));
 	}
 
 	/**
