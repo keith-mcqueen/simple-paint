@@ -1,9 +1,9 @@
 package cs355.mcqueen.keith.shapes.tools;
 
 import cs355.GUIFunctions;
+import cs355.mcqueen.keith.shapes.ImageShape;
 import cs355.mcqueen.keith.shapes.Point;
 import cs355.mcqueen.keith.shapes.Shapes;
-import cs355.mcqueen.keith.shapes.painting.ImageShape;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
@@ -42,6 +42,10 @@ public class ImageTool extends ShapeTool<ImageShape> {
 
 		// create (and save) the image shape with the loaded pixel data
 		this.setShape(new ImageShape(new Point(1024, 1024), pixelData));
+
+		if (this.isActivated()) {
+			GUIFunctions.refresh();
+		}
 	}
 
 	@Override
@@ -79,7 +83,7 @@ public class ImageTool extends ShapeTool<ImageShape> {
 				}
 			}
 
-			return (int) rint(sqrt(pow(dx, 2) + pow(dy, 2)) / 8.0);
+			return (int) rint(sqrt(dx * dx + dy * dy) / 8.0) * 3;
 		});
 	}
 

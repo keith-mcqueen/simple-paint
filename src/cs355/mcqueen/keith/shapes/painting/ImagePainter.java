@@ -1,5 +1,7 @@
 package cs355.mcqueen.keith.shapes.painting;
 
+import cs355.mcqueen.keith.shapes.ImageShape;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;

@@ -1,9 +1,4 @@
-package cs355.mcqueen.keith.shapes.painting;
-
-import cs355.mcqueen.keith.shapes.Point;
-import cs355.mcqueen.keith.shapes.Rectangle;
-import cs355.mcqueen.keith.shapes.Shapes;
-import cs355.mcqueen.keith.shapes.Size;
+package cs355.mcqueen.keith.shapes;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
