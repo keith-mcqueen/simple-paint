@@ -77,6 +77,12 @@ public class ImageTool extends ShapeTool<ImageShape> {
 	}
 
 	public void doChangeBrightness(int brightnessAmount) {
+		// get the shape
+		ImageShape imageShape = this.getShape();
 
+		// add the brightness to the pixels
+		imageShape.performPixelOperation((image, pixelX, pixelY, pixelValue) -> pixelValue + brightnessAmount);
+
+		this.shapeChanged(imageShape);
 	}
 }

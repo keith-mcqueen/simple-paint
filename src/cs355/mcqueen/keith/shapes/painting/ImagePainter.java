@@ -18,14 +18,13 @@ public class ImagePainter extends RectanglePainter<ImageShape> {
 		BufferedImage outputImage = new BufferedImage(paintWidth,	paintHeight, TYPE_BYTE_GRAY);
 
 		// get the raster data for the image
-		WritableRaster imageRaster = outputImage.getRaster();
+		final WritableRaster imageRaster = outputImage.getRaster();
 
 		// put the pixels into the output image
-		for (int y = 0; y < paintHeight; y++) {
-			for (int x = 0; x < paintWidth; x++) {
-				imageRaster.setPixel(x, y, new int[] { image.getPixelValue(x, y), 0, 0 });
-			}
-		}
+		image.performPixelOperation((image1, pixelX, pixelY, pixelValue) -> {
+			imageRaster.setPixel(pixelX, pixelY, new int[] { pixelValue, 0, 0 });
+			return pixelValue;
+		});
 
 		// draw the output image
 		g2d.drawImage(outputImage, null, paintX, paintY);
