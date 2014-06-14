@@ -8,8 +8,7 @@ import cs355.mcqueen.keith.shapes.painting.ImageShape;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 
-import static java.lang.Math.pow;
-import static java.lang.Math.round;
+import static java.lang.Math.*;
 import static java.util.Arrays.sort;
 
 /**
@@ -18,6 +17,9 @@ import static java.util.Arrays.sort;
  * Created by keith on 6/13/14.
  */
 public class ImageTool extends ShapeTool<ImageShape> {
+	private static final int[] DX_COEFFICIENTS = {-1, 0, 1, -2, 0, 2, -1, 0, 1};
+	private static final int[] DY_COEFFICIENTS = {-1, -2, -1, 0, 0, 0, 1, 2, 1};
+
 	public ImageTool() {
 		super(null);
 	}
@@ -61,7 +63,24 @@ public class ImageTool extends ShapeTool<ImageShape> {
 	}
 
 	public void doEdgeDetection() {
+		this.transformImage((image, pixelX, pixelY, pixelValue) -> {
+			float dx = 0.0f;
+			float dy = 0.0f;
 
+			int i = 0;
+			for (int y = pixelY - 1; y < pixelY + 2; y++) {
+				for (int x = pixelX - 1; x < pixelX + 2; x++) {
+					int value = image.getPixelValue(x, y);
+
+					dx += value * DX_COEFFICIENTS[i];
+					dy += value * DY_COEFFICIENTS[i];
+
+					i++;
+				}
+			}
+
+			return (int) rint(sqrt(pow(dx, 2) + pow(dy, 2)) / 8.0);
+		});
 	}
 
 	public void doSharpen() {
