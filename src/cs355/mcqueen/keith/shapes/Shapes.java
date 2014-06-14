@@ -14,7 +14,8 @@ public class Shapes implements Iterable<Shape> {
 	private static Shapes ourInstance = new Shapes();
 
 	private Shape selectedShape;
-	private Shape specialShape;
+	private Shape foregroundShape;
+	private Shape backgroundShape;
 
 	public static Shapes getInstance() {
 		return ourInstance;
@@ -33,16 +34,23 @@ public class Shapes implements Iterable<Shape> {
 	@Override
 	public Iterator<Shape> iterator() {
 		// create a list of all the shapes
-		List<Shape> allShapes = new ArrayList<>(this.shapeList);
+		List<Shape> allShapes = new ArrayList<>();
+
+		// add the background shape (if there is one)
+		if (null != this.backgroundShape) {
+			allShapes.add(this.backgroundShape);
+		}
+
+		allShapes.addAll(this.shapeList);
 
 		// add the selected shape (if any) to the list
 		if (null != this.selectedShape) {
 			allShapes.add(this.selectedShape);
 		}
 
-		// add the special shape (if any) to the list
-		if (null != this.specialShape) {
-			allShapes.add(this.specialShape);
+		// add the foreground shape (if there is one)
+		if (null != this.foregroundShape) {
+			allShapes.add(this.foregroundShape);
 		}
 
 		return allShapes.iterator();
@@ -73,11 +81,15 @@ public class Shapes implements Iterable<Shape> {
 		return null;
 	}
 
-	public void setSpecialShape(Shape shape) {
-		this.specialShape = shape;
+	public void setForegroundShape(Shape shape) {
+		this.foregroundShape = shape;
 	}
 
 	public void removeShape(Shape shape) {
 		this.shapeList.remove(shape);
+	}
+
+	public void setBackgroundShape(Shape shape) {
+		this.backgroundShape = shape;
 	}
 }

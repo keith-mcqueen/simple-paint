@@ -97,10 +97,10 @@ public class HouseTool extends ShapeTool<House> implements KeyTool {
 	protected void setActive(boolean activated) {
 		if (activated) {
 			// add the house shape to the shapes
-			Shapes.getInstance().setSpecialShape(this.getShape());
+			Shapes.getInstance().setForegroundShape(this.getShape());
 		} else {
 			// remove the house shape from the shapes
-			Shapes.getInstance().setSpecialShape(null);
+			Shapes.getInstance().setForegroundShape(null);
 		}
 
 		GUIFunctions.refresh();

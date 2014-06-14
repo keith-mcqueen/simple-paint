@@ -47,7 +47,6 @@ public class HousePainter implements ShapePainter<House> {
 		// clear any transform
 		g2d.setTransform(new AffineTransform());
 
-
 		// get the world-to-camera transformation matrix (translate, rotate)
 		this.translationMatrix = this.getTranslationMatrix(house);
 		this.rotationMatrix = this.getRotationMatrix(house);

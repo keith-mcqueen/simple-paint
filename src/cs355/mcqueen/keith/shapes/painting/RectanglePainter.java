@@ -16,7 +16,7 @@ import static cs355.mcqueen.keith.shapes.Size.WIDTH;
  */
 public class RectanglePainter<S extends Rectangle> extends AbstractBaseShapePainter<S> {
 	@Override
-	public void doPaint(Rectangle shape, Graphics2D g2d) {
+	public void doPaint(S shape, Graphics2D g2d) {
 		Size size = shape.getSize();
 
 		int paintX = (int) Math.floor(-size.getLength(WIDTH) / 2.0d);
@@ -24,10 +24,10 @@ public class RectanglePainter<S extends Rectangle> extends AbstractBaseShapePain
 		int paintWidth = (int) size.getLength(WIDTH);
 		int paintHeight = (int) size.getLength(HEIGHT);
 
-		paintRectangle(g2d, paintX, paintY, paintWidth, paintHeight);
+		paintRectangle(shape, g2d, paintX, paintY, paintWidth, paintHeight);
 	}
 
-	protected void paintRectangle(Graphics2D g2d, int paintX, int paintY, int paintWidth, int paintHeight) {
+	protected void paintRectangle(S rect, Graphics2D g2d, int paintX, int paintY, int paintWidth, int paintHeight) {
 		g2d.fillRect(paintX, paintY, paintWidth, paintHeight);
 	}
 

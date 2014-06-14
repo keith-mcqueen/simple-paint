@@ -11,7 +11,7 @@ import java.awt.*;
  */
 public class EllipsePainter extends RectanglePainter<Ellipse>{
 	@Override
-	protected void paintRectangle(Graphics2D g2d, int paintX, int paintY, int paintWidth, int paintHeight) {
+	protected void paintRectangle(Ellipse rect, Graphics2D g2d, int paintX, int paintY, int paintWidth, int paintHeight) {
 		g2d.fillOval(paintX, paintY, paintWidth, paintHeight);
 	}
 }

@@ -35,6 +35,7 @@ public class PaintController implements CS355Controller, MouseListener, MouseMot
 	private Color activeColor;
 	private final CopyOnWriteArrayList<KeyTool> keyTools = new CopyOnWriteArrayList<>();
 	private HouseTool houseTool;
+	private ImageTool imageTool;
 
 	@Override
 	public void colorButtonHit(Color c) {
@@ -174,49 +175,72 @@ public class PaintController implements CS355Controller, MouseListener, MouseMot
 	@Override
 	public void keyPressed(Iterator<Integer> iterator) {
 		for (KeyTool tool : this.keyTools) {
-			System.out.println("notifying keypress tool = " + tool);
 			tool.keyPressed(iterator);
 		}
 	}
 
 	@Override
 	public void doEdgeDetection() {
-
+		if (null != this.imageTool) {
+			this.imageTool.doEdgeDetection();
+		}
 	}
 
 	@Override
 	public void doSharpen() {
-
+		if (null != this.imageTool) {
+			this.imageTool.doSharpen();
+		}
 	}
 
 	@Override
 	public void doMedianBlur() {
-
+		if (null != this.imageTool) {
+			this.imageTool.doMedianBlur();
+		}
 	}
 
 	@Override
 	public void doUniformBlur() {
-
+		if (null != this.imageTool) {
+			this.imageTool.doUniformBlur();
+		}
 	}
 
 	@Override
 	public void doChangeContrast(int contrastAmountNum) {
-
+		if (null != this.imageTool) {
+			this.imageTool.doChangeContrast(contrastAmountNum);
+		}
 	}
 
 	@Override
 	public void doChangeBrightness(int brightnessAmountNum) {
-
+		if (null != this.imageTool) {
+			this.imageTool.doChangeBrightness(brightnessAmountNum);
+		}
 	}
 
 	@Override
 	public void doLoadImage(BufferedImage openImage) {
+		if (null == this.imageTool) {
+			this.imageTool = new ImageTool();
+		}
 
+		this.imageTool.loadImage(openImage);
 	}
 
 	@Override
 	public void toggleBackgroundDisplay() {
+		if (null == this.imageTool) {
+			return;
+		}
 
+		if (this.imageTool.isActivated()) {
+			this.imageTool.deactivate();
+		} else {
+			this.imageTool.activate();
+		}
 	}
 
 	////////////////////////////////////////////////////////////
