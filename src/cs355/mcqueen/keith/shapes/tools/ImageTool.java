@@ -8,6 +8,8 @@ import cs355.mcqueen.keith.shapes.painting.ImageShape;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 
+import static java.lang.Math.pow;
+
 /**
  * The <code>ImageTool</code> class performs operations on image.
  *
@@ -73,7 +75,14 @@ public class ImageTool extends ShapeTool<ImageShape> {
 	}
 
 	public void doChangeContrast(int contrastAmount) {
+		// get the image
+		ImageShape imageShape = this.getShape();
 
+		// update the contrast
+		imageShape.performPixelOperation((image, pixelX, pixelY, pixelValue) ->
+				(int) ((pow((contrastAmount + 100.0) / 100.0, 4.0) * (pixelValue - 128)) + 128));
+
+		this.shapeChanged(imageShape);
 	}
 
 	public void doChangeBrightness(int brightnessAmount) {
