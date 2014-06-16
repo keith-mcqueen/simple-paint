@@ -44,6 +44,7 @@ public class ImageTool extends ShapeTool<ImageShape> {
 		this.setShape(new ImageShape(new Point(1024, 1024), pixelData));
 
 		if (this.isActivated()) {
+			Shapes.getInstance().setBackgroundShape(this.getShape());
 			GUIFunctions.refresh();
 		}
 	}
@@ -83,7 +84,7 @@ public class ImageTool extends ShapeTool<ImageShape> {
 				}
 			}
 
-			return (int) rint(sqrt(dx * dx + dy * dy) / 8.0) * 3;
+			return (int) rint(sqrt(dx * dx + dy * dy) / 8.0) * 4;
 		});
 	}
 

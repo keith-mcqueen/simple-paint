@@ -12,7 +12,7 @@ import static java.lang.Math.min;
 public class ImageShape extends Rectangle {
 	public static final int MIN_VALUE = 0;
 	public static final int MAX_VALUE = 255;
-	private final int[][] pixelData;
+	private int[][] pixelData;
 	private final int width;
 	private final int height;
 
@@ -35,16 +35,19 @@ public class ImageShape extends Rectangle {
 	}
 
 	public void performPixelOperation(PixelOperator operator) {
+		// create a copy of the pixel data
+		int[][] updatedPixels = new int[this.height][this.width];
+
 		for (int y = 0; y < this.height; y++) {
 			for (int x = 0; x < this.width; x++) {
 				int pixelValue = this.getPixelValue(x, y);
 				int newValue = operator.operateOn(this, x, y, pixelValue);
 
-				if (newValue != pixelValue) {
-					this.setPixelValue(x, y, newValue);
-				}
+				setPixelValue(updatedPixels, x, y, newValue);
 			}
 		}
+
+		this.pixelData = updatedPixels;
 	}
 
 	public int getPixelValue(int x, int y) {
@@ -52,7 +55,14 @@ public class ImageShape extends Rectangle {
 	}
 
 	private void setPixelValue(int x, int y, int value) {
-		this.pixelData[max(0, min(y, this.height - 1))][max(0, min(x, this.width - 1))] = max(MIN_VALUE, min(MAX_VALUE, value));
+		setPixelValue(this.pixelData, x, y, value);
+	}
+
+	private static void setPixelValue(int[][] pixels, int x, int y, int value) {
+		int height = pixels.length;
+		int width = pixels[0].length;
+
+		pixels[max(0, min(y, height - 1))][max(0, min(x, width - 1))] = max(MIN_VALUE, min(MAX_VALUE, value));
 	}
 
 	/**
